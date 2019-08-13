@@ -89,6 +89,47 @@ class Admin extends Base
 
         return $rec;
     }
+
+    /**
+     * 管理者ログインメソッド
+     * 入力されたパスワードが、ユーザー名に相当するパスワードと一致するか調べる
+     * @var str $user_name
+     * @var str $password
+     * @return array  ログイン成功時以外は空配列を返す
+     */
+    public function loginAdmin($user_name, $password)
+    {
+        //パスワード、ユーザー名が入力されていなければ空配列を返す
+        if(!isset($user_name)||!isset($password))
+        {
+            return array();
+        }
+
+        $sql = '';
+        $sql .='SELECT password FROM administrators';
+        $sql .='WHERE user_name = :user_name';
+
+        $stmt = $this ->dbh ->prepare($sql);
+        $stmt ->bindValue(':user_name', $user_name, PDO::PARAM_STR);
+
+        $stmt ->execute();
+
+        $rec = $stmt ->fetch(PDO::FETCH_ASSOC);
+        
+        //ユーザー名に相当するパスワードが登録されていなければ空配列を返す
+        if(!isset($rec['password']))
+        {
+            return array();
+        }
+
+        //DBに登録されているパスワードと入力されたパスワードが一致しなければ空配列を返す
+        if(!password_verify($password, $rec['password']))
+        {
+            return false;
+        }
+
+        return $rec;
+    }
 }
 
 ?>
