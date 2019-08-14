@@ -49,12 +49,11 @@ class Admin extends Base
     public function editAdmin($data, $id)
     {
         $sql = '';
-        $sql .= 'UPDATE administrators SET';
+        $sql .= 'UPDATE administrators SET ';
         $sql .= 'user_name = :user_name,';
         $sql .= 'password = :password,';
         $sql .= 'name = :name,';
-        $sql .= 'email = :email,';
-        $sql .= ')';
+        $sql .= 'email = :email';
         $sql .= 'WHERE id = :id';
 
         $stmt = $this ->dbh ->prepare($sql);
@@ -72,6 +71,7 @@ class Admin extends Base
 
     /**
      * 管理者削除メソッド
+     * 削除フラグを0=>1に更新、表示対象から外す
      * @var int $id:管理者ID
      * @return bool $rec
      */
