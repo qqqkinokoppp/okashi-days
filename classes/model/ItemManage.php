@@ -6,6 +6,7 @@ class ItemManage extends Base
     {
         parent::__construct();
     }
+
     /**
      * カテゴリ登録メソッド
      * @var array $data
@@ -23,11 +24,12 @@ class ItemManage extends Base
         $sql .= ')';
     
         $stmt = $this ->dbh -> prepare($sql);
-        $stmt ->bindValue(':item_category_name', $data['item_category_name'], PDO::PARAM_STR);
-        $stmt ->bindValue(':item_category_image', $data['item_category_image'], PDO::PARAM_STR);
+        $stmt ->bindValue(':item_category_name', $data['category_name'], PDO::PARAM_STR);
+        $stmt ->bindValue(':item_category_image', $data['category_img'], PDO::PARAM_STR);
         $rec = $stmt ->execute();
         return $rec;
     }
+
     /**
      * カテゴリ修正メソッド
      * @var array $data
@@ -37,11 +39,10 @@ class ItemManage extends Base
     public function editCategory($data, $id)
     {
         $sql = '';
-        $sql .= 'UPDATE item_categories SET';
-        $sql .= 'item_category_name = :item_category_name,';
-        $sql .= 'item_category_image = :item_category_image';
-        $sql .= ')';
-        $sql .= 'WHERE id = :id';
+        $sql .= 'UPDATE item_categories SET ';
+        $sql .= 'item_category_name = :item_category_name, ';
+        $sql .= 'item_category_image = :item_category_image ';
+        $sql .= 'WHERE id = :id ;';
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->bindValue(':item_category_name', $data['item_category_name'], PDO::PARAM_STR);
         $stmt ->bindValue(':item_category_image', $data['item_category_image'], PDO::PARAM_STR);
@@ -49,6 +50,27 @@ class ItemManage extends Base
         $rec = $stmt ->execute();
         return $rec;
     }
+
+    /**
+     * カテゴリ修正メソッド(画像変更なし)
+     * @var array $data
+     * @var int $id
+     * @return bool $rec
+     */
+    public function editCategoryNoImage($data, $id)
+    {
+        $sql = '';
+        $sql .= 'UPDATE item_categories SET ';
+        $sql .= 'item_category_name = :item_category_name ';
+        $sql .= 'WHERE id = :id ;';
+        $stmt = $this ->dbh ->prepare($sql);
+        $stmt ->bindValue(':item_category_name', $data['item_category_name'], PDO::PARAM_STR);
+        $stmt ->bindValue(':id', $id, PDO::PARAM_INT);
+        $rec = $stmt ->execute();
+        return $rec;
+    }
+
+
     /**
      * カテゴリ削除メソッド
      * 削除フラグを0=>1に更新、表示対象から外す
@@ -58,9 +80,9 @@ class ItemManage extends Base
     public function deleteCategory($id)
     {
         $sql ='';
-        $sql .='UPDATE item_categories SET';
-        $sql .='is_deleted = 1';
-        $sql .='WHERE id =:id';
+        $sql .='UPDATE item_categories SET ';
+        $sql .='is_deleted = 1 ';
+        $sql .='WHERE id =:id ';
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->bindValue(':id', $id, PDO::PARAM_INT);
         $rec = $stmt ->execute();
@@ -160,5 +182,53 @@ class ItemManage extends Base
         $rec = $stmt ->execute();
         return $rec;
     }
+
+    /**
+     * 商品カテゴリ全取得メソッド
+     * @return array $rec 
+     */
+    public function getCategoryAll()
+    {
+        $sql = '';
+        $sql .='SELECT id,item_category_name,item_category_image,is_deleted FROM item_categories ';//SQL文の結合をするとき、文末にスペースを入れる！！！
+        $sql .='WHERE is_deleted=0';
+        $stmt = $this ->dbh ->prepare($sql);
+        $stmt ->execute();
+        $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);
+        return $rec;
+    }
+
+    /**
+     * 商品カテゴリ取得メソッド
+     * @var int $id
+     * @return array $rec 
+     */
+    public function getCategory($id)
+    {
+        $sql = '';
+        $sql .='SELECT id,item_category_name,item_category_image FROM item_categories ';//SQL文の結合をするとき、文末にスペースを入れる！！！
+        $sql .='WHERE id=:id';
+        $stmt = $this ->dbh ->prepare($sql);
+        $stmt ->bindParam(':id', $id, PDO::PARAM_STR);
+        $stmt ->execute();
+        $rec = $stmt ->fetch(PDO::FETCH_ASSOC);
+        return $rec;
+        
+    }
+
+    /**
+     * アレルギー全取得メソッド
+     * @return array $rec 
+     */
+    public function getAllergyAll()
+    {
+        $sql = '';
+        $sql .='SELECT id,allergy_item FROM allergy_items ';//SQL文の結合をするとき、文末にスペースを入れる！！！
+        $sql .='WHERE is_deleted=0';
+        $stmt = $this ->dbh ->prepare($sql);
+        $stmt ->execute();
+        $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);
+        return $rec;
+    }
+
 }
-?>

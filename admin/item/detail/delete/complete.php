@@ -7,24 +7,25 @@ require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
 Session::sessionStart();
 $user = $_SESSION['user'];
 
-$post = Common::sanitize($_POST);
-
-$categoryName = $_SESSION['category_name'];
-$categoryImg = $_SESSION['category_img'];
+$category_name = $_SESSION['edit_category_after']['item_category_name'];
+if($_SESSION['edit_category_after']['item_category_image'] === '')
+{
+    $category_img = $_SESSION['edit_category_before']['item_category_image'];
+}
+else
+{
+$category_img = $_SESSION['edit_category_after']['item_category_image'];
+}
 
 //使い終わったセッションの破棄
-unset($_SESSION['addCategory']['category_name']);
-unset($_SESSION['category_img']);
-unset($_SESSION['category_name']);
+unset($_SESSION['item_category']);
 
-//セッションの破棄
-//unset($_SESSION['addCategory']);
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>商品カテゴリ登録完了</title>
+<title>商品カテゴリ削除完了</title>
 <link rel="stylesheet" href="/okashi_days/admin/css/normalize.css">
 <link rel="stylesheet" href="/okashi_days/admin/css/main.css">
 </head>
@@ -32,7 +33,7 @@ unset($_SESSION['category_name']);
 <div class="container">
     <header>
          <div class="title">
-            <h1>商品カテゴリ登録完了</h1>
+            <h1>商品カテゴリ削除完了</h1>
         </div>
         <div class="login_info">
             <ul>
@@ -47,19 +48,19 @@ unset($_SESSION['category_name']);
     </header>
 
     <main>
-    <p>以下の内容で登録しました。</p>
+    <p>以下のカテゴリを削除しました。</p>
             <table class="list" height="200">
                 <tr>
                     <th>カテゴリー名</th>
                     <td class="align-left">
-                        <?php print $categoryName;?>
+                        <?php print $category_name;?>
                     </td>
                 </tr>
             
                 <tr>
                     <th>カテゴリー画像</th>
                     <td class="align-left">
-                    <img src="../img/<?php print $categoryImg;?>">
+                    <img src="../img/<?php print $category_img;?>">
                     </td>
                 </tr>
             </table>

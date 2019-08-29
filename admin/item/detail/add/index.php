@@ -1,0 +1,204 @@
+<?php 
+require_once('../../../../../Config.php');
+require_once(Config::APP_ROOT_DIR.'classes/util/Session.php');
+require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
+require_once(Config::APP_ROOT_DIR.'classes/model/Base.php');
+require_once(Config::APP_ROOT_DIR.'classes/model/ItemManage.php');
+
+//セッションの開始
+Session::sessionStart();
+$user = $_SESSION['user'];
+
+//前回入力データがあればフォーム初期値用の変数に格納
+if(isset($_SESSION['add_detail']))
+{
+    if(isset($_SESSION['add_detail']['item_name']))//商品名
+    {
+        $item_name = $_SESSION['add_detail']['item_name'];
+    }
+    if(isset($_SESSION['add_detail']['category_id']))//カテゴリID
+    {
+        $category_id = $_SESSION['add_detail']['category_id'];
+    }
+    if(isset($_SESSION['add_detail']['item_model_number']))//商品型番
+    {
+        $item_model_number = $_SESSION['add_detail']['item_model_number'];
+    }
+    if(isset($_SESSION['add_detail']['item_description']))//商品説明
+    {
+        $item_model_number = $_SESSION['add_detail']['item_description'];
+    }
+    if(isset($_SESSION['add_detail']['allergy_item']))//アレルギー品目、連想配列が入ってる
+    {
+        $item_model_number = $_SESSION['add_detail']['item_description'];
+    }
+    if(isset($_SESSION['add_detail']['item_detail']))//商品詳細
+    {
+        $item_model_number = $_SESSION['add_detail']['item_detail'];
+    }
+    if(isset($_SESSION['add_detail']['unit_price']))//単価
+    {
+        $item_model_number = $_SESSION['add_detail']['unit_price'];
+    }
+    if(isset($_SESSION['add_detail']['item_image']))//商品画像
+    {
+        $item_model_number = $_SESSION['add_detail']['item_image'];
+    }
+    if(isset($_SESSION['add_detail']['is_recommend']))//おすすめフラグ
+    {
+        $item_model_number = $_SESSION['add_detail']['is_recommend'];
+    }
+}
+
+//カテゴリ取得、アレルギー項目取得のためにDB接続
+$db = new ItemManage();
+$categories = $db ->getCategoryAll();
+$allergies = $db ->getAllergyAll();
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>商品詳細登録</title>
+<link rel="stylesheet" href="/okashi_days/admin/css/normalize.css">
+<link rel="stylesheet" href="/okashi_days/admin/css/main.css">
+</head>
+<body>
+<div class="container">
+    <header>
+         <div class="title">
+            <h1>商品詳細登録</h1>
+        </div>
+        <div class="login_info">
+            <ul>
+                <li>ようこそ<?php print $user['name'];?>さん</li>
+                <li>
+                    <form>
+                        <input type="button" value="ログアウト" onclick="location.href='../../../login/logout.php'">
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <?php if(!empty($_SESSION['error']['add_detail'])):?>
+        <p class="error">
+            <?php print $_SESSION['error']['add_detail'];?>
+        </p>
+        <?php endif;?>
+
+        <form action="confirm.php" method="post" enctype="multipart/form-data">
+            <table class="list">
+                <tr>
+                    <th>商品名</th>
+                    <td class="align-left">
+                        <?php if(isset($item_name)):?>
+                        <input type="text" name="item_name" id="item_name" class="item_name" value="<?php print $item_name?>">
+                        <?php else:?>
+                        <input type="text" name="item_name" id="item_name" class="item_name" value="">
+                        <?php endif;?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>商品型番</th>
+                    <td class="align-left">
+                        <?php if(isset($item_model_number)):?>
+                        <input type="text" name="item_model_number" id="item_model_number" class="item_model_number" value="<?php print $item_model_number;?>">
+                        <?php else:?>
+                        <input type="text" name="item_model_number" id="item_model_number" class="item_model_number" value="">
+                        <?php endif;?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>商品カテゴリ</th>
+                    <td class="align-left">
+                    <select name="example">
+                        <option value=""></option>
+                        <?php foreach($categories as $category):?>
+                        <option value="<?php print $category['id'];?>"><?php print $category['item_category_name'];?></option>
+                        <?php endforeach;?>
+                    </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>商品説明</th>
+                    <td class="align-left">
+                        <?php if(isset($item_description)):?>
+                        <input type="text" name="item_description" id="item_description" class="item_description" value="<?php print $item_description?>">
+                        <?php else:?>
+                        <input type="text" name="item_description" id="item_description" class="item_description" value="">
+                        <?php endif;?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>商品詳細</th>
+                    <td class="align-left">
+                        <?php if(isset($item_detail)):?>
+                        <input type="text" name="item_detail" id="item_detail" class="item_detail" value="<?php print $item_detail?>">
+                        <?php else:?>
+                        <input type="text" name="item_detail" id="item_detail" class="item_detail" value="">
+                        <?php endif;?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>アレルギー品目</th>
+                    <td class="align-left">
+                        <?php foreach($allergies as $allergy):?>
+                        <input type="checkbox" name="allergy" value="<?php print $allergy['id'];?>"><?php print $allergy['allergy_item'];?><br>
+                        <?php endforeach;?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>単価</th>
+                    <td class="align-left">
+                        <?php if(isset($item_description)):?>
+                        <input type="text" name="unit_price" id="unit_price" class="unit_price" value="<?php print $unit_price?>">
+                        <?php else:?>
+                        <input type="text" name="unit_price" id="unit_price" class="unit_price" value="">
+                        <?php endif;?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>商品画像</th>
+                    <td class="align-left">
+                    <input type="file" name="category_img" id="category_img" class="category_img" value="">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>おすすめ</th>
+                    <td class="align-left">
+                    <input type="radio" name="is_recommend" value="1">おすすめ
+                    <input type="radio" name="is_recommend" value="0" checked>非おすすめ
+                    </td>
+                </tr>
+
+            </table>
+            <br>
+            <!-- ワンタイムトークン -->
+            <input type="hidden" name="token" value="<?=Safety::getToken()?>">
+            <input type="submit" value="確認画面へ">
+            <input type="button" value="キャンセル" onclick="location.href='../../../'">
+        </form>
+        <br>
+        <br>
+
+
+    </main>
+
+    <footer>
+
+    </footer>
+</div>
+</body>
+</html>

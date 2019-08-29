@@ -9,11 +9,11 @@ $user = $_SESSION['user'];
 
 $token = Safety::getToken();
 //前回入力データがあればフォーム初期値用の変数に格納
-if(isset($_SESSION['addcategory']))
+if(isset($_SESSION['addCategory']))
 {
-    if(isset($_SESSION['addcategory']['category_name']))
+    if(isset($_SESSION['addCategory']['category_name']))
     {
-        $category_name = $_SESSION['addcategory']['category_name'];
+        $category_name = $_SESSION['addCategory']['category_name'];
     }
     
 }
@@ -46,9 +46,9 @@ if(isset($_SESSION['addcategory']))
     </header>
 
     <main>
-        <?php if(!empty($_SESSION['error']['addcategory'])):?>
+        <?php if(!empty($_SESSION['error']['addCategory'])):?>
         <p class="error">
-            <?php print $_SESSION['error']['addcategory'];?>
+            <?php print $_SESSION['error']['addCategory'];?>
         </p>
         <?php endif;?>
 
