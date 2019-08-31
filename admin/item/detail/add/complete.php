@@ -2,6 +2,9 @@
 require_once('../../../../../Config.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Session.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
+require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
+require_once(Config::APP_ROOT_DIR.'classes/model/Base.php');
+require_once(Config::APP_ROOT_DIR.'classes/model/ItemManage.php');
 
 //セッション開始
 Session::sessionStart();
@@ -9,22 +12,27 @@ $user = $_SESSION['user'];
 
 $post = Common::sanitize($_POST);
 
-$categoryName = $_SESSION['category_name'];
-$categoryImg = $_SESSION['category_img'];
+//カテゴリ、アレルギー表示のためのDB接続
+$db = new ItemManage();
 
-//使い終わったセッションの破棄
-unset($_SESSION['addCategory']['category_name']);
-unset($_SESSION['category_img']);
-unset($_SESSION['category_name']);
+//カテゴリ取得
+$category = $db ->getCategory($_SESSION['add_detail']['item_category_id']);
 
-//セッションの破棄
-//unset($_SESSION['addCategory']);
+//アレルギー品目取得
+$allergies = array();//foreachのための配列変数準備
+foreach(json_decode($_SESSION['add_detail']['allergy_item'], true) as $value)
+    {
+    $allergies += array($value => $db ->getAllergy($value));
+    }
+
 ?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>商品カテゴリ登録完了</title>
+<title>商品詳細登録完了</title>
 <link rel="stylesheet" href="/okashi_days/admin/css/normalize.css">
 <link rel="stylesheet" href="/okashi_days/admin/css/main.css">
 </head>
@@ -32,14 +40,14 @@ unset($_SESSION['category_name']);
 <div class="container">
     <header>
          <div class="title">
-            <h1>商品カテゴリ登録完了</h1>
+            <h1>商品詳細登録完了</h1>
         </div>
         <div class="login_info">
             <ul>
                 <li>ようこそ<?php print $user['name'];?>さん</li>
                 <li>
                     <form>
-                        <input type="button" value="ログアウト" onclick="location.href='../../../../login/logout.php';">
+                        <input type="button" value="ログアウト" onclick="location.href='../login/index.html';">
                     </form>
                 </li>
             </ul>
@@ -48,25 +56,80 @@ unset($_SESSION['category_name']);
 
     <main>
     <p>以下の内容で登録しました。</p>
+        <form action="./process.php" method="post">
             <table class="list" height="200">
                 <tr>
-                    <th>カテゴリー名</th>
+                    <th>商品名</th>
                     <td class="align-left">
-                        <?php print $categoryName;?>
+                        <?php print $_SESSION['add_detail']['item_name'];?>
+                    </td>
+                </tr>
+                <tr>
+                    <th>商品カテゴリ名</th>
+                    <td class="align-left">
+                        <?php print $category['item_category_name'];?>
+                    </td>
+                </tr>
+                <tr>
+                    <th>商品型番</th>
+                    <td class="align-left">
+                        <?php print $_SESSION['add_detail']['item_model_number'];?>
+                    </td>
+                </tr>
+                <tr>
+                    <th>商品説明</th>
+                    <td class="align-left">
+                        <?php print $_SESSION['add_detail']['item_description'];?>
+                    </td>
+                </tr>
+                <tr>
+                    <th>商品詳細</th>
+                    <td class="align-left">
+                        <?php print $_SESSION['add_detail']['item_detail'];?>
+                    </td>
+                </tr>
+                <tr>
+                    <th>アレルギー品目</th>
+                    <td class="align-left">
+                        <?php 
+                        foreach($allergies as $allergy)
+                        {
+                            print $allergy['allergy_item'].' ';
+                        }
+                        ?>
                     </td>
                 </tr>
             
                 <tr>
-                    <th>カテゴリー画像</th>
+                    <th>単価</th>
                     <td class="align-left">
-                    <img src="../img/<?php print $categoryImg;?>">
+                        <?php print $_SESSION['add_detail']['unit_price'];?>
                     </td>
                 </tr>
+                <tr>
+                    <th>商品画像画像</th>
+                    <td class="align-left">
+                        <img src="../img/<?php print $_SESSION['add_detail']['item_image']['name'];?>">
+                    </td>
+                </tr>
+                <tr>
+                    <th>おすすめ</th>
+                    <td class="align-left">
+                        <?php if($_SESSION['add_detail']['is_recommend'] === "1")
+                        {
+                            print '〇';
+                        }
+                        else
+                        {
+                            print '×';
+                        }?>
+                    </td>
+                </tr>
+
             </table>
-            <input type="button" value="戻る" onclick="location.href='../../../'">
+            <input type="button" value="完了" onclick="location.href='../../../';">
+            <input type="button" value="キャンセル" onclick="location.href='./';">
         </form>
-
-
     </main>
 
     <footer>

@@ -12,41 +12,51 @@ $user = $_SESSION['user'];
 //前回入力データがあればフォーム初期値用の変数に格納
 if(isset($_SESSION['add_detail']))
 {
+    // print '通った';
     if(isset($_SESSION['add_detail']['item_name']))//商品名
     {
         $item_name = $_SESSION['add_detail']['item_name'];
+        // print '通った1';
     }
     if(isset($_SESSION['add_detail']['category_id']))//カテゴリID
     {
         $category_id = $_SESSION['add_detail']['category_id'];
+        // print '通った2';
     }
     if(isset($_SESSION['add_detail']['item_model_number']))//商品型番
     {
         $item_model_number = $_SESSION['add_detail']['item_model_number'];
+        // print '通った3';
     }
     if(isset($_SESSION['add_detail']['item_description']))//商品説明
     {
-        $item_model_number = $_SESSION['add_detail']['item_description'];
+        $item_description = $_SESSION['add_detail']['item_description'];
+        // print '通った4';
     }
-    if(isset($_SESSION['add_detail']['allergy_item']))//アレルギー品目、連想配列が入ってる
-    {
-        $item_model_number = $_SESSION['add_detail']['item_description'];
-    }
+    // if(isset($_SESSION['add_detail']['allergy[]']))//アレルギー品目、連想配列が入ってる
+    // {
+    //     $allergy = $_SESSION['add_detail']['item_description'];
+    //     print '通った5';
+    // }
     if(isset($_SESSION['add_detail']['item_detail']))//商品詳細
     {
-        $item_model_number = $_SESSION['add_detail']['item_detail'];
+        $item_detail = $_SESSION['add_detail']['item_detail'];
+        // print '通った6';
     }
     if(isset($_SESSION['add_detail']['unit_price']))//単価
     {
-        $item_model_number = $_SESSION['add_detail']['unit_price'];
+        $unit_price = $_SESSION['add_detail']['unit_price'];
+        // print '通った7';
     }
-    if(isset($_SESSION['add_detail']['item_image']))//商品画像
+    if(isset($_SESSION['add_detail']['detail_img']['name']))//商品画像
     {
-        $item_model_number = $_SESSION['add_detail']['item_image'];
+        $item_image = $_SESSION['add_detail']['detail_img']['name'];
+        // print '通った8';
     }
     if(isset($_SESSION['add_detail']['is_recommend']))//おすすめフラグ
     {
-        $item_model_number = $_SESSION['add_detail']['is_recommend'];
+        $is_recommend = $_SESSION['add_detail']['is_recommend'];
+        // print '通った9';
     }
 }
 
@@ -117,7 +127,7 @@ $allergies = $db ->getAllergyAll();
                 <tr>
                     <th>商品カテゴリ</th>
                     <td class="align-left">
-                    <select name="example">
+                    <select name="item_category_id">
                         <option value=""></option>
                         <?php foreach($categories as $category):?>
                         <option value="<?php print $category['id'];?>"><?php print $category['item_category_name'];?></option>
@@ -152,7 +162,7 @@ $allergies = $db ->getAllergyAll();
                     <th>アレルギー品目</th>
                     <td class="align-left">
                         <?php foreach($allergies as $allergy):?>
-                        <input type="checkbox" name="allergy" value="<?php print $allergy['id'];?>"><?php print $allergy['allergy_item'];?><br>
+                        <input type="checkbox" name="allergy_item[]" value="<?php print $allergy['id'];?>"><?php print $allergy['allergy_item'];?><br>
                         <?php endforeach;?>
                     </td>
                 </tr>
@@ -171,7 +181,7 @@ $allergies = $db ->getAllergyAll();
                 <tr>
                     <th>商品画像</th>
                     <td class="align-left">
-                    <input type="file" name="category_img" id="category_img" class="category_img" value="">
+                    <input type="file" name="item_image" id="item_image" class="item_image" value="">
                     </td>
                 </tr>
 
@@ -179,7 +189,7 @@ $allergies = $db ->getAllergyAll();
                     <th>おすすめ</th>
                     <td class="align-left">
                     <input type="radio" name="is_recommend" value="1">おすすめ
-                    <input type="radio" name="is_recommend" value="0" checked>非おすすめ
+                    <input type="radio" name="is_recommend" value="0">非おすすめ
                     </td>
                 </tr>
 
