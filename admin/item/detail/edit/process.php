@@ -17,9 +17,9 @@ $edit_category = $_SESSION['edit_detail_after'];
 $post = Common::sanitize($_POST);
 
 //修正するカテゴリのIDを変数に格納
-$id = $_SESSION['edit_detail_id'];
+$id = $_SESSION['id']['edit_detail'];
 
-$data = $_SESSION['edit_detail_after'];
+$data = $_SESSION['post']['edit_detail'];
 
 // var_dump($_SESSION['edit_detail_after']);
 // exit;
@@ -28,7 +28,7 @@ $data = $_SESSION['edit_detail_after'];
 $db = new ItemManage();
 try
 {
-    if($_SESSION['edit_detail_after']['item_image']['name'] === '')
+    if($_SESSION['post']['edit_detail']['item_image']['name'] === '')
     {
         $detail = $db ->editItemDetail($data, $id);
         //print '通った1';

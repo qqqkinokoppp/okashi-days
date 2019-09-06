@@ -12,19 +12,27 @@ else
     $user = $_SESSION['user'];
 }
 
-$_SESSION['error']['adminadd'] = '';
-
 //トップページでセッションを破棄
-unset($_SESSION['add_detail']);
-unset($_SESSION['error']['edit_detail']);
-unset($_SESSION['error']['add_detail']);
-unset($_SESSION['edit_detail_after']);
-unset($_SESSION['edit_detail_before']);
-unset($_SESSION['delete_category']);
-unset($_SESSION['delete_detail_id']);
-unset($_SESSION['edit_detail_id']);
-unset($_SESSION['add_detail']);
-unset($_SESSION['adminadd']);
+
+// var_dump($_SESSION['error']);
+unset($_SESSION['error']);
+unset($_SESSION['post']);
+unset($_SESSION['before']);
+unset($_SESSION['id']);
+var_dump($_SESSION);
+// var_dump($_SESSION['error']);
+// exit;
+
+// unset($_SESSION['add_detail']);
+// unset($_SESSION['error']['edit_detail']);
+// unset($_SESSION['error']['add_detail']);
+// unset($_SESSION['edit_detail_after']);
+// unset($_SESSION['edit_detail_before']);
+// unset($_SESSION['delete_category']);
+// unset($_SESSION['delete_detail_id']);
+// unset($_SESSION['edit_detail_id']);
+// unset($_SESSION['add_detail']);
+// unset($_SESSION['adminadd']);
 
 
 ?>

@@ -19,30 +19,10 @@ else
 }
 
 
-// //画像が選択されていれば、セッションと変数に保存、選択されていなければ、DB登録されている画像を表示
-// if(isset($_FILES['item_image']))
-// {
-//     $item_image = $_FILES['item_image'];
-//     $_SESSION['edit_detail_after']['item_image'] = $_FILES['item_image'];
-// }
-
-// //アレルギー品目が選択されていれば、$_SESSION['edit_detail_after']に格納、「変更しない」場合は$_SESSION['edit_detail_before']['allergy_item']を格納
-// if(isset($detail['allergy_item']))
-// {
-//     $_SESSION['edit_detail_after']['allergy_item'] = $detail['allergy_item'];
-// }
-// else
-// {
-//     $_SESSION['edit_detail_after']['allergy_item'] =  $_SESSION['edit_detail_before']['allergy_item'];
-// }
-
-// var_dump($_SESSION['edit_detail_id']);
-// exit;
-
 //登録内容表示、カテゴリ表示、アレルギー表示のためのDB接続
 $db = new ItemManage();
 
-$detail = $db ->getDetail($_SESSION['edit_detail_id']);
+$detail = $db ->getDetail($_SESSION['id']['edit_detail']);
 
 //カテゴリ取得
 $category = $db ->getCategory($detail['item_category_id']);
@@ -59,15 +39,15 @@ if(isset($detail['allergy_item']))
     $detail['allergy_item'] = json_decode($detail['allergy_item'], true);
     foreach($detail['allergy_item'] as $value)
     {
-    $allergies += array($value => $db ->getAllergy($value));
+        $allergies += array($value => $db ->getAllergy($value));
     }
 }
 else
 {
-    $_SESSION['edit_detail_after']['allergy_item'] = json_encode($_SESSION['edit_detail_before']['allergy_item']);
-    foreach($_SESSION['edit_detail_before']['allergy_item'] as $value)
+    $_SESSION['post']['edit_detail']['allergy_item'] = json_encode($_SESSION['post']['edit_detail']['allergy_item']);
+    foreach($_SESSION['post']['edit_detail']['allergy_item'] as $value)
     {
-    $allergies += array($value => $db ->getAllergy($value));
+        $allergies += array($value => $db ->getAllergy($value));
     }
    
 }
@@ -78,7 +58,7 @@ else
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>商品詳細修正確認</title>
+<title>商品詳細修正完了</title>
 <link rel="stylesheet" href="/okashi_days/admin/css/normalize.css">
 <link rel="stylesheet" href="/okashi_days/admin/css/main.css">
 </head>
@@ -86,7 +66,7 @@ else
 <div class="container">
     <header>
          <div class="title">
-            <h1>商品詳細修正確認</h1>
+            <h1>商品詳細修正完了</h1>
         </div>
         <div class="login_info">
             <ul>

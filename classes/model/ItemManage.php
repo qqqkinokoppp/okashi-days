@@ -15,12 +15,12 @@ class ItemManage extends Base
     public function addCategory($data)
     {
         $sql = '';
-        $sql .= 'INSERT INTO item_categories (';
-        $sql .= 'item_category_name,';
-        $sql .= 'item_category_image';
-        $sql .= ') VALUES (';
-        $sql .= ':item_category_name,';
-        $sql .= ':item_category_image';
+        $sql .= 'INSERT INTO item_categories ( ';
+        $sql .= 'item_category_name, ';
+        $sql .= 'item_category_image ';
+        $sql .= ') VALUES (' ;
+        $sql .= ':item_category_name, ';
+        $sql .= ':item_category_image ';
         $sql .= ')';
     
         $stmt = $this ->dbh -> prepare($sql);
@@ -30,6 +30,9 @@ class ItemManage extends Base
         return $rec;
     }
 
+    /**
+     * カテゴリ修正メソッドはオプショナル引数を用いるメソッドに改造予定
+     */
     /**
      * カテゴリ修正メソッド
      * @var array $data
@@ -199,16 +202,16 @@ class ItemManage extends Base
     public function getDetailAll()
     {
         $sql = '';
-        $sql .='SELECT id,';
-        $sql .='item_category_id,';
-        $sql .='item_name,';
-        $sql .='item_model_number,';
-        $sql .='item_description,';
-        $sql .='allergy_item,';
-        $sql .='item_detail,';
-        $sql .='unit_price,';
-        $sql .='item_image,';
-        $sql .='is_recommend,';
+        $sql .='SELECT id, ';
+        $sql .='item_category_id, ';
+        $sql .='item_name, ';
+        $sql .='item_model_number, ';
+        $sql .='item_description, ';
+        $sql .='allergy_item, ';
+        $sql .='item_detail, ';
+        $sql .='unit_price, ';
+        $sql .='item_image, ';
+        $sql .='is_recommend, ';
         $sql .='is_deleted ';
         $sql .='FROM items ';//SQL文の結合をするとき、文末にスペースを入れる！！！
         $sql .='WHERE is_deleted=0';
@@ -226,16 +229,16 @@ class ItemManage extends Base
     public function getDetail($id)
     {
         $sql = '';
-        $sql .='SELECT id,';
-        $sql .='item_category_id,';
-        $sql .='item_name,';
-        $sql .='item_model_number,';
-        $sql .='item_description,';
-        $sql .='allergy_item,';
-        $sql .='item_detail,';
-        $sql .='unit_price,';
-        $sql .='item_image,';
-        $sql .='is_recommend,';
+        $sql .='SELECT id, ';
+        $sql .='item_category_id, ';
+        $sql .='item_name, ';
+        $sql .='item_model_number, ';
+        $sql .='item_description, ';
+        $sql .='allergy_item, ';
+        $sql .='item_detail, ';
+        $sql .='unit_price, ';
+        $sql .='item_image, ';
+        $sql .='is_recommend, ';
         $sql .='is_deleted ';
         $sql .='FROM items ';//SQL文の結合をするとき、文末にスペースを入れる！！！
         $sql .='WHERE is_deleted=0 ';

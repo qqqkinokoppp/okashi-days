@@ -10,8 +10,15 @@ require_once(Config::APP_ROOT_DIR.'classes/model/ItemManage.php');
 //セッションの開始
 Session::sessionStart();
 
-//ログインしているユーザーの情報を変数に格納
-$user = $_SESSION['user'];
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
 
 //サニタイズ
 $post = Common::sanitize($_POST);
@@ -21,29 +28,30 @@ $post = Common::sanitize($_POST);
 //修正したい商品のIDをセッションに保存
 if(isset($post['item_detail_id']))
 {
-$_SESSION['edit_detail_id'] = $post['item_detail_id'];
+$_SESSION['id']['edit_detail'] = $post['item_detail_id'];
 }
 
 //商品管理のインスタンス生成
 $db = new ItemManage();
 
 //商品IDに該当する情報をDBから取得
-$detail = $db ->getDetail($_SESSION['edit_detail_id']);
+$detail = $db ->getDetail($_SESSION['id']['edit_detail']);
 
-//DBに登録されているアレルギー品目の項目のJSONファイルを配列に変換
+//DBに登録されているアレルギー品目の項目のJSONファイルを配列に変換、登録されているアレルギー品目を取得する
 $detail_allergies_id = json_decode($detail['allergy_item'], true);
+
 $detail_allergies = array();//foreachのための配列変数準備
 foreach($detail_allergies_id as $value)
 {
-$detail_allergies += array($value => $db ->getAllergy($value));
+    $detail_allergies += array($value => $db ->getAllergy($value));
 }
 
 //セッションにDB登録データを格納
-$_SESSION['edit_detail_before'] = $detail;
-$_SESSION['edit_detail_before']['allergy_item'] = $detail_allergies_id;
+$_SESSION['before']['edit_detail'] = $detail;
+$_SESSION['before']['edit_detail']['allergy_item'] = $detail_allergies_id;
 
 //フォーム初期化のための変数に値を格納
-$edit_detail = $_SESSION['edit_detail_before'];
+$edit_detail = $_SESSION['before']['edit_detail'];
 
 //カテゴリ、アレルギー品目取得
 $categories = $db ->getCategoryAll();
@@ -90,10 +98,10 @@ $allergies = $db ->getAllergyAll();
                 <tr>
                     <th>商品名</th>
                     <td class="align-left">
-                        <?php if(isset($_SESSION['edit_detail_after']['item_name'])):?><!--前回入力されたフォームの値があれば、それを入力しておく$_SESSION['edit_detail_after']に保持-->
-                        <input type="text" name="item_name" value="<?php print $_SESSION['edit_detail_after']['item_name']?>" >
+                        <?php if(isset($_SESSION['post']['edit_detail']['item_name'])):?>
+                        <input type="text" name="item_name" value="<?php print $_SESSION['post']['edit_detail']['item_name']?>" >
                         <?php else:?><!--入力された値がなければDBに登録されている内容を入力$_SESSION['edit_detail_before']に保持-->
-                        <input type="text" name="item_name" value="<?php print $_SESSION['edit_detail_before']['item_name'];?>">
+                        <input type="text" name="item_name" value="<?php print $_SESSION['before']['edit_detail']['item_name'];?>">
                         <?php endif;?>
                     </td>
                 </tr>
@@ -101,10 +109,10 @@ $allergies = $db ->getAllergyAll();
                 <tr>
                     <th>商品型番</th>
                     <td class="align-left">
-                        <?php if(isset($_SESSION['edit_detail_after']['item_model_number'])):?>
-                        <input type="text" name="item_model_number" value="<?= $_SESSION['edit_detail_after']['item_model_number'];?>">
+                        <?php if(isset($_SESSION['post']['edit_detail']['item_model_number'])):?>
+                        <input type="text" name="item_model_number" value="<?= $_SESSION['post']['edit_detail']['item_model_number'];?>">
                         <?php else:?>
-                        <input type="text" name="item_model_number" value="<?= $_SESSION['edit_detail_before']['item_model_number'];?>">
+                        <input type="text" name="item_model_number" value="<?= $_SESSION['before']['edit_detail']['item_model_number'];?>">
                         <?php endif;?>
                     </td>
                 </tr>
@@ -128,10 +136,10 @@ $allergies = $db ->getAllergyAll();
                 <tr>
                     <th>商品説明</th>
                     <td class="align-left">
-                        <?php if(isset($_SESSION['edit_detail_after']['item_description'])):?>
-                        <textarea name="item_description"><?= $_SESSION['edit_detail_after']['item_description'];?></textarea>
+                        <?php if(isset($_SESSION['post']['edit_detail']['item_description'])):?>
+                        <textarea name="item_description"><?= $_SESSION['post']['edit_detail']['item_description'];?></textarea>
                         <?php else:?>
-                        <textarea name="item_description"><?= $_SESSION['edit_detail_before']['item_description'];?></textarea>
+                        <textarea name="item_description"><?= $_SESSION['before']['edit_detail']['item_description'];?></textarea>
                         <?php endif;?>
                     </td>
                 </tr>
@@ -140,9 +148,9 @@ $allergies = $db ->getAllergyAll();
                     <th>商品詳細</th>
                     <td class="align-left">
                         <?php if(isset($_SESSION['edit_detail_after']['item_detail'])):?>
-                        <textarea name="item_detail"><?= $_SESSION['edit_detail_after']['item_detail'];?></textarea>
+                        <textarea name="item_detail"><?= $_SESSION['post']['edit_detail']['item_detail'];?></textarea>
                         <?php else:?>
-                        <textarea name="item_detail"><?= $_SESSION['edit_detail_before']['item_detail'];?> </textarea>
+                        <textarea name="item_detail"><?= $_SESSION['before']['edit_detail']['item_detail'];?> </textarea>
                         <?php endif;?>
                     </td>
                 </tr>
@@ -170,10 +178,10 @@ $allergies = $db ->getAllergyAll();
                 <tr>
                     <th>単価</th>
                     <td class="align-left">
-                        <?php if(isset($_SESSION['edit_detail_after']['unit_price'])):?>
-                        <input type="text" name="unit_price" value="<?= $_SESSION['edit_detail_after']['unit_price']?>">円
+                        <?php if(isset($_SESSION['post']['edit_detail']['unit_price'])):?>
+                        <input type="text" name="unit_price" value="<?= $_SESSION['post']['edit_detail']['unit_price']?>">円
                         <?php else:?>
-                        <input type="text" name="unit_price" value="<?= $_SESSION['edit_detail_before']['unit_price'];?>">円
+                        <input type="text" name="unit_price" value="<?= $_SESSION['before']['edit_detail']['unit_price'];?>">円
                         <?php endif;?>
                     </td>
                 </tr>
@@ -208,7 +216,7 @@ $allergies = $db ->getAllergyAll();
             <!-- ワンタイムトークン -->
             <input type="hidden" name="token" value="<?=Safety::getToken();?>">
 
-            <input type="hidden" name="old_category_img_name" value="<?php print $_SESSION['edit_detail_before']['item_image'];?>">
+            <input type="hidden" name="old_category_img_name" value="<?php print $_SESSION['before']['edit_detail']['item_image'];?>">
             <input type="submit" value="確認画面へ">
             <input type="button" value="キャンセル" onclick="location.href='./disp.php';">
         </form>

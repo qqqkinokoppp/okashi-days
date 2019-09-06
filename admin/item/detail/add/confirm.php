@@ -8,8 +8,14 @@ require_once(Config::APP_ROOT_DIR.'classes/model/ItemManage.php');
 
 //セッション開始
 Session::sessionStart();
-$user = $_SESSION['user'];
-
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../../login/');
+}
+else
+{
+    $user = $_SESSION['user'];
+}
 
 // ワンタイムトークンの確認
 if (!Safety::checkToken($_POST['token'])) 
@@ -19,34 +25,34 @@ if (!Safety::checkToken($_POST['token']))
     exit;
 }
 
+//サニタイズ
 $post = Common::MySanitize($_POST);
 
 //セッションにフォームから送られてきたデータを格納
-$_SESSION['add_detail'] = $post;
-
-//画像が選択されていれば、セッションと変数に保存
-if(isset($_FILES['item_image']))
-{
-$item_image = $_FILES['item_image'];
-$_SESSION['add_detail']['item_image'] = $_FILES['item_image'];
-}
-
-// print '<pre>';
-// var_dump($_SESSION['add_detail']);
-// print '</pre>';
+$_SESSION['post']['add_detail'] = $post;
+// var_dump($_SESSION['post']['add_detail']);
 // exit;
 
-// var_dump($_SESSION['add_detail']);//ここまでOK
-// exit;
-
+//エラーメッセージの初期化
 $_SESSION['error']['add_detail'] = '';
+
+//画像が選択されていれば、セッションと変数に保存、選択されていなければエラーメッセージ
+if($_FILES['item_image']['name'] !== '')
+{
+    $item_image = $_FILES['item_image'];
+    $_SESSION['post']['add_detail']['item_image'] = $_FILES['item_image'];
+}
+else
+{
+    $_SESSION['error']['add_detail'] = '画像を選択してください。';
+    header('Location:./index.php');
+    exit;
+}
 
 //商品名が入力されていなかったら
 if(empty($post['item_name']))
 {
     $_SESSION['error']['add_detail'] = '商品名を入力してください。';
-    // print '通った';
-    // exit;
     header('Location:./index.php');
     exit;
 }
@@ -63,8 +69,6 @@ if(strlen($post['item_name'])>100)
 if(empty($post['item_model_number']))
 {
     $_SESSION['error']['add_detail'] = '商品型番を選択してください。';
-    // print '通った';
-    // exit;
     header('Location:./index.php');
     exit;
 }
@@ -84,11 +88,9 @@ if(preg_match("/^[a-zA-Z0-9]+$/", $post['item_model_number']) === 0)
 }
 
 //商品カテゴリが選択されていなかったら
-if(empty($post['item_category_id']))
+if(empty($post['category_id']))
 {
     $_SESSION['error']['add_detail'] = '商品カテゴリを選択してください。';
-    // print '通った';
-    // exit;
     header('Location:./index.php');
     exit;
 }
@@ -97,8 +99,6 @@ if(empty($post['item_category_id']))
 if(empty($post['item_description']))
 {
     $_SESSION['error']['add_detail'] = '商品説明を入力してください。';
-    // print '通った';
-    // exit;
     header('Location:./index.php');
     exit;
 }
@@ -115,8 +115,6 @@ if(strlen($post['item_description'])>100)
 if(empty($post['item_detail']))
 {
     $_SESSION['error']['add_detail'] = '商品詳細を入力してください。';
-    // print '通った';
-    // exit;
     header('Location:./index.php');
     exit;
 }
@@ -133,8 +131,6 @@ if(strlen($post['item_detail'])>500)
 if(empty($post['allergy_item']))
 {
     $_SESSION['error']['add_detail'] = 'アレルギーを入力してください。';
-    // print '通った';
-    // exit;
     header('Location:./index.php');
     exit;
 }
@@ -143,8 +139,6 @@ if(empty($post['allergy_item']))
 if(empty($post['unit_price']))
 {
     $_SESSION['error']['add_detail'] = '商品単価を入力してください。';
-    // print '通った';
-    // exit;
     header('Location:./index.php');
     exit;
 }
@@ -158,9 +152,9 @@ if(preg_match("/[0-9]+$/", $post['unit_price']) === 0)
 }
 
 //画像サイズが大きすぎたら
-if($_SESSION['add_detail']['item_image']['size']>0)
+if($_FILES['item_image']['size']>0)
 {
-    if($_SESSION['add_detail']['item_image']['size']>1000000)
+    if($_FILES['item_image']['size']>1000000)
     {
         $_SESSION['error']['add_detail'] = '画像サイズが大きすぎます。';
         header('Location:./index.php');
@@ -169,7 +163,7 @@ if($_SESSION['add_detail']['item_image']['size']>0)
     else
     {
         //ファイルサイズがOKなら、画像ファイルを移動させる
-        move_uploaded_file($_SESSION['add_detail']['item_image']['tmp_name'], '../img/'.$_SESSION['add_detail']['item_image']['name']);
+        move_uploaded_file($_FILES['item_image']['tmp_name'], '../img/'.$_FILES['item_image']['name']);
     }
 }
 
@@ -177,20 +171,14 @@ if($_SESSION['add_detail']['item_image']['size']>0)
 $db = new ItemManage();
 
 //カテゴリ取得
-$category = $db ->getCategory($post['item_category_id']);
+$category = $db ->getCategory($post['category_id']);
 
 //アレルギー取得
-// var_dump($post['allergy']);
-// exit;
 $allergies = array();//foreachのための配列変数準備
 foreach($post['allergy_item'] as $value)
 {
 $allergies += array($value => $db ->getAllergy($value));
 }
-// print '<pre>';
-// var_dump($allergies);//一次元目にはPOSTされてきた数字、2次元目にidとallergy_itemの連想配列
-// print '</pre>';
-// exit;
 
 ?>
 
@@ -275,7 +263,7 @@ $allergies += array($value => $db ->getAllergy($value));
                 <tr>
                     <th>商品画像画像</th>
                     <td class="align-left">
-                        <img src="../img/<?php print $_SESSION['add_detail']['item_image']['name'];?>">
+                        <img src="../img/<?php print $_FILES['item_image']['name'];?>">
                     </td>
                 </tr>
                 <tr>
@@ -293,8 +281,8 @@ $allergies += array($value => $db ->getAllergy($value));
                 </tr>
 
             </table>
-            <input type="hidden" name="item_category_id" value="<?php print $post['item_category_id'];?>">
-            <input type="hidden" name="category_img" value="<?php print $_SESSION['add_detail']['item_image']['name'];?>">
+            <!-- <input type="hidden" name="item_category_id" value="<?php print $post['item_category_id'];?>">
+            <input type="hidden" name="category_img" value="<?php print $_SESSION['add_detail']['item_image']['name'];?>"> -->
             <input type="submit" value="登録">
             <input type="button" value="キャンセル" onclick="location.href='./';">
         </form>

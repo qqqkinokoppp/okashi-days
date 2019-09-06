@@ -16,11 +16,11 @@ $post = Common::sanitize($_POST);
 $db = new ItemManage();
 
 //カテゴリ取得
-$category = $db ->getCategory($_SESSION['add_detail']['item_category_id']);
+$category = $db ->getCategory($_SESSION['post']['add_detail']['item_category_id']);
 
 //アレルギー品目取得
-$allergies = array();//foreachのための配列変数準備
-foreach(json_decode($_SESSION['add_detail']['allergy_item'], true) as $value)
+$allergies = array();
+foreach(json_decode($_SESSION['post']['add_detail']['allergy_item'], true) as $value)
     {
     $allergies += array($value => $db ->getAllergy($value));
     }
@@ -61,7 +61,7 @@ foreach(json_decode($_SESSION['add_detail']['allergy_item'], true) as $value)
                 <tr>
                     <th>商品名</th>
                     <td class="align-left">
-                        <?php print $_SESSION['add_detail']['item_name'];?>
+                        <?php print $_SESSION['post']['add_detail']['item_name'];?>
                     </td>
                 </tr>
                 <tr>
@@ -73,19 +73,19 @@ foreach(json_decode($_SESSION['add_detail']['allergy_item'], true) as $value)
                 <tr>
                     <th>商品型番</th>
                     <td class="align-left">
-                        <?php print $_SESSION['add_detail']['item_model_number'];?>
+                        <?php print $_SESSION['post']['add_detail']['item_model_number'];?>
                     </td>
                 </tr>
                 <tr>
                     <th>商品説明</th>
                     <td class="align-left">
-                        <?php print $_SESSION['add_detail']['item_description'];?>
+                        <?php print $_SESSION['post']['add_detail']['item_description'];?>
                     </td>
                 </tr>
                 <tr>
                     <th>商品詳細</th>
                     <td class="align-left">
-                        <?php print $_SESSION['add_detail']['item_detail'];?>
+                        <?php print $_SESSION['post']['add_detail']['item_detail'];?>
                     </td>
                 </tr>
                 <tr>
@@ -103,19 +103,19 @@ foreach(json_decode($_SESSION['add_detail']['allergy_item'], true) as $value)
                 <tr>
                     <th>単価</th>
                     <td class="align-left">
-                        <?php print $_SESSION['add_detail']['unit_price'];?>
+                        <?php print $_SESSION['post']['add_detail']['unit_price'];?>
                     </td>
                 </tr>
                 <tr>
                     <th>商品画像画像</th>
                     <td class="align-left">
-                        <img src="../img/<?php print $_SESSION['add_detail']['item_image']['name'];?>">
+                        <img src="../img/<?php print $_SESSION['post']['add_detail']['item_image']['name'];?>">
                     </td>
                 </tr>
                 <tr>
                     <th>おすすめ</th>
                     <td class="align-left">
-                        <?php if($_SESSION['add_detail']['is_recommend'] === "1")
+                        <?php if($_SESSION['post']['add_detail']['is_recommend'] === "1")
                         {
                             print '〇';
                         }
@@ -128,7 +128,7 @@ foreach(json_decode($_SESSION['add_detail']['allergy_item'], true) as $value)
 
             </table>
             <input type="button" value="完了" onclick="location.href='../../../';">
-            <input type="button" value="キャンセル" onclick="location.href='./';">
+            <input type="button" value="トップページへ" onclick="location.href='../../../';">
         </form>
     </main>
 

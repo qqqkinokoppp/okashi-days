@@ -18,52 +18,52 @@ else
 }
 
 //前回入力データがあればフォーム初期値用の変数に格納
-if(isset($_SESSION['add_detail']))
+if(isset($_SESSION['post']['add_detail']))
 {
     // print '通った';
-    if(isset($_SESSION['add_detail']['item_name']))//商品名
+    if(isset($_SESSION['post']['add_detail']['item_name']))//商品名
     {
-        $item_name = $_SESSION['add_detail']['item_name'];
+        $item_name = $_SESSION['post']['add_detail']['item_name'];
         // print '通った1';
     }
-    if(isset($_SESSION['add_detail']['category_id']))//カテゴリID
+    if(isset($_SESSION['post']['add_detail']['category_id']))//カテゴリID
     {
-        $category_id = $_SESSION['add_detail']['category_id'];
+        $category_id = $_SESSION['post']['add_detail']['category_id'];
         // print '通った2';
     }
-    if(isset($_SESSION['add_detail']['item_model_number']))//商品型番
+    if(isset($_SESSION['post']['add_detail']['item_model_number']))//商品型番
     {
-        $item_model_number = $_SESSION['add_detail']['item_model_number'];
+        $item_model_number = $_SESSION['post']['add_detail']['item_model_number'];
         // print '通った3';
     }
-    if(isset($_SESSION['add_detail']['item_description']))//商品説明
+    if(isset($_SESSION['post']['add_detail']['item_description']))//商品説明
     {
-        $item_description = $_SESSION['add_detail']['item_description'];
+        $item_description = $_SESSION['post']['add_detail']['item_description'];
         // print '通った4';
     }
-    // if(isset($_SESSION['add_detail']['allergy[]']))//アレルギー品目、連想配列が入ってる
+    // if(isset($_SESSION['post']['add_detail']['allergy_item']))//アレルギー品目、連想配列が入ってる
     // {
-    //     $allergy = $_SESSION['add_detail']['item_description'];
+    //     $allergy = $_SESSION['post']['add_detail']['allergy_item'];
     //     print '通った5';
     // }
-    if(isset($_SESSION['add_detail']['item_detail']))//商品詳細
+    if(isset($_SESSION['post']['add_detail']['item_detail']))//商品詳細
     {
-        $item_detail = $_SESSION['add_detail']['item_detail'];
+        $item_detail = $_SESSION['post']['add_detail']['item_detail'];
         // print '通った6';
     }
-    if(isset($_SESSION['add_detail']['unit_price']))//単価
+    if(isset($_SESSION['post']['add_detail']['unit_price']))//単価
     {
-        $unit_price = $_SESSION['add_detail']['unit_price'];
+        $unit_price = $_SESSION['post']['add_detail']['unit_price'];
         // print '通った7';
     }
-    if(isset($_SESSION['add_detail']['detail_img']['name']))//商品画像
+    if(isset($_SESSION['post']['add_detail']['detail_img']['name']))//商品画像
     {
-        $item_image = $_SESSION['add_detail']['detail_img']['name'];
+        $item_image = $_SESSION['post']['add_detail']['detail_img']['name'];
         // print '通った8';
     }
-    if(isset($_SESSION['add_detail']['is_recommend']))//おすすめフラグ
+    if(isset($_SESSION['post']['add_detail']['is_recommend']))//おすすめフラグ
     {
-        $is_recommend = $_SESSION['add_detail']['is_recommend'];
+        $is_recommend = $_SESSION['post']['add_detail']['is_recommend'];
         // print '通った9';
     }
 }
@@ -102,6 +102,7 @@ $allergies = $db ->getAllergyAll();
     </header>
 
     <main>
+        <!--エラーメッセージ-->
         <?php if(!empty($_SESSION['error']['add_detail'])):?>
         <p class="error">
             <?php print $_SESSION['error']['add_detail'];?>
@@ -114,7 +115,7 @@ $allergies = $db ->getAllergyAll();
                     <th>商品名</th>
                     <td class="align-left">
                         <?php if(isset($item_name)):?>
-                        <input type="text" name="item_name" id="item_name" class="item_name" value="<?php print $item_name?>">
+                        <input type="text" name="item_name" id="item_name" class="item_name" value="<?php print $item_name;?>">
                         <?php else:?>
                         <input type="text" name="item_name" id="item_name" class="item_name" value="">
                         <?php endif;?>
@@ -135,10 +136,21 @@ $allergies = $db ->getAllergyAll();
                 <tr>
                     <th>商品カテゴリ</th>
                     <td class="align-left">
-                    <select name="item_category_id">
+                    <select name="category_id">
                         <option value=""></option>
                         <?php foreach($categories as $category):?>
-                        <option value="<?php print $category['id'];?>"><?php print $category['item_category_name'];?></option>
+                        <option value="<?php print $category['id'];?>" 
+                        <?php 
+                        //リダイレクト時カテゴリ選択があれば、選択状態にする
+                        if(isset($category_id))
+                            {
+                            if($category_id === $category['id'])
+                                {
+                            print 'selected';
+                                }
+                            }
+                        ?>>
+                        <?php print $category['item_category_name'];?></option>
                         <?php endforeach;?>
                     </select>
                     </td>
@@ -148,7 +160,7 @@ $allergies = $db ->getAllergyAll();
                     <th>商品説明</th>
                     <td class="align-left">
                         <?php if(isset($item_description)):?>
-                        <textarea name="item_description" id="item_description" class="item_description" value="<?php print $item_description?>"></textarea>
+                        <textarea name="item_description" id="item_description" class="item_description"><?php print $item_description;?></textarea>
                         <?php else:?>
                         <textarea name="item_description" id="item_description" class="item_description" value=""></textarea>
                         <?php endif;?>
@@ -159,7 +171,7 @@ $allergies = $db ->getAllergyAll();
                     <th>商品詳細</th>
                     <td class="align-left">
                         <?php if(isset($item_detail)):?>
-                        <textarea name="item_detail" id="item_detail" class="item_detail" value="<?php print $item_detail?>"></textarea>
+                        <textarea name="item_detail" id="item_detail" class="item_detail"><?php print $item_detail;?></textarea>
                         <?php else:?>
                         <textarea name="item_detail" id="item_detail" class="item_detail" value=""></textarea>
                         <?php endif;?>
@@ -179,7 +191,7 @@ $allergies = $db ->getAllergyAll();
                     <th>単価</th>
                     <td class="align-left">
                         <?php if(isset($item_description)):?>
-                        <input type="text" name="unit_price" id="unit_price" class="unit_price" value="<?php print $unit_price?>">
+                        <input type="text" name="unit_price" id="unit_price" class="unit_price" value="<?php print $unit_price;?>">
                         <?php else:?>
                         <input type="text" name="unit_price" id="unit_price" class="unit_price" value="">
                         <?php endif;?>
@@ -197,7 +209,7 @@ $allergies = $db ->getAllergyAll();
                     <th>おすすめ</th>
                     <td class="align-left">
                     <input type="radio" name="is_recommend" value="1">おすすめ
-                    <input type="radio" name="is_recommend" value="0">非おすすめ
+                    <input type="radio" name="is_recommend" value="0" checked>非おすすめ
                     </td>
                 </tr>
 

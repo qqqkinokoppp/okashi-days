@@ -22,24 +22,24 @@ if (!Safety::checkToken($_POST['token']))
 $post = Common::MySanitize($_POST);
 
 //セッションにフォームから送られてきたデータを格納
-$_SESSION['edit_detail_after'] = $post;
+$_SESSION['post']['edit_detail'] = $post;
 
 
 //画像が選択されていれば、セッションと変数に保存、選択されていなければ、DB登録されている画像を表示
 if(isset($_FILES['item_image']))
 {
     $item_image = $_FILES['item_image'];
-    $_SESSION['edit_detail_after']['item_image'] = $_FILES['item_image'];
+    $_SESSION['post']['edit_detail']['item_image'] = $_FILES['item_image'];
 }
 
-//アレルギー品目が選択されていれば、$_SESSION['edit_detail_after']に格納、「変更しない」場合は$_SESSION['edit_detail_before']['allergy_item']を格納
+//アレルギー品目が選択されていれば、$_SESSION['post']['edit_detail']に格納、「変更しない」場合は$_SESSION['before']['edit_detail']['allergy_item']を格納
 if(isset($post['allergy_item']))
 {
-    $_SESSION['edit_detail_after']['allergy_item'] = $post['allergy_item'];
+    $_SESSION['post']['edit_detail']['allergy_item'] = $post['allergy_item'];
 }
 else
 {
-    $_SESSION['edit_detail_after']['allergy_item'] =  $_SESSION['edit_detail_before']['allergy_item'];
+    $_SESSION['post']['edit_detail']['allergy_item'] =  $_SESSION['before']['edit_detail']['allergy_item'];
 }
 
 // var_dump($_SESSION['edit_detail_after']);
@@ -47,6 +47,7 @@ else
 
 $_SESSION['error']['edit_detail'] = '';
 
+//以下、バリデーション
 //商品名が入力されていなかったら
 if(empty($post['item_name']))
 {
@@ -166,9 +167,9 @@ if(preg_match("/[0-9]+$/", $post['unit_price']) === 0)
 }
 
 //画像サイズが大きすぎたら
-if($_SESSION['edit_detail_after']['item_image']['size']>0)
+if($_SESSION['post']['edit_detail']['item_image']['size']>0)
 {
-    if($_SESSION['edit_detail_after']['item_image']['size']>1000000)
+    if($_SESSION['post']['edit_detail']['item_image']['size']>1000000)
     {
         $_SESSION['error']['edit_detail'] = '画像サイズが大きすぎます。';
         header('Location:./index.php');
@@ -177,7 +178,7 @@ if($_SESSION['edit_detail_after']['item_image']['size']>0)
     else
     {
         //ファイルサイズがOKなら、画像ファイルを移動させる
-        move_uploaded_file($_SESSION['edit_detail_after']['item_image']['tmp_name'], '../img/'.$_SESSION['edit_detail_after']['item_image']['name']);
+        move_uploaded_file($_SESSION['post']['edit_detail']['item_image']['tmp_name'], '../img/'.$_SESSION['post']['edit_detail']['item_image']['name']);
     }
 }
 
@@ -195,7 +196,7 @@ $allergies = array();//foreachのための配列変数準備
 //アレルギー品目が新しく選択されていたら
 if(isset($post['allergy_item']))
 {
-    $_SESSION['edit_detail_after']['allergy_item'] = json_encode($post['allergy_item']);
+    $_SESSION['post']['edit_detail']['allergy_item'] = json_encode($post['allergy_item']);
     foreach($post['allergy_item'] as $value)
     {
     $allergies += array($value => $db ->getAllergy($value));
@@ -203,8 +204,8 @@ if(isset($post['allergy_item']))
 }
 else
 {
-    $_SESSION['edit_detail_after']['allergy_item'] = json_encode($_SESSION['edit_detail_before']['allergy_item']);
-    foreach($_SESSION['edit_detail_before']['allergy_item'] as $value)
+    $_SESSION['post']['edit_detail']['allergy_item'] = json_encode($_SESSION['before']['edit_detail']['allergy_item']);
+    foreach($_SESSION['before']['edit_detail']['allergy_item'] as $value)
     {
     $allergies += array($value => $db ->getAllergy($value));
     }
@@ -294,10 +295,10 @@ else
                 <tr>
                     <th>商品画像画像</th><!--画像が選択されていれば新しい画像、されていなければDBに登録されている画像-->
                     <td class="align-left">
-                        <?php if($_SESSION['edit_detail_after']['item_image']['name'] !== ''):?>
-                        <img src="../img/<?= $_SESSION['edit_detail_after']['item_image']['name'];?>">
+                        <?php if($_SESSION['post']['edit_detail']['item_image']['name'] !== ''):?>
+                        <img src="../img/<?= $_SESSION['post']['edit_detail']['item_image']['name'];?>">
                         <?php else:?>
-                        <img src="../img/<?= $_SESSION['edit_detail_before']['item_image'];?>">
+                        <img src="../img/<?= $_SESSION['before']['edit_detail']['item_image'];?>">
                         <?php endif;?>
                     </td>
                 </tr>
