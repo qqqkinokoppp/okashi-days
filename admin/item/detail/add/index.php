@@ -7,7 +7,15 @@ require_once(Config::APP_ROOT_DIR.'classes/model/ItemManage.php');
 
 //セッションの開始
 Session::sessionStart();
-$user = $_SESSION['user'];
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../../login/login.php');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
 
 //前回入力データがあればフォーム初期値用の変数に格納
 if(isset($_SESSION['add_detail']))
@@ -140,9 +148,9 @@ $allergies = $db ->getAllergyAll();
                     <th>商品説明</th>
                     <td class="align-left">
                         <?php if(isset($item_description)):?>
-                        <input type="text" name="item_description" id="item_description" class="item_description" value="<?php print $item_description?>">
+                        <textarea name="item_description" id="item_description" class="item_description" value="<?php print $item_description?>"></textarea>
                         <?php else:?>
-                        <input type="text" name="item_description" id="item_description" class="item_description" value="">
+                        <textarea name="item_description" id="item_description" class="item_description" value=""></textarea>
                         <?php endif;?>
                     </td>
                 </tr>
@@ -151,9 +159,9 @@ $allergies = $db ->getAllergyAll();
                     <th>商品詳細</th>
                     <td class="align-left">
                         <?php if(isset($item_detail)):?>
-                        <input type="text" name="item_detail" id="item_detail" class="item_detail" value="<?php print $item_detail?>">
+                        <textarea name="item_detail" id="item_detail" class="item_detail" value="<?php print $item_detail?>"></textarea>
                         <?php else:?>
-                        <input type="text" name="item_detail" id="item_detail" class="item_detail" value="">
+                        <textarea name="item_detail" id="item_detail" class="item_detail" value=""></textarea>
                         <?php endif;?>
                     </td>
                 </tr>

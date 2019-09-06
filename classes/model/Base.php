@@ -1,4 +1,5 @@
 <?php 
+
 class Base//DB接続の基底クラス
 {   /** @var string ユーザー名*/
     protected const USER = 'root';

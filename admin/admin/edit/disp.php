@@ -2,6 +2,7 @@
 require_once("../../../../Config.php");
 // 必要なクラスのファイルを読み込む
 require_once(Config::APP_ROOT_DIR.'/classes/util/Session.php');
+require_once(Config::APP_ROOT_DIR.'/classes/model/Base.php');
 require_once(Config::APP_ROOT_DIR.'/classes/model/Admin.php');
 require_once(Config::APP_ROOT_DIR.'/classes/util/Common.php');
 // セッションスタート

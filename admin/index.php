@@ -3,8 +3,29 @@ require_once('../../Config.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Session.php');
 
 Session::sessionStart();
-$user = $_SESSION['user'];
+if(!isset($_SESSION['user']))
+{
+     header('Location: ./login/index.php');   
+}
+else
+{
+    $user = $_SESSION['user'];
+}
+
 $_SESSION['error']['adminadd'] = '';
+
+//トップページでセッションを破棄
+unset($_SESSION['add_detail']);
+unset($_SESSION['error']['edit_detail']);
+unset($_SESSION['error']['add_detail']);
+unset($_SESSION['edit_detail_after']);
+unset($_SESSION['edit_detail_before']);
+unset($_SESSION['delete_category']);
+unset($_SESSION['delete_detail_id']);
+unset($_SESSION['edit_detail_id']);
+unset($_SESSION['add_detail']);
+unset($_SESSION['adminadd']);
+
 
 ?>
 
@@ -35,17 +56,6 @@ $_SESSION['error']['adminadd'] = '';
     </header>
 
     <main>
-        <!--<div class="main-header">
-            <form action="./search.html" method="post">
-                <div class="entry">
-                    <input type="button" name="entry-button" id="entry-button" class="entry-button" value="作業登録" onclick="location.href='./entry.html'">
-                </div>
-                <div class="search">
-                    <input type="text" name="search-button" id="search-button" class="search-button">
-                    <input type="submit" value="🔍検索">
-                </div>
-            </form>
-        </div>-->
 
         <table class="admin">
             <tr>
@@ -56,16 +66,13 @@ $_SESSION['error']['adminadd'] = '';
                     管理者管理
                 </td>
                 <td>
-                    <form action="admin/add/" method="post">
-                        <input type="hidden" name="item_id" value="1">
+                    <form action="admin/add/" method="post">                       
                         <input type="submit" value="管理者登録">
                     </form>
-                    <form action="admin/edit/disp.php" method="post"><!--管理者修正ページ（管理者一覧表示される）へ-->
-                        <input type="hidden" name="item_id" value="1">
+                    <form action="admin/edit/disp.php" method="post"><!--管理者修正ページ（管理者一覧表示される）へ-->                        
                         <input type="submit" value="管理者情報修正">
                     </form>
-                    <form action="admin/delete/disp.php" method="post"><!--管理者削除ページ（管理者一覧表示される）へ-->
-                        <input type="hidden" name="item_id" value="1">
+                    <form action="admin/delete/disp.php" method="post"><!--管理者削除ページ（管理者一覧表示される）へ-->                        
                         <input type="submit" value="管理者削除">
                     </form>
                 </td>
@@ -81,16 +88,13 @@ $_SESSION['error']['adminadd'] = '';
                     商品詳細管理
                 </td>
                 <td>
-                    <form action="#" method="post">
-                        <input type="hidden" name="item_id" value="1">
+                    <form action="item/detail/add/" method="post">                       
                         <input type="submit" value="商品詳細登録">
                     </form>
-                    <form action="edit.html" method="post">
-                        <input type="hidden" name="item_id" value="1">
+                    <form action="item/detail/edit/disp.php" method="post">                        
                         <input type="submit" value="商品詳細修正">
                     </form>
-                    <form action="delete.html" method="post">
-                        <input type="hidden" name="item_id" value="1">
+                    <form action="item/detail/delete/disp.php" method="post">                       
                         <input type="submit" value="商品詳細削除">
                     </form>
                 </td>
@@ -101,16 +105,13 @@ $_SESSION['error']['adminadd'] = '';
                     商品カテゴリ管理
                 </td>
                 <td>
-                    <form action="#" method="post">
-                        <input type="hidden" name="item_id" value="1">
+                    <form action="item/category/add/" method="post">
                         <input type="submit" value="商品カテゴリ登録">
                     </form>
-                    <form action="edit.html" method="post">
-                        <input type="hidden" name="item_id" value="1">
+                    <form action="item/category/edit/disp.php" method="post">
                         <input type="submit" value="商品カテゴリ修正">
                     </form>
-                    <form action="delete.html" method="post">
-                        <input type="hidden" name="item_id" value="1">
+                    <form action="item/category/delete/disp.php" method="post">
                         <input type="submit" value="商品カテゴリ削除">
                     </form>
                 </td>
@@ -125,15 +126,12 @@ $_SESSION['error']['adminadd'] = '';
                 </td>
                 <td>
                     <form action="#" method="post">
-                        <input type="hidden" name="item_id" value="1">
                         <input type="submit" value="会員情報修正">
                     </form>
-                    <form action="edit.html" method="post">
-                        <input type="hidden" name="item_id" value="1">
+                    <form action="#" method="post">                   
                         <input type="submit" value="購入履歴確認">
                     </form>
                     <form action="delete.html" method="post">
-                        <input type="hidden" name="item_id" value="1">
                         <input type="submit" value="退会">
                     </form>
                 </td>
@@ -148,16 +146,13 @@ $_SESSION['error']['adminadd'] = '';
                         お知らせ管理
                     </td>
                     <td>
-                        <form action="#" method="post">
-                            <input type="hidden" name="item_id" value="1">
+                        <form action="#" method="post">                            
                             <input type="submit" value="お知らせ登録">
                         </form>
-                        <form action="edit.html" method="post">
-                            <input type="hidden" name="item_id" value="1">
+                        <form action="#" method="post"> 
                             <input type="submit" value="お知らせ修正">
                         </form>
-                        <form action="delete.html" method="post">
-                            <input type="hidden" name="item_id" value="1">
+                        <form action="delete.html" method="post">    
                             <input type="submit" value="お知らせ削除">
                         </form>
                     </td>
@@ -170,7 +165,7 @@ $_SESSION['error']['adminadd'] = '';
                 <tr class="even">
                     <td>
                         <form action="#" method="post">
-                            <input type="hidden" name="item_id" value="1">
+                            
                             <input type="submit" value="受注データCSVダウンロード">
                         </form>
                     </td>

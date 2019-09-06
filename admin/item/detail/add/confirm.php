@@ -77,6 +77,12 @@ if(strlen($post['item_model_number'])>20)
     exit;   
 }
 
+//商品型番が半角英数でなければ
+if(preg_match("/^[a-zA-Z0-9]+$/", $post['item_model_number']) === 0)
+{
+    $_SESSION['error']['add_detail'] = '商品型番は半角英数で入力してください';
+}
+
 //商品カテゴリが選択されていなかったら
 if(empty($post['item_category_id']))
 {
@@ -139,6 +145,14 @@ if(empty($post['unit_price']))
     $_SESSION['error']['add_detail'] = '商品単価を入力してください。';
     // print '通った';
     // exit;
+    header('Location:./index.php');
+    exit;
+}
+
+//単価が数字でなければ
+if(preg_match("/[0-9]+$/", $post['unit_price']) === 0)
+{
+    $_SESSION['error']['add_detail'] = '単価は数字で入力してください';
     header('Location:./index.php');
     exit;
 }
@@ -279,8 +293,8 @@ $allergies += array($value => $db ->getAllergy($value));
                 </tr>
 
             </table>
-            <input type="hidden" name="category_name" value="<?php print $post['category_name'];?>">
-            <input type="hidden" name="category_img" value="<?php print $category_img['name'];?>">
+            <input type="hidden" name="item_category_id" value="<?php print $post['item_category_id'];?>">
+            <input type="hidden" name="category_img" value="<?php print $_SESSION['add_detail']['item_image']['name'];?>">
             <input type="submit" value="登録">
             <input type="button" value="キャンセル" onclick="location.href='./';">
         </form>

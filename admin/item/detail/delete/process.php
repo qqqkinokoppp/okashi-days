@@ -22,10 +22,10 @@ $post = Common::sanitize($_POST);
 $db = new ItemManage();
 try
 {
-    $category = $db ->deleteCategory($_SESSION['delete_category']['id']);
-    if($_SESSION['delete_category']['item_category_image'] !=='')
+    $detail = $db ->deleteItemDetail($_SESSION['delete_detail_id']);
+    if(isset($post['item_image']))
     {
-        unlink('../img/'.$_SESSION['delete_category']['item_category_image']);
+        unlink('../img/'.$post['item_image']);
     }
     header('Location:./complete.php');
     exit;

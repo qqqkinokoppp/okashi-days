@@ -7,18 +7,18 @@ require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
 Session::sessionStart();
 $user = $_SESSION['user'];
 
-$category_name = $_SESSION['edit_category_after']['item_category_name'];
-if($_SESSION['edit_category_after']['item_category_image'] === '')
-{
-    $category_img = $_SESSION['edit_category_before']['item_category_image'];
-}
-else
-{
-$category_img = $_SESSION['edit_category_after']['item_category_image'];
-}
+// $category_name = $_SESSION['edit_category_after']['item_category_name'];
+// if($_SESSION['edit_category_after']['item_category_image'] === '')
+// {
+//     $category_img = $_SESSION['edit_category_before']['item_category_image'];
+// }
+// else
+// {
+// $category_img = $_SESSION['edit_category_after']['item_category_image'];
+// }
 
-//使い終わったセッションの破棄
-unset($_SESSION['item_category']);
+// //使い終わったセッションの破棄
+// unset($_SESSION['item_category']);
 
 ?>
 <!DOCTYPE html>
@@ -48,8 +48,8 @@ unset($_SESSION['item_category']);
     </header>
 
     <main>
-    <p>以下のカテゴリを削除しました。</p>
-            <table class="list" height="200">
+    <p>カテゴリを削除しました。</p>
+            <!-- <table class="list" height="200">
                 <tr>
                     <th>カテゴリー名</th>
                     <td class="align-left">
@@ -63,7 +63,7 @@ unset($_SESSION['item_category']);
                     <img src="../img/<?php print $category_img;?>">
                     </td>
                 </tr>
-            </table>
+            </table> -->
             <input type="button" value="戻る" onclick="location.href='../../../'">
         </form>
 

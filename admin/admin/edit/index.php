@@ -9,7 +9,6 @@ Session::sessionStart();
 //ログインしているユーザーの情報を変数に格納
 $user = $_SESSION['user'];
 
-
 $post = Common::sanitize($_POST);
 //修正したいユーザーのIDをセッションに保存
 if(isset($post['user_id']))
@@ -29,6 +28,7 @@ $edit_user = $db ->getAdmin($_SESSION['edituser']['id']);
 $user_name = $edit_user['user_name'];
 $name = $edit_user['name'];
 $email = $edit_user['email'];
+
 
 ?>
 

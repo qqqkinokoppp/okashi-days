@@ -9,46 +9,41 @@ require_once(Config::APP_ROOT_DIR.'/classes/model/ItemManage.php');
 
 // セッションスタート
 Session::sessionStart();
-$edit_category = $_SESSION['edit_category_after'];
-// var_dump($_SESSION['edit_category_after']);
+$edit_category = $_SESSION['edit_detail_after'];
+// var_dump($_SESSION['edit_detail_after']);
 // exit;
 
 //サニタイズ
 $post = Common::sanitize($_POST);
 
-
 //修正するカテゴリのIDを変数に格納
-$id = $_SESSION['edit_category']['id'];
+$id = $_SESSION['edit_detail_id'];
+
+$data = $_SESSION['edit_detail_after'];
+
+// var_dump($_SESSION['edit_detail_after']);
+// exit;
 
 //商品管理インスタンス生成、カテゴリ修正メソッドの呼び出し
 $db = new ItemManage();
 try
 {
-    // 新しい画像が選択されていなかったら、カテゴリ名だけ更新
-    if($_SESSION['edit_category_after']['item_category_image'] === '')
+    if($_SESSION['edit_detail_after']['item_image']['name'] === '')
     {
-        $category = $db ->editCategoryNoImage($edit_category, $id);
+        $detail = $db ->editItemDetail($data, $id);
+        //print '通った1';
     }
-    // 新しい画像が選択されていれば、カテゴリ名とカテゴリ画像を更新
     else
     {
-        $category = $db ->editCategory($edit_category, $id);
-        //DBに前の画像が登録されていればそれを削除
-        if(isset($post['old_category_img_name']))
-        {
-        unlink('../img/'.$post['old_category_img_name']);
-        }
+        $detail = $db ->editItemDetail($data, $id, $data['item_image']['name']);
+        //print '通った2';
     }
-    header('Location:./complete.php');
+    header('Location: complete.php');
     exit;
 }
 catch(Exception $e)
 {
-    print '<pre>';
     var_dump($e);
-    print '</pre>';
-    header('Location:../../error/');
     exit;
 }
-
 ?>

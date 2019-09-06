@@ -76,6 +76,7 @@ $i = 0;
             <?php $i++;?>
             <?php endforeach;?>
         </table>
+        <input type="button" value="戻る" onclick="location.href='../../../';">
 
     </main>
 

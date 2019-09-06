@@ -88,6 +88,7 @@ class ItemManage extends Base
         $rec = $stmt ->execute();
         return $rec;
     }
+
     /**
      * 商品詳細登録メソッド
      * @var array $data
@@ -96,27 +97,27 @@ class ItemManage extends Base
     public function addItemDetail($data)
     {
         $sql = '';
-        $sql .= 'INSERT INTO items (';
-        $sql .= 'item_category_id,';
-        $sql .= 'item_name,';
-        $sql .= 'item_model_number,';
-        $sql .= 'item_description';
-        $sql .= 'allergy_item,';
-        $sql .= 'item_detail,';
-        $sql .= 'unit_price';
-        $sql .= 'item_image';
-        $sql .= 'is_recomend';
-        $sql .= ') VALUES (';
-        $sql .= ':item_category_id,';
-        $sql .= ':item_name,';
-        $sql .= ':item_model_number,';
-        $sql .= ':item_description';
-        $sql .= ':allergy_item,';
-        $sql .= ':item_detail,';
-        $sql .= ':unit_price,';
-        $sql .= ':item_image,';
-        $sql .= ':is_recomend';
-        $sql .= ')';
+        $sql .= 'INSERT INTO items ( ';
+        $sql .= 'item_category_id, ';
+        $sql .= 'item_name, ';
+        $sql .= 'item_model_number, ';
+        $sql .= 'item_description, ';
+        $sql .= 'allergy_item, ';
+        $sql .= 'item_detail, ';
+        $sql .= 'unit_price, ';
+        $sql .= 'item_image, ';
+        $sql .= 'is_recommend ';
+        $sql .= ') VALUES ( ';
+        $sql .= ':item_category_id, ';
+        $sql .= ':item_name, ';
+        $sql .= ':item_model_number, ';
+        $sql .= ':item_description, ';
+        $sql .= ':allergy_item, ';
+        $sql .= ':item_detail, ';
+        $sql .= ':unit_price, ';
+        $sql .= ':item_image, ';
+        $sql .= ':is_recommend ';
+        $sql .= ');';
     
         $stmt = $this ->dbh -> prepare($sql);
         $stmt ->bindValue(':item_category_id', $data['item_category_id'], PDO::PARAM_INT);
@@ -126,7 +127,7 @@ class ItemManage extends Base
         $stmt ->bindValue(':allergy_item', $data['allergy_item'], PDO::PARAM_STR);
         $stmt ->bindValue(':item_detail', $data['item_detail'], PDO::PARAM_STR);
         $stmt ->bindValue(':unit_price', $data['unit_price'], PDO::PARAM_INT);
-        $stmt ->bindValue(':item_image', $data['item_image'], PDO::PARAM_STR);
+        $stmt ->bindValue(':item_image', $data['item_image']['name'], PDO::PARAM_STR);
         $stmt ->bindValue(':is_recommend', $data['is_recommend'], PDO::PARAM_STR);
         $rec = $stmt ->execute();
         return $rec;
@@ -135,21 +136,25 @@ class ItemManage extends Base
      * 商品詳細修正メソッド
      * @var array $data
      * @var int $id
+     * 画像がなければ（第3引数省略）画像の更新はしない
      * @return bool $rec
      */
-    public function editItemDetail($data, $id)
+    public function editItemDetail($data, $id, $item_image = null)
     {
         $sql = '';
-        $sql .= 'UPDATE items SET';
-        $sql .= 'item_category_id = :item_category_id,';
-        $sql .= 'item_name = :item_name,';
-        $sql .= 'item_model_number = :item_model_number,';
-        $sql .= 'item_description = :item_description';
-        $sql .= 'allergy_item = :allergy_item,';
-        $sql .= 'item_detail = :item_detail,';
-        $sql .= 'unit_price = :unit_price';
-        $sql .= 'item_image = :item_image';
-        $sql .= 'is_recomend = :is_recomend';
+        $sql .= 'UPDATE items SET ';
+        $sql .= 'item_category_id = :item_category_id, ';
+        $sql .= 'item_name = :item_name, ';
+        $sql .= 'item_model_number = :item_model_number, ';
+        $sql .= 'item_description = :item_description, ';
+        $sql .= 'allergy_item = :allergy_item, ';
+        $sql .= 'item_detail = :item_detail, ';
+        $sql .= 'unit_price = :unit_price, ';
+        if($item_image !== null)
+        {
+            $sql .= 'item_image = :item_image ,';
+        }
+        $sql .= 'is_recommend = :is_recommend ';
         $sql .= 'WHERE id = :id';
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->bindValue(':item_category_id', $data['item_category_id'], PDO::PARAM_INT);
@@ -159,12 +164,16 @@ class ItemManage extends Base
         $stmt ->bindValue(':allergy_item', $data['allergy_item'], PDO::PARAM_STR);
         $stmt ->bindValue(':item_detail', $data['item_detail'], PDO::PARAM_STR);
         $stmt ->bindValue(':unit_price', $data['unit_price'], PDO::PARAM_STR);
-        $stmt ->bindValue(':item_image', $data['item_image'], PDO::PARAM_STR);
-        $stmt ->bindValue(':is_recomend', $data['is_recomend'], PDO::PARAM_STR);
+        if($item_image !== null)
+        {
+            $stmt ->bindValue(':item_image', $data['item_image']['name'], PDO::PARAM_STR);
+        }
+        $stmt ->bindValue(':is_recommend', $data['is_recommend'], PDO::PARAM_STR);
         $stmt ->bindValue(':id', $id, PDO::PARAM_INT);
         $rec = $stmt ->execute();
         return $rec;
     }
+
     /**
      * 商品詳細削除メソッド
      * 削除フラグを0=>1に更新、表示対象から外す
@@ -174,13 +183,69 @@ class ItemManage extends Base
     public function deleteItemDetail($id)
     {
         $sql ='';
-        $sql .='UPDATE items SET';
-        $sql .='is_deleted = 1';
-        $sql .='WHERE id =:id';
+        $sql .='UPDATE items SET ';
+        $sql .='is_deleted = 1 ';
+        $sql .='WHERE id =:id ';
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->bindValue(':id', $id, PDO::PARAM_INT);
         $rec = $stmt ->execute();
         return $rec;
+    }
+
+    /**
+     * 商品詳細全取得メソッド
+     * @return array $rec 
+     */
+    public function getDetailAll()
+    {
+        $sql = '';
+        $sql .='SELECT id,';
+        $sql .='item_category_id,';
+        $sql .='item_name,';
+        $sql .='item_model_number,';
+        $sql .='item_description,';
+        $sql .='allergy_item,';
+        $sql .='item_detail,';
+        $sql .='unit_price,';
+        $sql .='item_image,';
+        $sql .='is_recommend,';
+        $sql .='is_deleted ';
+        $sql .='FROM items ';//SQL文の結合をするとき、文末にスペースを入れる！！！
+        $sql .='WHERE is_deleted=0';
+        $stmt = $this ->dbh ->prepare($sql);
+        $stmt ->execute();
+        $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);
+        return $rec;
+    }
+
+    /**
+     * 商品詳細取得メソッド
+     * @var int $id
+     * @return array $rec 
+     */
+    public function getDetail($id)
+    {
+        $sql = '';
+        $sql .='SELECT id,';
+        $sql .='item_category_id,';
+        $sql .='item_name,';
+        $sql .='item_model_number,';
+        $sql .='item_description,';
+        $sql .='allergy_item,';
+        $sql .='item_detail,';
+        $sql .='unit_price,';
+        $sql .='item_image,';
+        $sql .='is_recommend,';
+        $sql .='is_deleted ';
+        $sql .='FROM items ';//SQL文の結合をするとき、文末にスペースを入れる！！！
+        $sql .='WHERE is_deleted=0 ';
+        $sql .='AND id=:id';
+        $stmt = $this ->dbh ->prepare($sql);
+        $stmt ->bindParam(':id', $id, PDO::PARAM_STR);
+        $stmt ->execute();
+        $rec = $stmt ->fetch(PDO::FETCH_ASSOC);
+        return $rec;
+        
     }
 
     /**
@@ -228,6 +293,23 @@ class ItemManage extends Base
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->execute();
         $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);
+        return $rec;
+    }
+
+    /**
+     * アレルギー取得メソッド
+     * @return array $rec 
+     */
+    public function getAllergy($id)
+    {
+        $sql = '';
+        $sql .='SELECT id,allergy_item FROM allergy_items ';//SQL文の結合をするとき、文末にスペースを入れる！！！
+        $sql .='WHERE is_deleted=0 ';
+        $sql .='AND id=:id ';
+        $stmt = $this ->dbh ->prepare($sql);
+        $stmt ->bindParam(':id', $id, PDO::PARAM_STR);
+        $stmt ->execute();
+        $rec = $stmt ->fetch(PDO::FETCH_ASSOC);
         return $rec;
     }
 

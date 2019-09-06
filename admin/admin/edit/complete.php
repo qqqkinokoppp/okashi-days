@@ -6,6 +6,8 @@ require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
 Session::sessionStart();
 $user = $_SESSION['user'];
 $edituser = $_SESSION['edit_user'];
+//使い終わったセッションの破棄
+unset($_SESSION['edit_user'];);
 
 
 ?>
