@@ -323,6 +323,7 @@ else
             ?>
             <input type="submit" value="登録">
             <input type="button" value="キャンセル" onclick="location.href='./';">
+            <input type="button" value="管理者トップページへ" onclick="location.href='../../../';">
         </form>
         <?php
         // var_dump($_SESSION['edit_detail_after']);

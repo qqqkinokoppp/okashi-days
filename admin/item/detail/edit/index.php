@@ -28,7 +28,7 @@ $post = Common::sanitize($_POST);
 //修正したい商品のIDをセッションに保存
 if(isset($post['item_detail_id']))
 {
-$_SESSION['id']['edit_detail'] = $post['item_detail_id'];
+    $_SESSION['id']['edit_detail'] = $post['item_detail_id'];
 }
 
 //商品管理のインスタンス生成
@@ -37,7 +37,7 @@ $db = new ItemManage();
 //商品IDに該当する情報をDBから取得
 $detail = $db ->getDetail($_SESSION['id']['edit_detail']);
 
-//DBに登録されているアレルギー品目の項目のJSONファイルを配列に変換、登録されているアレルギー品目を取得する
+//DBに登録されているアレルギー品目のJSONファイルを配列に変換、登録されているアレルギー品目を取得する
 $detail_allergies_id = json_decode($detail['allergy_item'], true);
 
 $detail_allergies = array();//foreachのための配列変数準備
@@ -56,9 +56,8 @@ $edit_detail = $_SESSION['before']['edit_detail'];
 //カテゴリ、アレルギー品目取得
 $categories = $db ->getCategoryAll();
 $allergies = $db ->getAllergyAll();
-
+// DOCTYPEの前には空行入れない！
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -219,6 +218,7 @@ $allergies = $db ->getAllergyAll();
             <input type="hidden" name="old_category_img_name" value="<?php print $_SESSION['before']['edit_detail']['item_image'];?>">
             <input type="submit" value="確認画面へ">
             <input type="button" value="キャンセル" onclick="location.href='./disp.php';">
+            <input type="button" value="管理者トップページへ" onclick="location.href='../../../';">
         </form>
 
 

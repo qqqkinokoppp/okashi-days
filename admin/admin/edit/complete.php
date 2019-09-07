@@ -5,10 +5,7 @@ require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
 
 Session::sessionStart();
 $user = $_SESSION['user'];
-$edituser = $_SESSION['edit_user'];
-//使い終わったセッションの破棄
-unset($_SESSION['edit_user'];);
-
+$edituser = $_SESSION['post']['edit_user'];
 
 ?>
 <!DOCTYPE html>
@@ -46,24 +43,11 @@ unset($_SESSION['edit_user'];);
                         <?php print $edituser['user_name'];?>
                     </td>
                 </tr>
-             
-                <!--tr>
-                    <th>パスワード</th>
-                    <td class="align-left">
-                    <input type="text" name="item_name" id="item_name" class="item_name" value="">
-                    </td>
-                </tr>
-                <tr>
-                    <th>確認用パスワード</th>
-                    <td class="align-left">
-                    <input type="text" name="item_name" id="item_name" class="item_name" value="">
-                    </td>
-                </tr>-->
+            
                 <tr>
                     <th>管理者氏名</th>
                     <td class="align-left">
                         <?php print $edituser['name'];?>
-                    <!--<input type="text" name="item_name" id="item_name" class="item_name" value="">-->
                     </td>
                 </tr>
 
@@ -71,7 +55,6 @@ unset($_SESSION['edit_user'];);
                     <th>メールアドレス</th>
                     <td class="align-left">
                     <?php print $edituser['email'];?>
-                    <!--<input type="text" name="item_name" id="item_name" class="item_name" value="">-->
                     </td>
                 </tr>
 

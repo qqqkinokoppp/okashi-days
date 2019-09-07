@@ -21,7 +21,7 @@ else
 if (!Safety::checkToken($_POST['token'])) 
 {
     // ワンタイムトークンが一致しないときは、エラーページにリダイレクト
-    header('Location: ../error/error.php');
+    header('Location: ../../../error/');
     exit;
 }
 
@@ -285,6 +285,7 @@ $allergies += array($value => $db ->getAllergy($value));
             <input type="hidden" name="category_img" value="<?php print $_SESSION['add_detail']['item_image']['name'];?>"> -->
             <input type="submit" value="登録">
             <input type="button" value="キャンセル" onclick="location.href='./';">
+            <input type="button" value="管理者トップページへ" onclick="location.href='../../../';">
         </form>
     </main>
 

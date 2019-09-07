@@ -5,9 +5,16 @@ require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
 //セッション開始
 Session::sessionStart();
-$user = $_SESSION['user'];
-// var_dump($_SESSION['edituser']['id']);
-// exit;
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
+
 
 // ワンタイムトークンの確認
 if (!Safety::checkToken($_POST['token'])) {
@@ -18,19 +25,14 @@ if (!Safety::checkToken($_POST['token'])) {
 
 //サニタイズ
 $post = Common::sanitize($_POST);
-$_SESSION['edit_user'] = $post;
+$_SESSION['post']['edit_user'] = $post;
 
-$_SESSION['error']['adminedit'] = '';
-
-// var_dump($post);
-// exit();
-// var_dump($post['user_name']);
-// exit;
+$_SESSION['error']['edit_admin'] = '';
 
 //ログインユーザー名が入力されていなかったら
 if(empty($post['user_name']))
 {
-    $_SESSION['error']['adminedit'] = 'ログインユーザー名を入力してください。';
+    $_SESSION['error']['edti_admin'] = 'ログインユーザー名を入力してください。';
     // print '通った';
     // exit;
     header('Location:./index.php');
@@ -40,7 +42,7 @@ if(empty($post['user_name']))
 //パスワードが入力されていなかったら
 if(empty($post['password']))
 {
-    $_SESSION['error']['adminedit'] = 'パスワードを入力してください。';
+    $_SESSION['error']['edti_admin'] = 'パスワードを入力してください。';
     // print '通った';
     // exit;
     header('Location:./index.php');
@@ -50,7 +52,7 @@ if(empty($post['password']))
 //確認用パスワードが入力されていなかったら
 if(empty($post['password2']))
 {
-    $_SESSION['error']['adminedit'] = '確認用パスワードを入力してください。';
+    $_SESSION['error']['edit_admin'] = '確認用パスワードを入力してください。';
     // print '通った';
     // exit;
     header('Location:./index.php');
@@ -60,7 +62,7 @@ if(empty($post['password2']))
 //管理者氏名が入力されていなかったら
 if(empty($post['name']))
 {
-    $_SESSION['error']['adminedit'] = '管理者氏名を入力してください。';
+    $_SESSION['error']['edit_admin'] = '管理者氏名を入力してください。';
     // print '通った';
     // exit;
     header('Location:./index.php');
@@ -70,7 +72,7 @@ if(empty($post['name']))
 //メールアドレスが入力されていなかったら
 if(empty($post['email']))
 {
-    $_SESSION['error']['adminedit'] = 'メールアドレスを入力してください。';
+    $_SESSION['error']['edit_admin'] = 'メールアドレスを入力してください。';
     // print '通った';
     // exit;
     header('Location:./index.php');
@@ -80,7 +82,7 @@ if(empty($post['email']))
 //パスワードが一致するかどうかの確認
 if(!($post['password'] === $post['password2']))
 {
-    $_SESSION['error']['adminedit'] = 'パスワードが一致しません。';
+    $_SESSION['error']['edit_admin'] = 'パスワードが一致しません。';
     //print '通った';
     //exit;
     header('Location:./index.php');
@@ -90,7 +92,7 @@ if(!($post['password'] === $post['password2']))
 //パスワードのバリデーション
 if(((preg_match('/^[a-zA-Z0-9]+$/',$post['password'])) === 0)||(preg_match('/^[a-zA-Z0-9]+$/',$post['password2'])) === 0)
 {
-    $_SESSION['error']['adminedit'] = 'パスワードは半角英数で入力してください。';
+    $_SESSION['error']['edit_admin'] = 'パスワードは半角英数で入力してください。';
     // print '通った';
     // exit;
     header('Location:./index.php');
@@ -100,7 +102,7 @@ if(((preg_match('/^[a-zA-Z0-9]+$/',$post['password'])) === 0)||(preg_match('/^[a
 //ログインユーザー名のバリデーション
 if(preg_match('/^[a-zA-Z0-9]+$/', $post['user_name']) === 0)
 {
-    $_SESSION['error']['adminedit'] = 'ログインユーザー名は半角英数で入力してください。';
+    $_SESSION['error']['edit_admin'] = 'ログインユーザー名は半角英数で入力してください。';
     header('Location:./index.php');
     exit;
 }
@@ -108,13 +110,12 @@ if(preg_match('/^[a-zA-Z0-9]+$/', $post['user_name']) === 0)
 //メールアドレスのバリデーション
 if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false)
 {
-    $_SESSION['error']['adminedit'] = 'メールアドレスを正しく入力してください。';
+    $_SESSION['error']['edit_admin'] = 'メールアドレスを正しく入力してください。';
     header('Location:./index.php');
     exit;
 }
 
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -151,24 +152,11 @@ if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false)
                         <?php print $post['user_name'];?>
                     </td>
                 </tr>
-             
-                <!--tr>
-                    <th>パスワード</th>
-                    <td class="align-left">
-                    <input type="text" name="item_name" id="item_name" class="item_name" value="">
-                    </td>
-                </tr>
-                <tr>
-                    <th>確認用パスワード</th>
-                    <td class="align-left">
-                    <input type="text" name="item_name" id="item_name" class="item_name" value="">
-                    </td>
-                </tr>-->
+
                 <tr>
                     <th>管理者氏名</th>
                     <td class="align-left">
                         <?php print $post['name'];?>
-                    <!--<input type="text" name="item_name" id="item_name" class="item_name" value="">-->
                     </td>
                 </tr>
 
@@ -176,7 +164,6 @@ if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false)
                     <th>メールアドレス</th>
                     <td class="align-left">
                     <?php print $post['email'];?>
-                    <!--<input type="text" name="item_name" id="item_name" class="item_name" value="">-->
                     </td>
                 </tr>
 

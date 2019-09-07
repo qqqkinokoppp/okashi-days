@@ -44,17 +44,6 @@ $i = 0;
     </header>
 
     <main>
-        <!--<div class="main-header">
-            <form action="./search.html" method="post">
-                <div class="entry">
-                    <input type="button" name="entry-button" id="entry-button" class="entry-button" value="作業登録" onclick="location.href='./entry.html'">
-                </div>
-                <div class="search">
-                    <input type="text" name="search-button" id="search-button" class="search-button">
-                    <input type="submit" value="🔍検索">
-                </div>
-            </form>
-        </div>-->
 
         <table class="admin" width="300">
             <tr>

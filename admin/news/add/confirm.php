@@ -24,64 +24,62 @@ if (!Safety::checkToken($_POST['token'])) {
 
 //サニタイズ
 $post = Common::sanitize($_POST);
-$_SESSION['post']['add_admin'] = $post;
+$_SESSION['post']['add_news'] = $post;
 
-$_SESSION['error']['add_admin'] = '';
+$_SESSION['error']['add_news'] = '';
 
-//ログインユーザー名が入力されていなかったら
-if($post['user_name'] === '')
+//お知らせ見出しが入力されていなかったら
+if(empty($post['news_index']))
 {
-    $_SESSION['error']['add_admin'] = 'ログインユーザー名を入力してください。';
-    // print '通った';
-    // exit;
+    $_SESSION['error']['add_news'] = 'お知らせ見出しを入力してください。';
     header('Location:./index.php');
     exit;
 }
 
-//パスワードが入力されていなかったら
-if(empty($post['password']))
+//お知らせ見出しが100文字超えていれば
+if(strlen($post['news_index'])>500)
 {
-    $_SESSION['error']['add_admin'] = 'パスワードを入力してください。';
-    // print '通った';
-    // exit;
+    $_SESSION['error']['add_news'] = 'お知らせ見出しは100文字以内です。。';
+    header('Location:./index.php');
+    exit;   
+}
+
+//お知らせ内容が入力されていなかったら
+if(empty($post['news_content']))
+{
+    $_SESSION['error']['add_news'] = 'お知らせ内容を入力してください。';
     header('Location:./index.php');
     exit;
 }
 
-//確認用パスワードが入力されていなかったら
-if(empty($post['password2']))
+//お知らせ内容が250文字超えていれば
+if(strlen($post['news_index'])>250)
 {
-    $_SESSION['error']['add_admin'] = '確認用パスワードを入力してください。';
-    // print '通った';
-    // exit;
+    $_SESSION['error']['add_news'] = 'お知らせ内容は250文字以内です。。';
     header('Location:./index.php');
-    exit;
+    exit;   
 }
 
-//管理者氏名が入力されていなかったら
-if(empty($post['name']))
+//掲載期限日が今日より前に設定されていたら 2019/9/7ここまで！！！！
+if(isset($post['expiration_date']))
 {
-    $_SESSION['error']['add_admin'] = '管理者氏名を入力してください。';
-    // print '通った';
-    // exit;
-    header('Location:./index.php');
-    exit;
-}
+    if($post['expiration_date']<date('y/m/d'))
+    {
+        $_SESSION['error']['add_news'] = '掲載期限日は今日以降の日付にしてください。';
+        header('Location:./index.php');
+        exit;
+    }
 
-//メールアドレスが入力されていなかったら
-if(empty($post['email']))
+}
+else
 {
-    $_SESSION['error']['add_admin'] = 'メールアドレスを入力してください。';
-    // print '通った';
-    // exit;
-    header('Location:./index.php');
-    exit;
+    $_SESSION['post']['add_news']['expiration_date'] = date('y/m/d', strtotime('+1 month'));
 }
 
 //パスワードが一致するかどうかの確認
 if(!($post['password'] === $post['password2']))
 {
-    $_SESSION['error']['add_admin'] = 'パスワードが一致しません。';
+    $_SESSION['error']['add_news'] = 'パスワードが一致しません。';
     //print '通った';
     //exit;
     header('Location:./index.php');
@@ -91,7 +89,7 @@ if(!($post['password'] === $post['password2']))
 //パスワードのバリデーション
 if(((preg_match('/^[a-zA-Z0-9]+$/',$post['password'])) === 0)||(preg_match('/^[a-zA-Z0-9]+$/',$post['password2'])) === 0)
 {
-    $_SESSION['error']['add_admin'] = 'パスワードは半角英数で入力してください。';
+    $_SESSION['error']['add_news'] = 'パスワードは半角英数で入力してください。';
     // print '通った';
     // exit;
     header('Location:./index.php');
@@ -101,7 +99,7 @@ if(((preg_match('/^[a-zA-Z0-9]+$/',$post['password'])) === 0)||(preg_match('/^[a
 //ログインユーザー名のバリデーション
 if(preg_match('/^[a-zA-Z0-9]+$/', $post['user_name']) === 0)
 {
-    $_SESSION['error']['add_admin'] = 'ログインユーザー名は半角英数で入力してください。';
+    $_SESSION['error']['add_news'] = 'ログインユーザー名は半角英数で入力してください。';
     header('Location:./index.php');
     exit;
 }
@@ -109,7 +107,7 @@ if(preg_match('/^[a-zA-Z0-9]+$/', $post['user_name']) === 0)
 //メールアドレスのバリデーション
 if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false)
 {
-    $_SESSION['error']['add_admin'] = 'メールアドレスを正しく入力してください。';
+    $_SESSION['error']['add_news'] = 'メールアドレスを正しく入力してください。';
     header('Location:./index.php');
     exit;
 }

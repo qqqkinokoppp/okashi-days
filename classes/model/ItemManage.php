@@ -31,7 +31,7 @@ class ItemManage extends Base
     }
 
     /**
-     * カテゴリ修正メソッドはオプショナル引数を用いるメソッドに改造予定
+     * @todo カテゴリ修正メソッドはオプショナル引数を用いるメソッドに改造予定
      */
     /**
      * カテゴリ修正メソッド
@@ -135,6 +135,7 @@ class ItemManage extends Base
         $rec = $stmt ->execute();
         return $rec;
     }
+
     /**
      * 商品詳細修正メソッド
      * @var array $data

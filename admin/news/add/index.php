@@ -16,19 +16,19 @@ else
 }
 
 //前回入力データがあればフォーム初期値用の変数に格納
-if(isset($_SESSION['post']['add_user']))
+if(isset($_SESSION['post']['add_news']))
 {
-    if(isset($_SESSION['post']['add_user']['user_name']))
+    if(isset($_SESSION['post']['add_news']['news_index']))
     {
-        $user_name = $_SESSION['post']['add_user']['user_name'];
+        $news_index = $_SESSION['post']['add_news']['news_index'];
     }
-    if(isset($_SESSION['post']['add_user']['name']))
+    if(isset($_SESSION['post']['add_news']['news_content']))
     {
-        $name = $_SESSION['post']['add_user']['name'];
+        $news_content = $_SESSION['post']['add_news']['news_content'];
     }
-    if(isset($_SESSION['add_user']['email']))
+    if(isset($_SESSION['post']['add_news']['expiration_date']))
     {
-        $email = $_SESSION['post']['add_user']['email'];
+        $expiration_date = $_SESSION['post']['add_news']['expiration_date'];
     }
 }
 ?>
@@ -37,7 +37,7 @@ if(isset($_SESSION['post']['add_user']))
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>管理者登録</title>
+<title>お知らせ登録</title>
 <link rel="stylesheet" href="/okashi_days/admin/css/normalize.css">
 <link rel="stylesheet" href="/okashi_days/admin/css/main.css">
 </head>
@@ -45,7 +45,7 @@ if(isset($_SESSION['post']['add_user']))
 <div class="container">
     <header>
          <div class="title">
-            <h1>管理者登録</h1>
+            <h1>お知らせ登録</h1>
         </div>
         <div class="login_info">
             <ul>
@@ -60,55 +60,42 @@ if(isset($_SESSION['post']['add_user']))
     </header>
 
     <main>
-        <?php if(!empty($_SESSION['error']['add_admin'])):?>
+        <?php if(!empty($_SESSION['error']['add_news'])):?>
         <p class="error">
-            <?= $_SESSION['error']['add_admin'];?>
+            <?= $_SESSION['error']['add_news'];?>
         </p>
         <?php endif;?>
 
         <form action="confirm.php" method="post">
             <table class="list">
                 <tr>
-                    <th>ログインユーザー名</th>
+                    <th>お知らせ見出し</th>
                     <td class="align-left">
-                        <?php if(isset($user_name)):?>
-                        <input type="text" name="user_name" id="user_name" class="user_name" value="<?= $user_name?>">
+                        <?php if(isset($news_index)):?>
+                        <textarea name="news_index" id="news_index" class="news_index" ><?= $news_index?></textarea>
                         <?php else:?>
-                        <input type="text" name="user_name" id="user_name" class="user_name
-                        " value="">
+                        <textarea name="news_index" id="news_index" class="news_index"></textarea>
                         <?php endif;?>
                     </td>
                 </tr>
                 <tr>
-                    <th>パスワード</th>
+                    <th>お知らせ内容</th>
                     <td class="align-left">
-                    <input type="password" name="password" id="password" class="password" value="">
-                    </td>
-                </tr>
-                <tr>
-                    <th>確認用パスワード</th>
-                    <td class="align-left">
-                    <input type="password" name="password2" id="password2" class="password2" value="">
-                    </td>
-                </tr>
-                <tr>
-                    <th>管理者氏名</th>
-                    <td class="align-left">
-                    <?php if(isset($name)):?>
-                    <input type="text" name="name" id="name" class="name" value="<?= $name?>">
-                    <?php else:?>
-                    <input type="text" name="name" id="name" class="name" value="">
-                    <?php endif;?>
+                    <?php if(isset($news_index)):?>
+                        <textarea name="news_content" id="news_content" class="news_content" ><?= $news_content?></textarea>
+                        <?php else:?>
+                        <textarea name="news_content" id="news_content" class="news_content"></textarea>
+                        <?php endif;?>
                     </td>
                 </tr>
 
                 <tr>
-                    <th>メールアドレス</th>
+                    <th>掲載期限日</th>
                     <td class="align-left">
-                    <?php if(isset($email)):?>
-                    <input type="text" name="email" id="email" class="email" value="<?= $email?>">
+                    <?php if(isset($expiration_date)):?>
+                    <input type="date" name="expiration_date" id="expiration_date" class="expiration_date" value="<?= $expiration_date?>">
                     <?php else:?>
-                    <input type="text" name="email" id="email" class="email" value="">
+                    <input type="date" name="expiration_date" id="expiration_date" class="expiration_date" value="">
                     <?php endif;?>
                     </td>
                 </tr>

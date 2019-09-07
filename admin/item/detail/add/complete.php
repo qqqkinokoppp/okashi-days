@@ -128,7 +128,7 @@ foreach(json_decode($_SESSION['post']['add_detail']['allergy_item'], true) as $v
 
             </table>
             <input type="button" value="完了" onclick="location.href='../../../';">
-            <input type="button" value="トップページへ" onclick="location.href='../../../';">
+            <input type="button" value="管理者トップページへ" onclick="location.href='../../../';">
         </form>
     </main>
 

@@ -41,30 +41,4 @@ class Base//DB接続の基底クラス
         $this ->bdh ->commit();
     }
 }
-/*class Admin extends Connection
-{   
-    function __construct()
-    {
-        parent::__construct();
-    }
-    function add($user_name, $password, $name, $email)
-    {   
-        $this ->dbh ->beginTransaction();
-        try
-        {
-        $this ->sql = 'INSERT INTO administrators (user_name,password,name,email) VALUES (?,?,?,?)';
-        $this ->stmt = $this ->dbh ->prepare($this->sql);
-        $this ->data[] = $user_name;
-        $this ->data[] = $password;
-        $this ->data[] = $name;
-        $this ->data[] = $email;
-        $this ->stmt ->execute($this ->data);
-        $this ->dbh ->commit();
-        }
-        catch(Exception $e)
-        {
-            $this ->dbh ->rollBack();
-        }
-    }
-}*/
 ?>

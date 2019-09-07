@@ -13,28 +13,12 @@ else
 }
 
 //トップページでセッションを破棄
-
-// var_dump($_SESSION['error']);
 unset($_SESSION['error']);
 unset($_SESSION['post']);
 unset($_SESSION['before']);
 unset($_SESSION['id']);
-var_dump($_SESSION);
-// var_dump($_SESSION['error']);
-// exit;
-
-// unset($_SESSION['add_detail']);
-// unset($_SESSION['error']['edit_detail']);
-// unset($_SESSION['error']['add_detail']);
-// unset($_SESSION['edit_detail_after']);
-// unset($_SESSION['edit_detail_before']);
-// unset($_SESSION['delete_category']);
-// unset($_SESSION['delete_detail_id']);
-// unset($_SESSION['edit_detail_id']);
-// unset($_SESSION['add_detail']);
-// unset($_SESSION['adminadd']);
-
-
+unset($_SESSION['token']);
+//var_dump($_SESSION);
 ?>
 
 <!DOCTYPE html>
@@ -154,13 +138,13 @@ var_dump($_SESSION);
                         お知らせ管理
                     </td>
                     <td>
-                        <form action="#" method="post">                            
+                        <form action="news/add/" method="post">                            
                             <input type="submit" value="お知らせ登録">
                         </form>
-                        <form action="#" method="post"> 
+                        <form action="news/edit/" method="post"> 
                             <input type="submit" value="お知らせ修正">
                         </form>
-                        <form action="delete.html" method="post">    
+                        <form action="news/delete/" method="post">    
                             <input type="submit" value="お知らせ削除">
                         </form>
                     </td>

@@ -16,7 +16,7 @@ else
     $user = $_SESSION['user'];
 }
 
-$adduser = $_SESSION['post']['add_admin'];
+$adduser = $_SESSION['post']['add_user'];
 ?>
 <!DOCTYPE html>
 <html>

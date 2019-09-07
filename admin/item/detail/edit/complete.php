@@ -152,7 +152,7 @@ else
                 </tr>
 
             </table>
-            <input type="button" value="戻る" onclick="location.href='../../../';">
+            <input type="button" value="管理者トップページへ" onclick="location.href='../../../';">
     </main>
 
     <footer>

@@ -56,11 +56,11 @@ $i = 0;
     <main>
     
     <?php foreach($details as $detail):?>
-    <table class="item" width="300">
+    <table class="item" >
         <tr>
-            <th>商品名</th>
-            <th>商品説明</th>
-            <td rowspan="2">
+            <th width="300">商品名</th>
+            <th width="400">商品説明</th>
+            <td rowspan="3">
                 <form action="index.php" method="post">
                 <!--選択した商品のIDを渡す-->
                     <input type="hidden" name="item_detail_id" value="<?php print $detail['id'];?>">
@@ -81,6 +81,9 @@ $i = 0;
     <?php endforeach;?>
     <input type="button" value="戻る" onclick="location.href='../../../';">
     </main>
+    <br/>
+    <br/>
+    <br/>
     <footer>
     </footer>
 </div>
