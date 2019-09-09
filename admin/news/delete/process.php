@@ -1,6 +1,7 @@
 <?php
 // 設定クラスの読み込み
 require_once("../../../../Config.php");
+
 // 必要なクラスのファイルを読み込む
 require_once(Config::APP_ROOT_DIR.'/classes/util/Session.php');
 require_once(Config::APP_ROOT_DIR.'/classes/model/NewsManage.php');
@@ -10,7 +11,7 @@ require_once(Config::APP_ROOT_DIR.'/classes/util/Common.php');
 Session::sessionStart();
 if(!isset($_SESSION['user']))
 {
-    header('Location: ../../login/');
+    header('Location: ../login/');
     exit;
 }
 else
@@ -18,20 +19,21 @@ else
     $user = $_SESSION['user'];
 }
 
-$add_news = $_SESSION['post']['add_news'];
-
-//DB接続
+//削除するお知らせのIDを変数に格納
+$id = $_SESSION['id']['delete_news'];
 
 $db = new NewsManage();
 try
 {
-    $news = $db ->addNews($add_news);
+    $news = $db ->deleteNews($id);
     header('Location:./complete.php');
     exit;
 }
 catch(Exception $e)
 {
+    print '<pre>';
     var_dump($e);
+    print '</pre>';
     //header('Location:../../error/');
 }
 
