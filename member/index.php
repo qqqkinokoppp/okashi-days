@@ -59,10 +59,10 @@ unset($_SESSION['token']);
                     会員情報操作
                 </td>
                 <td>
-                    <form action="member/edit/" method="post">                       
+                    <form action="edit/acount/" method="post">                       
                         <input type="submit" value="会員情報変更">
                     </form>
-                    <form action="admin/edit/disp.php" method="post"><!--管理者修正ページ（管理者一覧表示される）へ-->                        
+                    <form action="edit/password/index.php" method="post"><!--管理者修正ページ（管理者一覧表示される）へ-->                        
                         <input type="submit" value="パスワード変更">
                     </form>
                     <form action="admin/delete/disp.php" method="post"><!--管理者削除ページ（管理者一覧表示される）へ-->                        
