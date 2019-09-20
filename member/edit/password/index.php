@@ -63,12 +63,12 @@ $token = Safety::getToken();
         </p>
         <?php endif;?>
 
-        <form action="confirm.php" method="post">
+        <form action="process.php" method="post">
             <table class="list">
                 <tr>
                     <th>現在のパスワード</th>
                     <td class="align-left">
-                    <input type="password" name="password" id="password" class="password" value="">
+                    <input type="password" name="password_old" id="password_old" class="password_old" value="">
                     </td>
                 </tr>
                 <tr>

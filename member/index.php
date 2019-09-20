@@ -65,7 +65,7 @@ unset($_SESSION['token']);
                     <form action="edit/password/index.php" method="post"><!--管理者修正ページ（管理者一覧表示される）へ-->                        
                         <input type="submit" value="パスワード変更">
                     </form>
-                    <form action="admin/delete/disp.php" method="post"><!--管理者削除ページ（管理者一覧表示される）へ-->                        
+                    <form action="deactive/" method="post"><!--管理者削除ページ（管理者一覧表示される）へ-->                        
                         <input type="submit" value="退会">
                     </form>
                 </td>
