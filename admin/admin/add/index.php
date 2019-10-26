@@ -16,19 +16,19 @@ else
 }
 
 //前回入力データがあればフォーム初期値用の変数に格納
-if(isset($_SESSION['post']['add_user']))
+if(isset($_SESSION['post']['add_admin']))
 {
-    if(isset($_SESSION['post']['add_user']['user_name']))
+    if(isset($_SESSION['post']['add_admin']['user_name']))
     {
-        $user_name = $_SESSION['post']['add_user']['user_name'];
+        $user_name = $_SESSION['post']['add_admin']['user_name'];
     }
-    if(isset($_SESSION['post']['add_user']['name']))
+    if(isset($_SESSION['post']['add_admin']['name']))
     {
-        $name = $_SESSION['post']['add_user']['name'];
+        $name = $_SESSION['post']['add_admin']['name'];
     }
-    if(isset($_SESSION['add_user']['email']))
+    if(isset($_SESSION['post']['add_admin']['email']))
     {
-        $email = $_SESSION['post']['add_user']['email'];
+        $email = $_SESSION['post']['add_admin']['email'];
     }
 }
 ?>

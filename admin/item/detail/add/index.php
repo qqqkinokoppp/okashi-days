@@ -26,9 +26,9 @@ if(isset($_SESSION['post']['add_detail']))
         $item_name = $_SESSION['post']['add_detail']['item_name'];
         // print '通った1';
     }
-    if(isset($_SESSION['post']['add_detail']['category_id']))//カテゴリID
+    if(isset($_SESSION['post']['add_detail']['item_category_id']))//カテゴリID
     {
-        $category_id = $_SESSION['post']['add_detail']['category_id'];
+        $item_category_id = $_SESSION['post']['add_detail']['item_category_id'];
         // print '通った2';
     }
     if(isset($_SESSION['post']['add_detail']['item_model_number']))//商品型番
@@ -51,6 +51,10 @@ if(isset($_SESSION['post']['add_detail']))
         $item_detail = $_SESSION['post']['add_detail']['item_detail'];
         // print '通った6';
     }
+    if(isset($_SESSION['post']['add_detail']['allergy_item']))
+    {
+        $allergy_items = $_SESSION['post']['add_detail']['allergy_item'];
+    }
     if(isset($_SESSION['post']['add_detail']['unit_price']))//単価
     {
         $unit_price = $_SESSION['post']['add_detail']['unit_price'];
@@ -68,6 +72,9 @@ if(isset($_SESSION['post']['add_detail']))
     }
 }
 
+var_dump($allergy_items);
+
+
 //カテゴリ取得、アレルギー項目取得のためにDB接続
 $db = new ItemManage();
 $categories = $db ->getCategoryAll();
@@ -82,6 +89,7 @@ $allergies = $db ->getAllergyAll();
 <title>商品詳細登録</title>
 <link rel="stylesheet" href="/okashi_days/admin/css/normalize.css">
 <link rel="stylesheet" href="/okashi_days/admin/css/main.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -136,15 +144,15 @@ $allergies = $db ->getAllergyAll();
                 <tr>
                     <th>商品カテゴリ</th>
                     <td class="align-left">
-                    <select name="category_id">
+                    <select name="item_category_id">
                         <option value=""></option>
                         <?php foreach($categories as $category):?>
                         <option value="<?php print $category['id'];?>" 
                         <?php 
                         //リダイレクト時カテゴリ選択があれば、選択状態にする
-                        if(isset($category_id))
+                        if(isset($item_category_id))
                             {
-                            if($category_id === $category['id'])
+                            if($item_category_id === $category['id'])
                                 {
                             print 'selected';
                                 }
@@ -182,7 +190,20 @@ $allergies = $db ->getAllergyAll();
                     <th>アレルギー品目</th>
                     <td class="align-left">
                         <?php foreach($allergies as $allergy):?>
-                        <input type="checkbox" name="allergy_item[]" value="<?php print $allergy['id'];?>"><?php print $allergy['allergy_item'];?><br>
+                        <input type="checkbox" name="allergy_item[]" value="<?php print $allergy['id'];?>"
+                        <?php 
+                        if(isset($allergy_items))
+                        {
+                            foreach($allergy_items as $allergy_item)
+                            {
+                                if($allergy_item === $allergy['id'])
+                                {
+                                    print 'checked';
+                                }
+                            }
+                        }
+                        ?>
+                        ><?php print $allergy['allergy_item'];?><br>
                         <?php endforeach;?>
                     </td>
                 </tr>
@@ -191,9 +212,9 @@ $allergies = $db ->getAllergyAll();
                     <th>単価</th>
                     <td class="align-left">
                         <?php if(isset($item_description)):?>
-                        <input type="text" name="unit_price" id="unit_price" class="unit_price" value="<?php print $unit_price;?>">
+                        <input type="text" name="unit_price" id="unit_price" class="unit_price" value="<?php print $unit_price;?>">円
                         <?php else:?>
-                        <input type="text" name="unit_price" id="unit_price" class="unit_price" value="">
+                        <input type="text" name="unit_price" id="unit_price" class="unit_price" value="">円
                         <?php endif;?>
                     </td>
                 </tr>
@@ -201,9 +222,20 @@ $allergies = $db ->getAllergyAll();
                 <tr>
                     <th>商品画像</th>
                     <td class="align-left">
-                    <input type="file" name="item_image" id="item_image" class="item_image" value="">
+                    <input type="file" name="item_image" id="item_image" class="item_image" accept="image/*"　value="">
+                    <img id="preview" width="25%" height="auto">
                     </td>
                 </tr>
+
+                <script>
+                $('#item_image').on('change',function(e){
+                    var reader = new FileReader();
+                    reader.onload = function(e){
+                        $("#preview").attr('src',e.target.result);
+                    }
+                    reader.readAsDataURL(e.target.files[0]);
+                });
+                </script>
 
                 <tr>
                     <th>おすすめ</th>

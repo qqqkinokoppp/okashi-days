@@ -1,3 +1,22 @@
+<?php
+// 設定クラスの読み込み
+require_once("../../../../Config.php");
+// 必要なクラスのファイルを読み込む
+require_once(Config::APP_ROOT_DIR.'/classes/util/Session.php');
+require_once(Config::APP_ROOT_DIR.'/classes/model/Admin.php');
+require_once(Config::APP_ROOT_DIR.'/classes/util/Common.php');
+// セッションスタート
+Session::sessionStart();
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +36,7 @@
                 <li></li>
                 <li>
                     <form>
-                        <input type="button" value="ログアウト" onclick="location.href='../login/index.html';">
+                        <input type="button" value="ログアウト" onclick="location.href='../login/';">
                     </form>
                 </li>
             </ul>
@@ -27,9 +46,10 @@
     <main>
         <p class="error">
             申し訳ございません。エラーが発生しました。
+            お手数ですが、ログインしなおしてお試しください。
         </p>
         <form>
-            <input type="button" value="ログアウト" onclick="location.href='../login/index.html';">
+            <input type="button" value="ログアウト" onclick="location.href='../login/';">
         </form>
     </main>
 

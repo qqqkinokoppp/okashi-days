@@ -5,7 +5,15 @@ require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
 
 //セッション開始
 Session::sessionStart();
-$user = $_SESSION['user'];
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
 
 // $category_name = $_SESSION['edit_category_after']['item_category_name'];
 // if($_SESSION['edit_category_after']['item_category_image'] === '')

@@ -9,6 +9,15 @@ require_once(Config::APP_ROOT_DIR.'classes/model/ItemManage.php');
 
 //セッションの開始
 Session::sessionStart();
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
 
 
 //ワンタイムトークンの取得
@@ -23,14 +32,23 @@ $post = Common::sanitize($_POST);
 //修正したいカテゴリのIDをセッションに保存
 if(isset($post['item_category_id']))
 {
-$_SESSION['delete_category']['id'] = $post['item_category_id'];
+    $_SESSION['id']['delete_category'] = $post['item_category_id'];
 }
 
 //商品管理のインスタンス生成
 $db = new ItemManage();
 
+// 登録されている商品詳細のカテゴリIDに$post['item_category_id']が1つでもあれば、エラー画面
+$category_count = $db ->countCategory($_SESSION['id']['delete_category']);
+
+if($category_count['COUNT(*)'] >= 1)
+{
+    header('Location: ./error.php');
+    exit;
+}
+
 //POSTされてきた商品カテゴリIDに該当する情報をDBから取得
-$category = $db ->getCategory($_SESSION['delete_category']['id']);
+$category = $db ->getCategory($_SESSION['id']['delete_category']);
 $_SESSION['delete_category'] = $category;
 
 ?>
@@ -76,7 +94,7 @@ $_SESSION['delete_category'] = $category;
                 <tr>
                     <th>カテゴリ画像</th>
                     <td class="align-left">
-                    <img src="../img/<?php print $category['item_category_image'];?>">
+                    <img src="../img/<?php print $category['item_category_image'];?>" width="25%" height="auto">
                     </td>
                 </tr>
             </table>

@@ -8,7 +8,15 @@ require_once(Config::APP_ROOT_DIR.'classes/model/ItemManage.php');
 
 //セッション開始
 Session::sessionStart();
-$user = $_SESSION['user'];
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
 
 $post = Common::sanitize($_POST);
 
@@ -109,7 +117,7 @@ foreach(json_decode($_SESSION['post']['add_detail']['allergy_item'], true) as $v
                 <tr>
                     <th>商品画像画像</th>
                     <td class="align-left">
-                        <img src="../img/<?php print $_SESSION['post']['add_detail']['item_image']['name'];?>">
+                        <img src="../img/<?php print $_SESSION['post']['add_detail']['item_image']['name'];?>" width="25%" height="auto">
                     </td>
                 </tr>
                 <tr>

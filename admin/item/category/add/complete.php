@@ -5,20 +5,24 @@ require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
 
 //セッション開始
 Session::sessionStart();
-$user = $_SESSION['user'];
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
 
 $post = Common::sanitize($_POST);
 
-$categoryName = $_SESSION['category_name'];
-$categoryImg = $_SESSION['category_img'];
+$categoryName = $_SESSION['post']['add_category']['category_name'];
+$categoryImg = $_SESSION['post']['add_category']['category_img'];
 
-//使い終わったセッションの破棄
-unset($_SESSION['addCategory']['category_name']);
-unset($_SESSION['category_img']);
-unset($_SESSION['category_name']);
 
-//セッションの破棄
-//unset($_SESSION['addCategory']);
+// var_dump($_SESSION['post']);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -52,14 +56,14 @@ unset($_SESSION['category_name']);
                 <tr>
                     <th>カテゴリー名</th>
                     <td class="align-left">
-                        <?php print $categoryName;?>
+                        <?php print $_SESSION['post']['add_category']['category_name'];?>
                     </td>
                 </tr>
             
                 <tr>
                     <th>カテゴリー画像</th>
                     <td class="align-left">
-                    <img src="../img/<?php print $categoryImg;?>">
+                    <img src="../img/<?php print $categoryImg;?>"  width="25%" height="auto">
                     </td>
                 </tr>
             </table>

@@ -12,6 +12,7 @@ Session::sessionStart();
 if(!isset($_SESSION['user']))
 {
     header('Location: ../../../login/');
+    exit;
 }
 else
 {
@@ -26,7 +27,6 @@ $details = $db ->getDetailAll();
 $i = 0;
 
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,7 +74,7 @@ $i = 0;
         </tr>
         <tr>
         <td>
-        <img src="../img/<?php print $detail['item_image'];?>">
+        <img src="../img/<?php print $detail['item_image'];?>" width="400" height="260">
         </td>
         </tr>
     </table>

@@ -7,7 +7,15 @@ require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
 
 //セッション開始
 Session::sessionStart();
-$user = $_SESSION['user'];
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
 
 // ワンタイムトークンの確認
 if (!Safety::checkToken($_POST['token'])) {
@@ -18,6 +26,7 @@ if (!Safety::checkToken($_POST['token'])) {
 
 //サニタイズ
 $post = Common::sanitize($_POST);
+// var_dump($_SESSION);
 
 //エラーメッセージの初期化
 $_SESSION['error']['edit_category'] = '';
@@ -32,7 +41,7 @@ if(empty($post['edit_category_name']))
 
 
 //商品カテゴリ画像が選択されていなくて、セッションにも画像がなければ
-if(empty($_FILES['edit_category_img']) && empty($_SESSION['edit_category_before']['item_category_image']))
+if(empty($_FILES['edit_category_img']) && empty($_SESSION['before']['edit_category']['item_category_image']))
 {
     $_SESSION['error']['edit_category'] = '商品カテゴリ画像を選択してください。';
     header('Location:./index.php');
@@ -51,9 +60,7 @@ if(isset($_FILES['edit_category_img']))
     else
     {
         //ファイルサイズがOKなら、画像ファイルを移動させる
-        move_uploaded_file($_FILES['edit_category_img']['name'], '../img/'.$_FILES['edit_category_img']['name']);
-        //セッション配列に画像ファイル名を追加
-        // $_SESSION['category_img'] = $category_img['name'];
+        move_uploaded_file($_FILES['edit_category_img']['tmp_name'], '../img/'.$_FILES['edit_category_img']['name']);
     }
 }
 
@@ -97,8 +104,8 @@ if(isset($_FILES['edit_category_img']))
                     <th>商品カテゴリ名</th>
                     <td class="align-left">
                         <?php print $post['edit_category_name'];?>
-                        <?php $_SESSION['edit_category_after']['item_category_name'] = $post['edit_category_name'];?>
-                        <input type="hidden" value="<?php print $_SESSION['item_category']['edit_category_name'];?>">
+                        <?php $_SESSION['post']['edit_category']['item_category_name'] = $post['edit_category_name'];?>
+                        <input type="hidden" value="<?php print $_SESSION['id']['edit_category'];?>">
                     </td>
                 </tr>
 
@@ -108,24 +115,25 @@ if(isset($_FILES['edit_category_img']))
                     <!--新しい画像が選択されていれば-->
                     <?php if($_FILES['edit_category_img']['name'] !=='')
                     {
-                    print '通った';
-                    print '<img src="../img/'.$_FILES['edit_category_img']['name'].'">';
-                    $_SESSION['edit_category_after']['item_category_image'] = $_FILES['edit_category_img']['name'];
+                    print '<img src="../img/'.$_FILES['edit_category_img']['name'].'" width="25%" height="auto">';
+                    $_SESSION['post']['edit_category']['item_category_image'] = $_FILES['edit_category_img']['name'];
                     }
                     else
                     {
                     //新しい画像が選択されていなければ-->
-                    print '<img src="../img/'.$_SESSION['edit_category_before']['item_category_image'].'">';
-                    $_SESSION['edit_category_after']['item_category_image'] = '';
+                    print '<img src="../img/'.$_SESSION['before']['edit_category']['item_category_image'].'"width="25%" height="auto">';
+                    $_SESSION['post']['edit_category']['item_category_image'] = '';
                     }
                     ?>
                     </td>
                 </tr>
 
+                <?php var_dump($_SESSION['post']['edit_category']);?>
+
             </table>
             <input type="submit" value="登録">
             <input type="button" value="キャンセル" onclick="location.href='./';">
-            <input type="hidden" name="old_category_img_name" value="<?php print $_SESSION['edit_category_before']['item_category_image'];?>">
+            <input type="hidden" name="old_category_img_name" value="<?php print $_SESSION['before']['edit_category']['item_category_image'];?>">
         </form>
     </main>
 

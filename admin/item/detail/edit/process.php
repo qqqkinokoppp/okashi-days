@@ -9,6 +9,15 @@ require_once(Config::APP_ROOT_DIR.'/classes/model/ItemManage.php');
 
 // セッションスタート
 Session::sessionStart();
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
 $edit_category = $_SESSION['edit_detail_after'];
 // var_dump($_SESSION['edit_detail_after']);
 // exit;

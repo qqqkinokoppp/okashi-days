@@ -8,7 +8,7 @@ require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
 Session::sessionStart();
 if(!isset($_SESSION['user']))
 {
-    header('Location: ../login/');
+    header('Location: ../../login/');
     exit;
 }
 else
@@ -25,6 +25,23 @@ if(isset($post['news_id']))
     $_SESSION['id']['edit_news'] = $post['news_id'];
 }
 
+//リダイレクト時入力されたデータがあれば反映するため
+if(isset($_SESSION['post']['edit_news']))
+{
+    if(isset($_SESSION['post']['edit_news']['news_index']))
+    {
+        $news_index = $_SESSION['post']['edit_news']['news_index'];
+    }
+    if(isset($_SESSION['post']['edit_news']['news_content']))
+    {
+        $news_content = $_SESSION['post']['edit_news']['news_content'];
+    }
+    if(isset($_SESSION['post']['edit_news']['expiration_date']))
+    {
+        $expiration_date = $_SESSION['post']['edit_news']['expiration_date'];
+    }
+}
+
 $db = new NewsManage();
 
 //ワンタイムトークンの取得
@@ -32,9 +49,10 @@ $token = Safety::getToken();
 
 //POSTされてきたユーザーIDに該当するお知らせ情報を取得してくる
 $edit_news = $db ->getNews($_SESSION['id']['edit_news']);
-$news_index = $edit_news['news_index'];
-$news_content = $edit_news['news_content'];
-$expiration_date = $edit_news['expiration_date'];
+
+//セッション初期化のためセッションにDBからの情報を格納
+$_SESSION['before']['edit_news'] = $edit_news;
+
 
 ?>
 <!DOCTYPE html>
@@ -80,7 +98,7 @@ $expiration_date = $edit_news['expiration_date'];
                         <?php if(isset($news_index)):?>
                         <textarea name="news_index" id="news_index" class="news_index"><?= $news_index?></textarea>
                         <?php else:?>
-                        <textarea name="news_index" id="news_index" class="news_index"></textarea>
+                        <textarea name="news_index" id="news_index" class="news_index"><?= $_SESSION['before']['edit_news']['news_index']?></textarea>
                         <?php endif;?>
                     </td>
                 </tr>
@@ -90,7 +108,7 @@ $expiration_date = $edit_news['expiration_date'];
                     <?php if(isset($news_content)):?>
                         <textarea name="news_content" id="news_content" class="news_content"><?= $news_content?></textarea>
                         <?php else:?>
-                        <textarea name="news_content" id="news_content" class="news_content"></textarea>
+                        <textarea name="news_content" id="news_content" class="news_content"><?= $_SESSION['before']['edit_news']['news_content']?></textarea>
                         <?php endif;?>
                     </td>
                 </tr>
@@ -100,7 +118,7 @@ $expiration_date = $edit_news['expiration_date'];
                     <?php if(isset($expiration_date)):?>
                     <input type="text" name="expiration_date" id="expiration_date" class="expiration_date" value="<?= $expiration_date?>">
                     <?php else:?>
-                    <input type="text" name="expiration_date" id="expiration_date" class="expiration_date" value="">
+                    <input type="text" name="expiration_date" id="expiration_date" class="expiration_date" value="<?= $_SESSION['before']['edit_news']['expiration_date']?>">
                     <?php endif;?>
                     </td>
                 </tr>

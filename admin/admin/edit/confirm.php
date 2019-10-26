@@ -3,6 +3,8 @@ require_once('../../../../Config.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Session.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
+require_once(Config::APP_ROOT_DIR.'classes/model/Admin.php');
+
 //セッション開始
 Session::sessionStart();
 if(!isset($_SESSION['user']))
@@ -19,7 +21,7 @@ else
 // ワンタイムトークンの確認
 if (!Safety::checkToken($_POST['token'])) {
     // ワンタイムトークンが一致しないときは、エラーページにリダイレクト
-    header('Location: ../error/error.php');
+    header('Location: ../error/');
     exit;
 }
 
@@ -33,6 +35,16 @@ $_SESSION['error']['edit_admin'] = '';
 if(empty($post['user_name']))
 {
     $_SESSION['error']['edti_admin'] = 'ログインユーザー名を入力してください。';
+    // print '通った';
+    // exit;
+    header('Location:./index.php');
+    exit;
+}
+
+//ログインユーザー名が51文字以上であれば
+if(mb_strlen($post['user_name']) >50)
+{
+    $_SESSION['error']['edit_admin'] = 'ログインユーザー名は50文字以内です。';
     // print '通った';
     // exit;
     header('Location:./index.php');
@@ -69,6 +81,16 @@ if(empty($post['name']))
     exit;
 }
 
+//管理者氏名が51文字以上であれば
+if(mb_strlen($post['name']) >50)
+{
+    $_SESSION['error']['edit_admin'] = '管理者氏名は50文字以内です。';
+    // print '通った';
+    // exit;
+    header('Location:./index.php');
+    exit;
+}
+
 //メールアドレスが入力されていなかったら
 if(empty($post['email']))
 {
@@ -77,6 +99,22 @@ if(empty($post['email']))
     // exit;
     header('Location:./index.php');
     exit;
+}
+
+// ログインユーザー名の被り確認
+$db = new Admin();
+$user_names = $db ->getAdminNameAll();
+
+foreach($user_names as $key => $user_name)
+{
+    if(in_array($_SESSION['post']['edit_user']['user_name'], $user_name))
+    {
+        $_SESSION['error']['edit_admin'] = 'ログインユーザー名は既に使用されています。';
+        // print '通った';
+        // exit;
+        header('Location:./index.php');
+        exit;
+    }
 }
 
 //パスワードが一致するかどうかの確認

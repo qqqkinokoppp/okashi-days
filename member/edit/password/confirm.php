@@ -116,31 +116,36 @@ if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false)
 }
 
 ?>
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>管理者情報修正確認</title>
-<link rel="stylesheet" href="/okashi_days/admin/css/normalize.css">
-<link rel="stylesheet" href="/okashi_days/admin/css/main.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>パスワード修正完了 | okashi days.</title>
+<link rel="stylesheet" href="../../../css/style.css">
 </head>
 <body>
-<div class="container">
-    <header>
-         <div class="title">
-            <h1>管理者情報修正確認</h1>
-        </div>
-        <div class="login_info">
-            <ul>
-                <li>ようこそ<?php print $user['name'];?>さん</li>
-                <li>
-                    <form>
-                        <input type="button" value="ログアウト" onclick="location.href='../login/index.html';">
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </header>
+<div class="wrapper">
+	<!-- ヘッダー -->
+	<header class="header">
+		<h1 class="logo"><a href="../../../index.php"><img src="../../../images/okashi_days_logo.png" alt="okashi days."></a></h1>
+		<nav class="nav">
+			<ul>
+				<li><a href="../../">ホーム</a></li>
+                <li><a href="../../order/cart/">カート</a></li>
+                <li><a href="../../../item/category/">商品カテゴリ一覧</a></li>
+				<li><a href="./../item/list.php">商品一覧</a></li>
+				<?php if(!isset($user)):?>
+				<li><a href="./registration.php">新規会員登録</a></li>
+				<li><a href="../login/">ログイン</a></li>
+				<?php else:?>
+				<li><a href="../member/">会員ページ</a></li>
+				<li><a href="../member/login/logout.php">ログアウト</a></li>
+				<?php endif;?>
+			</ul>
+		</nav>
+	</header>
+
 
     <main>
     <p>以下の内容で修正します。</p>

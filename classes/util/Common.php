@@ -7,10 +7,10 @@ class Common
      * @var array $post
      * @return array $after
      */
-    public function sanitize($post)
+    public function sanitize($before)
     {
         $after = array();
-        foreach($post as $key => $value)
+        foreach($before as $key => $value)
         {
             $after[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
         }

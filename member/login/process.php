@@ -9,11 +9,14 @@ require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
 Session::sessionStart();
 
 // ワンタイムトークンの確認
-if (!Safety::checkToken($_POST['token'])) {
-// ワンタイムトークンが一致しないときは、エラーページにリダイレクト
-header('Location: ../error/');
-exit;
+if (!Safety::checkToken($_POST['token'])) 
+{
+    // ワンタイムトークンが一致しないときは、エラーページにリダイレクト
+    header('Location: ../error/');
+    exit;
 }
+var_dump($_SESSION['url']);
+// exit;
 
 //サニタイズ
 $post = Common::sanitize($_POST);
@@ -26,8 +29,10 @@ try
     $user = $db ->loginMember($user_name, $password);
     if(empty($user))
     {
-        $_SESSION['error']['adminlogin'] = "ユーザー名またはパスワードが違います。";
+        $_SESSION['error']['member_login'] = "ユーザー名またはパスワードが違います。";
+        // exit;
         header('Location: ./');
+        exit;
     }
     else
     {
@@ -37,7 +42,22 @@ try
         // セッション変数に保存されているエラーメッセージをクリア
         $_SESSION['error']['member_login'] = "";
         unset($_SESSION['error']['member_login']);
-        header('Location: ../');
+        if(!empty($_SESSION['url']))
+        {
+            print '通った1';
+            header("Location:".$_SESSION['url']);
+            exit;
+        }
+        else
+        {
+            print '通った2';
+            header("Location:../../");
+            exit;
+        }
+        print '通った3';
+        // exit;
+        // header('Location: ../');
+        // exit;
     }
 }   
 catch(Exception $e)
@@ -47,5 +67,3 @@ catch(Exception $e)
     var_dump($e);
     print '</pre>';
 }
-
-?>

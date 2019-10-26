@@ -37,6 +37,8 @@ $db = new ItemManage();
 //商品IDに該当する情報をDBから取得
 $detail = $db ->getDetail($_SESSION['id']['edit_detail']);
 
+// var_dump($detail);
+
 //DBに登録されているアレルギー品目のJSONファイルを配列に変換、登録されているアレルギー品目を取得する
 $detail_allergies_id = json_decode($detail['allergy_item'], true);
 
@@ -48,6 +50,7 @@ foreach($detail_allergies_id as $value)
 
 //セッションにDB登録データを格納
 $_SESSION['before']['edit_detail'] = $detail;
+// var_dump($detail);
 $_SESSION['before']['edit_detail']['allergy_item'] = $detail_allergies_id;
 
 //フォーム初期化のための変数に値を格納
@@ -56,6 +59,8 @@ $edit_detail = $_SESSION['before']['edit_detail'];
 //カテゴリ、アレルギー品目取得
 $categories = $db ->getCategoryAll();
 $allergies = $db ->getAllergyAll();
+
+// var_dump($categories);
 // DOCTYPEの前には空行入れない！
 ?>
 <!DOCTYPE html>
@@ -65,6 +70,7 @@ $allergies = $db ->getAllergyAll();
 <title>商品詳細修正</title>
 <link rel="stylesheet" href="/okashi_days/admin/css/normalize.css">
 <link rel="stylesheet" href="/okashi_days/admin/css/main.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -74,7 +80,7 @@ $allergies = $db ->getAllergyAll();
         </div>
         <div class="login_info">
             <ul>
-                <li>ようこそ<?php print $user['name'];?>さん</li>
+                <li>ようこそ<?= $user['name'];?>さん</li>
                 <li>
                     <form>
                         <input type="button" value="ログアウト" onclick="location.href='../../../login/logout.php';">
@@ -87,7 +93,7 @@ $allergies = $db ->getAllergyAll();
     <main>
     <?php if(!empty($_SESSION['error']['edit_detail'])):?>
         <p class="error">
-            <?php print $_SESSION['error']['edit_detail'];?>
+            <?= $_SESSION['error']['edit_detail'];?>
         </p>
     <?php endif;?>
 
@@ -98,9 +104,9 @@ $allergies = $db ->getAllergyAll();
                     <th>商品名</th>
                     <td class="align-left">
                         <?php if(isset($_SESSION['post']['edit_detail']['item_name'])):?>
-                        <input type="text" name="item_name" value="<?php print $_SESSION['post']['edit_detail']['item_name']?>" >
+                        <input type="text" name="item_name" value="<?= $_SESSION['post']['edit_detail']['item_name']?>" >
                         <?php else:?><!--入力された値がなければDBに登録されている内容を入力$_SESSION['edit_detail_before']に保持-->
-                        <input type="text" name="item_name" value="<?php print $_SESSION['before']['edit_detail']['item_name'];?>">
+                        <input type="text" name="item_name" value="<?= $_SESSION['before']['edit_detail']['item_name'];?>">
                         <?php endif;?>
                     </td>
                 </tr>
@@ -123,9 +129,9 @@ $allergies = $db ->getAllergyAll();
                         <!--DBに登録済みのカテゴリを選択状態にしておく-->
                         <?php foreach($categories as $category):?>
                         <?php if($detail['item_category_id'] === $category['id']):?>
-                        <option value="<?= $category['id'];?>" selected><?php print $category['item_category_name'];?></option>
+                        <option value="<?= $category['id'];?>" selected><?= $category['item_category_name'];?></option>
                         <?php else:?>
-                        <option value="<?= print $category['id'];?>"><?php print $category['item_category_name'];?></option>
+                        <option value="<?=  $category['id'];?>"><?= $category['item_category_name'];?></option>
                         <?php endif;?>
                         <?php endforeach;?>
                     </select>
@@ -163,13 +169,20 @@ $allergies = $db ->getAllergyAll();
                         {
                             print $detail_allergy['allergy_item'].' ';
                         }
-                        print '</b></br>';
-                        print '＊変更しない場合は「変更しない」にチェックを入れてください。';
-                        print '</br>';
+                        print '</b>';
+                        // print '</b></br>';
+                        // print '＊変更しない場合は「変更しない」にチェックを入れてください。';
+                        // print '</br>';
                         ?>
-                        <input type="checkbox" name="not_verify" value="1">変更しない<br>
+                        <br>
+                        <!-- <input type="checkbox" name="not_verify" value="1">変更しない<br> -->
+                        アレルギー品目を変更する場合はチェックをいれてください。
+                        <br>
                         <?php foreach($allergies as $allergy):?>
-                        <input type="checkbox" name="allergy_item[]" value="<?= $allergy['id'];?>"><?= $allergy['allergy_item'];?><br>
+                        <input type="checkbox" name="allergy_item[]" value="<?= $allergy['id'];?>"
+                        <?php 
+                        if(in_array($allergy['id'], $detail['allergy_item_array'])){print 'checked';}?>
+                        ><?= $allergy['allergy_item'];?><br>
                         <?php endforeach;?>
                     </td>
                 </tr>
@@ -188,10 +201,19 @@ $allergies = $db ->getAllergyAll();
                 <tr>
                     <th>商品画像</th>
                     <td class="align-left">
-                    <img src="../img/<?php print $detail['item_image'];?>">
+                    <img src="../img/<?= $detail['item_image'];?>"  id="preview" width="25%" height="auto">
                     <input type="file" name="item_image" id="item_image" class="item_image" value="">
                     </td>
                 </tr>
+                <script>
+                $('#item_image').on('change',function(e){
+                    var reader = new FileReader();
+                    reader.onload = function(e){
+                        $("#preview").attr('src',e.target.result);
+                    }
+                    reader.readAsDataURL(e.target.files[0]);
+                });
+                </script>
 
                 <tr>
                     <th>おすすめ</th>
@@ -215,7 +237,7 @@ $allergies = $db ->getAllergyAll();
             <!-- ワンタイムトークン -->
             <input type="hidden" name="token" value="<?=Safety::getToken();?>">
 
-            <input type="hidden" name="old_category_img_name" value="<?php print $_SESSION['before']['edit_detail']['item_image'];?>">
+            <input type="hidden" name="old_category_img_name" value="<?= $_SESSION['before']['edit_detail']['item_image'];?>">
             <input type="submit" value="確認画面へ">
             <input type="button" value="キャンセル" onclick="location.href='./disp.php';">
             <input type="button" value="管理者トップページへ" onclick="location.href='../../../';">

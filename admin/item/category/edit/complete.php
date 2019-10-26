@@ -5,20 +5,29 @@ require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
 
 //セッション開始
 Session::sessionStart();
-$user = $_SESSION['user'];
-
-$category_name = $_SESSION['edit_category_after']['item_category_name'];
-if($_SESSION['edit_category_after']['item_category_image'] === '')
+if(!isset($_SESSION['user']))
 {
-    $category_img = $_SESSION['edit_category_before']['item_category_image'];
+    header('Location: ../../login/');
+    exit;
 }
 else
 {
-$category_img = $_SESSION['edit_category_after']['item_category_image'];
+    $user = $_SESSION['user'];
+}
+
+var_dump($_SESSION['post']['edit_category']);
+$category_name = $_SESSION['post']['edit_category']['item_category_name'];
+if($_SESSION['post']['edit_category']['item_category_image'] === '')
+{
+    $category_img = $_SESSION['before']['edit_category']['item_category_image'];
+}
+else
+{
+    $category_img = $_SESSION['post']['edit_category']['item_category_image'];
 }
 
 //使い終わったセッションの破棄
-unset($_SESSION['item_category']);
+// unset($_SESSION['item_category']);
 
 ?>
 <!DOCTYPE html>
@@ -60,7 +69,7 @@ unset($_SESSION['item_category']);
                 <tr>
                     <th>カテゴリー画像</th>
                     <td class="align-left">
-                    <img src="../img/<?php print $category_img;?>">
+                    <img src="../img/<?php print $category_img;?>" width="25%" heigth="auto">
                     </td>
                 </tr>
             </table>

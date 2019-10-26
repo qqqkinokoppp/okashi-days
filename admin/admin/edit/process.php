@@ -9,6 +9,17 @@ require_once(Config::APP_ROOT_DIR.'/classes/util/Common.php');
 
 // セッションスタート
 Session::sessionStart();
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
+
+
 $edituser = $_SESSION['post']['edit_user'];
 
 //修正するユーザーのIDを変数に格納

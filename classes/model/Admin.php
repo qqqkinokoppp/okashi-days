@@ -36,6 +36,7 @@ class Admin extends Base
         $rec = $stmt ->execute();
         return $rec;
     }
+
     /**
      * 管理者修正メソッド
      * @var array $data
@@ -78,6 +79,7 @@ class Admin extends Base
         $rec = $stmt ->execute();
         return $rec;
     }
+    
     /**
      * 管理者ログインメソッド
      * 入力されたパスワードが、ユーザー名に相当するパスワードと一致するか調べる
@@ -134,6 +136,22 @@ class Admin extends Base
     }
 
     /**
+     * 管理者ユーザー名全取得メソッド
+     * @return array $rec 
+     */
+    public function getAdminNameAll()
+    {
+        $sql = '';
+        $sql .='SELECT id,user_name FROM administrators ';//SQL文の結合をするとき、文末にスペースを入れる！！！
+        $sql .='WHERE is_deleted=0';
+        $stmt = $this ->dbh ->prepare($sql);
+        $stmt ->execute();
+        $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);
+        return $rec;
+        
+    }
+
+    /**
      * 管理者情報取得メソッド
      * @var int $id
      * @return array $rec 
@@ -150,8 +168,6 @@ class Admin extends Base
         return $rec;
         
     }
-
-
 
 }
 ?>

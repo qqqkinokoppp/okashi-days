@@ -9,7 +9,21 @@ require_once(Config::APP_ROOT_DIR.'/classes/model/ItemManage.php');
 
 // セッションスタート
 Session::sessionStart();
-$edit_category = $_SESSION['edit_category_after'];
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
+
+// var_dump($_SESSION['post']);
+// exit;
+
+// $edit_category = $_SESSION['edit_category_after'];
+
 // var_dump($_SESSION['edit_category_after']);
 // exit;
 
@@ -18,14 +32,14 @@ $post = Common::sanitize($_POST);
 
 
 //修正するカテゴリのIDを変数に格納
-$id = $_SESSION['edit_category']['id'];
+$id = $_SESSION['id']['edit_category'];
 
 //商品管理インスタンス生成、カテゴリ修正メソッドの呼び出し
 $db = new ItemManage();
 try
 {
     // 新しい画像が選択されていなかったら、カテゴリ名だけ更新
-    if($_SESSION['edit_category_after']['item_category_image'] === '')
+    if($_SESSION['post']['edit_category']['item_category_image'] === '')
     {
         $category = $db ->editCategoryNoImage($edit_category, $id);
     }
@@ -47,7 +61,7 @@ catch(Exception $e)
     print '<pre>';
     var_dump($e);
     print '</pre>';
-    header('Location:../../error/');
+    header('Location:../../../error/');
     exit;
 }
 

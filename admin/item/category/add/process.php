@@ -8,6 +8,15 @@ require_once(Config::APP_ROOT_DIR.'/classes/model/ItemManage.php');
 require_once(Config::APP_ROOT_DIR.'/classes/util/Common.php');
 // セッションスタート
 Session::sessionStart();
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
 //サニタイズ
 $post = Common::sanitize($_POST);
 $_SESSION['category_name'] = $post['category_name'];
@@ -22,7 +31,8 @@ try
 catch(Exception $e)
 {
     var_dump($e);
-    //header('Location:../../error/');
+    header('Location:../../../error/');
+    exit;
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'].'/okashi_days/classes/model/Base.php');
-require_once($_SERVER['DOCUMENT_ROOT'].'/okashi_days/classes/model/Admin.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/okashi_days/classes/model/Member.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/okashi_days/classes/util/Common.php');
 
 $post = Common::sanitize($_POST);
@@ -9,8 +9,8 @@ $password = $post['password'];
 
 try
 {
-    $db = new Admin();
-    $db ->loginAdmin($user_name, $password);
+    $db = new Member();
+    $db ->loginMember($user_name, $password);
 }
 catch(Exception $e)
 {

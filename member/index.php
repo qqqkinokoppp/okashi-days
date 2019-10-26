@@ -22,51 +22,63 @@ unset($_SESSION['id']);
 unset($_SESSION['token']);
 //var_dump($_SESSION);
 ?>
-
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>会員トップページ</title>
-<link rel="stylesheet" href="./css/normalize.css">
-<link rel="stylesheet" href="./css/main.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>商品一覧 | okashi days.</title>
+<link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-<div class="container">
-    <header>
-        <div class="title">
-            <h1>会員メニュー一覧</h1>
-        </div>
-        <div class="login_info">
-            <ul>
-                <li>ようこそ<?php print $user['user_name'];?>さん</li>
-                <li>
-                    <form>
-                        <input type="button" value="ログアウト" onclick="location.href='./login/logout.php'">
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </header>
+<div class="wrapper">
+	<!-- ヘッダー -->
+	<header class="header">
+		<h1 class="logo"><a href="../index.php"><img src="../images/okashi_days_logo.png" alt="okashi days."></a></h1>
+		<nav class="nav">
+			<ul>
+				<li><a href="../">ホーム</a></li>
+                <li><a href="../order/cart/">カート</a></li>
+                <li><a href="../item/category/">商品カテゴリ一覧</a></li>
+				<li><a href="../item/list.php">商品一覧</a></li>
+				<?php if(!isset($user)):?>
+				<li><a href="../member/registration.php">新規会員登録</a></li>
+				<li><a href="../member/login/">ログイン</a></li>
+				<?php else:?>
+				<li><a href="../member/">会員ページ</a></li>
+				<li><a href="../member/login/logout.php">ログアウト</a></li>
+				<?php endif;?>
+			</ul>
+		</nav>
+	</header>
 
     <main>
     <table class="admin">
-            <tr>
+            <!-- <tr>
                 <th colspan="2">会員情報変更・退会</th>
-            </tr>
+            </tr> -->
             <tr class="even">
-                <td class="align-left" width="300">
-                    会員情報操作
-                </td>
+            <h2>会員情報変更・退会</h2>
                 <td>
                     <form action="edit/acount/" method="post">                       
-                        <input type="submit" value="会員情報変更">
+                        <input type="submit" value="会員情報変更" class="btn-member">
                     </form>
-                    <form action="edit/password/index.php" method="post"><!--管理者修正ページ（管理者一覧表示される）へ-->                        
-                        <input type="submit" value="パスワード変更">
+                    <form action="edit/password/index.php" method="post">             
+                        <input type="submit" value="パスワード変更" class="btn-member">
                     </form>
-                    <form action="deactive/" method="post"><!--管理者削除ページ（管理者一覧表示される）へ-->                        
-                        <input type="submit" value="退会">
+                    <form action="deactive/" method="post">
+                        <input type="submit" value="退会" class="btn-member">
+                    </form>
+                </td>
+            </tr>
+        </table>
+
+        <table class="admin">
+            <tr class="even">
+            <h2>購入履歴確認</h2>
+                <td>
+                    <form action="./order_history/" method="post">                       
+                        <input type="submit" value="購入履歴確認" class="btn-member">
                     </form>
                 </td>
             </tr>

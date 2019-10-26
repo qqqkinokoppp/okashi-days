@@ -4,6 +4,7 @@ require_once(Config::APP_ROOT_DIR.'classes/util/Session.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
 require_once(Config::APP_ROOT_DIR.'classes/model/Admin.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
+require_once(Config::APP_ROOT_DIR.'classes/model/Admin.php');
 
 Session::sessionStart();
 if(!isset($_SESSION['user']))

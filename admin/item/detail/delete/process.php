@@ -9,7 +9,15 @@ require_once(Config::APP_ROOT_DIR.'/classes/model/ItemManage.php');
 
 // セッションスタート
 Session::sessionStart();
-
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
 
 //サニタイズ
 $post = Common::sanitize($_POST);

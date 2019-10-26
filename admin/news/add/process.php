@@ -32,7 +32,8 @@ try
 catch(Exception $e)
 {
     var_dump($e);
-    //header('Location:../../error/');
+    header('Location:../../error/');
+    exit;
 }
 
 ?>

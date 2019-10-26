@@ -25,9 +25,9 @@ $token = Safety::getToken();
 
     <main>
         <?php
-        if(isset($_SESSION['error']['adminlogin'])):?>
+        if(isset($_SESSION['error']['login_admin'])):?>
         <p class="error">
-            <?php print $_SESSION['error']['adminlogin'];?>
+            <?php print $_SESSION['error']['login_admin'];?>
         </p>
         <?php endif;?>
         <form action="process.php" method="post">

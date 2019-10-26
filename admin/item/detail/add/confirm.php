@@ -33,21 +33,11 @@ $_SESSION['post']['add_detail'] = $post;
 // var_dump($_SESSION['post']['add_detail']);
 // exit;
 
+// var_dump($post);
+// exit;
+
 //エラーメッセージの初期化
 $_SESSION['error']['add_detail'] = '';
-
-//画像が選択されていれば、セッションと変数に保存、選択されていなければエラーメッセージ
-if($_FILES['item_image']['name'] !== '')
-{
-    $item_image = $_FILES['item_image'];
-    $_SESSION['post']['add_detail']['item_image'] = $_FILES['item_image'];
-}
-else
-{
-    $_SESSION['error']['add_detail'] = '画像を選択してください。';
-    header('Location:./index.php');
-    exit;
-}
 
 //商品名が入力されていなかったら
 if(empty($post['item_name']))
@@ -88,7 +78,7 @@ if(preg_match("/^[a-zA-Z0-9]+$/", $post['item_model_number']) === 0)
 }
 
 //商品カテゴリが選択されていなかったら
-if(empty($post['category_id']))
+if(empty($post['item_category_id']))
 {
     $_SESSION['error']['add_detail'] = '商品カテゴリを選択してください。';
     header('Location:./index.php');
@@ -135,6 +125,19 @@ if(empty($post['allergy_item']))
     exit;
 }
 
+//画像が選択されていれば、セッションと変数に保存、選択されていなければエラーメッセージ
+if($_FILES['item_image']['name'] !== '')
+{
+    $item_image = $_FILES['item_image'];
+    $_SESSION['post']['add_detail']['item_image'] = $_FILES['item_image'];
+}
+else
+{
+    $_SESSION['error']['add_detail'] = '画像を選択してください。';
+    header('Location:./index.php');
+    exit;
+}
+
 //単価が入力されていなかったら
 if(empty($post['unit_price']))
 {
@@ -171,17 +174,16 @@ if($_FILES['item_image']['size']>0)
 $db = new ItemManage();
 
 //カテゴリ取得
-$category = $db ->getCategory($post['category_id']);
+$category = $db ->getCategory($post['item_category_id']);
 
 //アレルギー取得
 $allergies = array();//foreachのための配列変数準備
 foreach($post['allergy_item'] as $value)
 {
-$allergies += array($value => $db ->getAllergy($value));
+    $allergies += array($value => $db ->getAllergy($value));
 }
 
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -257,13 +259,13 @@ $allergies += array($value => $db ->getAllergy($value));
                 <tr>
                     <th>単価</th>
                     <td class="align-left">
-                        <?php print $post['unit_price'];?>
+                        <?php print $post['unit_price'];?>円
                     </td>
                 </tr>
                 <tr>
                     <th>商品画像画像</th>
                     <td class="align-left">
-                        <img src="../img/<?php print $_FILES['item_image']['name'];?>">
+                        <img src="../img/<?php print $_FILES['item_image']['name'];?>" width="25%" height="auto">
                     </td>
                 </tr>
                 <tr>

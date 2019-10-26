@@ -9,6 +9,15 @@ require_once(Config::APP_ROOT_DIR.'/classes/model/ItemManage.php');
 
 // セッションスタート
 Session::sessionStart();
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
 //サニタイズ
 $post = Common::sanitize($_POST);
 
@@ -34,10 +43,9 @@ try
 }
 catch(Exception $e)
 {
-    print '<pre>';
-    var_dump($e);
-    print '</pre>';
-    //header('Location:../../error/');
+
+    header('Location:../../../error/');
+    exit;
 }
 
 ?>

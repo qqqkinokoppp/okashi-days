@@ -1,4 +1,6 @@
 <?php
+require_once('Base.php');
+
 class NewsManage extends Base
 {
     /**親コンストラクタ呼び出し */
@@ -86,7 +88,7 @@ class NewsManage extends Base
         $sql .='SELECT id, ';
         $sql .='news_index, ';
         $sql .='news_content, ';
-        $sql .='expiration_date ';
+        $sql .='expiration_date, ';
         $sql .='is_deleted ';
         $sql .='FROM news ';//SQL文の結合をするとき、文末にスペースを入れる！！！
         $sql .='WHERE is_deleted=0 ';
@@ -96,7 +98,6 @@ class NewsManage extends Base
         $stmt ->execute();
         $rec = $stmt ->fetch(PDO::FETCH_ASSOC);
         return $rec;
-        
     }
 
     /**
@@ -108,14 +109,39 @@ class NewsManage extends Base
         $sql = '';
         $sql .='SELECT id,';//SQL文の結合をするとき、文末にスペースを入れる！！！
         $sql .='news_index, ';
-        $sql .='news_content, '
+        $sql .='news_content, ';
         $sql .='is_deleted,';
         $sql .='expiration_date ';
-        $sql .='FROM news';
+        $sql .='FROM news ';
         $sql .='WHERE is_deleted=0';
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->execute();
         $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);
         return $rec;
     }
+
+    /**
+     * トップページに乗せるお知らせ（掲載期限が切れていないお知らせ）を取得するメソッド
+     * @param string $date 
+     * @return array $rec
+     */
+    public function getNewsTop($date)
+    {
+        $sql = '';
+        $sql .='SELECT id,';
+        $sql .='news_index, ';
+        $sql .='news_content, ';
+        $sql .='is_deleted,';
+        $sql .='expiration_date ';
+        $sql .='FROM news ';
+        $sql .='WHERE is_deleted=0 ';
+        $sql .='AND expiration_date >= :date';        
+        $stmt = $this ->dbh ->prepare($sql);
+        $stmt ->bindParam(':date', $date, PDO::PARAM_STR);
+        $stmt ->execute();
+        $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);
+        return $rec;
+    }
+
+
 }

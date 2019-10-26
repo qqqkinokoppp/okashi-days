@@ -3,6 +3,8 @@ require_once('../../../../Config.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Session.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
+require_once(Config::APP_ROOT_DIR.'classes/model/Admin.php');
+
 //セッション開始
 Session::sessionStart();
 if(!isset($_SESSION['user']))
@@ -76,6 +78,22 @@ if(empty($post['email']))
     // exit;
     header('Location:./index.php');
     exit;
+}
+
+// ログインユーザー名の被り確認
+$db = new Admin();
+$user_names = $db ->getAdminNameAll();
+
+foreach($user_names as $key => $user_name)
+{
+    if(in_array($post['user_name'], $user_name))
+    {
+        $_SESSION['error']['add_admin'] = 'ログインユーザー名は既に使用されています。';
+        // print '通った';
+        // exit;
+        header('Location:./index.php');
+        exit;
+    }
 }
 
 //パスワードが一致するかどうかの確認

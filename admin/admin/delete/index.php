@@ -7,7 +7,15 @@ require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
 
 Session::sessionStart();
 //ログインしているユーザーの情報を変数に格納
-$user = $_SESSION['user'];
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
 
 
 $post = Common::sanitize($_POST);

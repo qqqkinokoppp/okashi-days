@@ -8,31 +8,46 @@ Session::sessionStart();
 $token = Safety::getToken();
 
 ?>
-
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>会員ログイン</title>
-<link rel="stylesheet" href="../css/normalize.css">
-<link rel="stylesheet" href="../css/main.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>商品一覧 | okashi days.</title>
+<link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-<div class="container">
-    <header>
-        <h1>会員ログイン</h1>
-    </header>
+<div class="wrapper">
+	<!-- ヘッダー -->
+	<header class="header">
+		<h1 class="logo"><a href="../index.php"><img src="../../images/okashi_days_logo.png" alt="okashi days."></a></h1>
+		<nav class="nav">
+			<ul>
+				<li><a href="../../">ホーム</a></li>
+                <li><a href="../../order/cart/">カート</a></li>
+                <li><a href="../../item/category/">商品カテゴリ一覧</a></li>
+				<li><a href="./../item/list.php">商品一覧</a></li>
+				<?php if(!isset($user)):?>
+				<li><a href="../registration/">新規会員登録</a></li>
+				<li><a href="../login/">ログイン</a></li>
+				<?php else:?>
+				<li><a href="../member/">会員ページ</a></li>
+				<li><a href="../member/login/logout.php">ログアウト</a></li>
+				<?php endif;?>
+			</ul>
+		</nav>
+	</header>
 
     <main>
         <?php
         if(isset($_SESSION['error']['member_login'])):?>
         <p class="error">
-            <?php print $_SESSION['error']['member_login'];?>
+            <?= $_SESSION['error']['member_login'];?>
         </p>
         <?php endif;?>
         <form action="process.php" method="post">
             <!--ワンタイムトークンをpost-->
-            <input type="hidden" name="token" value="<?php print $token;?>">
+            <input type="hidden" name="token" value="<?= $token;?>">
             <table class="login">
                 <tr>
                     <th class="login_field">
@@ -53,6 +68,7 @@ $token = Safety::getToken();
             </table>
             <input type="submit" value="ログイン" id="login">
         </form>
+        <a href="../registration/">アカウントをお持ちでない方は新規会員登録へ</a>
 
 
     </main>

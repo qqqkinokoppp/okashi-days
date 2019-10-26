@@ -6,7 +6,15 @@ require_once(Config::APP_ROOT_DIR.'/classes/model/Admin.php');
 require_once(Config::APP_ROOT_DIR.'/classes/util/Common.php');
 // セッションスタート
 Session::sessionStart();
-$user = $_SESSION['user'];
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
 
 $db = new Admin();
 //管理者データの取得

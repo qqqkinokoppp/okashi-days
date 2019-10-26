@@ -8,7 +8,15 @@ require_once(Config::APP_ROOT_DIR.'classes/model/ItemManage.php');
 
 //セッション開始
 Session::sessionStart();
-$user = $_SESSION['user'];
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
 
 
 // ワンタイムトークンの確認
@@ -296,9 +304,9 @@ else
                     <th>商品画像画像</th><!--画像が選択されていれば新しい画像、されていなければDBに登録されている画像-->
                     <td class="align-left">
                         <?php if($_SESSION['post']['edit_detail']['item_image']['name'] !== ''):?>
-                        <img src="../img/<?= $_SESSION['post']['edit_detail']['item_image']['name'];?>">
+                        <img src="../img/<?= $_SESSION['post']['edit_detail']['item_image']['name'];?>" width="25%" height="25%">
                         <?php else:?>
-                        <img src="../img/<?= $_SESSION['before']['edit_detail']['item_image'];?>">
+                        <img src="../img/<?= $_SESSION['before']['edit_detail']['item_image'];?>" width="400" height="260">
                         <?php endif;?>
                     </td>
                 </tr>

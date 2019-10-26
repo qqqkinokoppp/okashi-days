@@ -14,6 +14,7 @@ class Session
         session_start();
         session_regenerate_id(true);
     }
+    
     /**
      * セッション破棄メソッド
      * 

@@ -5,7 +5,15 @@ require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
 //セッション開始
 Session::sessionStart();
-$user = $_SESSION['user'];
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
 // var_dump($_SESSION['edituser']['id']);
 // exit;
 
@@ -21,14 +29,14 @@ if (!Safety::checkToken($_POST['token']))
 $post = Common::sanitize($_POST);
 
 //セッションにフォームから送られてきたデータを格納
-$_SESSION['addCategory'] = $post;
+$_SESSION['post']['add_category'] = $post;
 
 if(isset($_FILES['category_img']))
 {
-$category_img = $_FILES['category_img'];
+    $category_img = $_FILES['category_img'];
 }
 
-$_SESSION['error']['addCategory'] = '';
+$_SESSION['error']['add_category'] = '';
 
 // var_dump($post);
 // exit();
@@ -38,7 +46,7 @@ $_SESSION['error']['addCategory'] = '';
 //カテゴリ名が入力されていなかったら
 if(empty($post['category_name']))
 {
-    $_SESSION['error']['addCategory'] = 'カテゴリ名を入力してください。';
+    $_SESSION['error']['add_category'] = 'カテゴリ名を入力してください。';
     // print '通った';
     // exit;
     header('Location:./index.php');
@@ -48,7 +56,7 @@ if(empty($post['category_name']))
 //カテゴリ画像が選択されていなかったら
 if(empty($category_img))
 {
-    $_SESSION['error']['addCategory'] = 'カテゴリ画像を選択してください。';
+    $_SESSION['error']['add_category'] = 'カテゴリ画像を選択してください。';
     // print '通った';
     // exit;
     header('Location:./index.php');
@@ -60,7 +68,7 @@ if($category_img['size']>0)
 {
     if($category_img['size']>1000000)
     {
-        $_SESSION['error']['addCategory'] = 'カテゴリ画像が大きすぎます。';
+        $_SESSION['error']['add_category'] = 'カテゴリ画像が大きすぎます。';
         header('Location:./index.php');
         exit;
     }
@@ -69,7 +77,7 @@ if($category_img['size']>0)
         //ファイルサイズがOKなら、画像ファイルを移動させる
         move_uploaded_file($category_img['tmp_name'], '../img/'.$category_img['name']);
         //セッション配列に画像ファイル名を追加
-        $_SESSION['category_img'] = $category_img['name'];
+        $_SESSION['post']['add_category']['category_img'] = $category_img['name'];
     }
 }
 
@@ -114,7 +122,7 @@ if($category_img['size']>0)
                 <tr>
                     <th>カテゴリ画像</th>
                     <td class="align-left">
-                        <img src="../img/<?php print $category_img['name'];?>">
+                        <img src="../img/<?php print $category_img['name'];?>" width="25%" height="auto">
                     </td>
                 </tr>
 

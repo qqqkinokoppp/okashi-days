@@ -9,11 +9,19 @@ require_once(Config::APP_ROOT_DIR.'/classes/model/ItemManage.php');
 
 // セッションスタート
 Session::sessionStart();
-$user = $_SESSION['user'];
+if(!isset($_SESSION['user']))
+{
+    header('Location: ../../login/');
+    exit;
+}
+else
+{
+    $user = $_SESSION['user'];
+}
 
 $db = new ItemManage();
 
-//管理者データの取得
+//商品カテゴリの取得
 $edit_categories = $db ->getCategoryAll();
 
 //foreach用カウンターの初期化

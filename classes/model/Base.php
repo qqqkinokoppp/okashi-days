@@ -38,7 +38,7 @@ class Base//DB接続の基底クラス
     /**コミットメソッド */
     public function commit()
     {
-        $this ->bdh ->commit();
+        $this ->dbh ->commit();
     }
 }
 ?>

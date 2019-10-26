@@ -10,7 +10,7 @@ require_once(Config::APP_ROOT_DIR.'classes/model/ItemManage.php');
 Session::sessionStart();
 if(!isset($_SESSION['user']))
 {
-    header('Location: ../../../login/login.php');
+    header('Location: ../../../login/');
     exit;
 }
 else
@@ -134,7 +134,7 @@ else
                 <tr>
                     <th>商品画像画像</th><!--画像が選択されていれば新しい画像、されていなければDBに登録されている画像-->
                     <td class="align-left">
-                        <img src="../img/<?= $detail['item_image'];?>">
+                        <img src="../img/<?= $detail['item_image'];?>" width="25%" height="auto">
                     </td>
                 </tr>
                 <tr>

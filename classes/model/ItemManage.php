@@ -1,4 +1,6 @@
 <?php
+require_once('Base.php');
+
 class ItemManage extends Base
 {
     /**親コンストラクタ呼び出し */
@@ -33,6 +35,7 @@ class ItemManage extends Base
     /**
      * @todo カテゴリ修正メソッドはオプショナル引数を用いるメソッドに改造予定
      */
+    
     /**
      * カテゴリ修正メソッド
      * @var array $data
@@ -89,6 +92,22 @@ class ItemManage extends Base
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->bindValue(':id', $id, PDO::PARAM_INT);
         $rec = $stmt ->execute();
+        return $rec;
+    }
+
+     /**
+     * カテゴリカウントメソッド
+     * @var int $id
+     * @return bool $rec
+     */
+    public function countCategory($id)
+    {
+        $sql = '';
+        $sql .= 'SELECT COUNT(*) FROM items WHERE item_category_id = :id ';
+        $stmt = $this ->dbh ->prepare($sql);
+        $stmt ->bindValue(':id', $id, PDO::PARAM_INT);
+        $rec = $stmt ->execute();
+        $rec = $stmt ->fetch(PDO::FETCH_ASSOC);
         return $rec;
     }
 
@@ -248,8 +267,81 @@ class ItemManage extends Base
         $stmt ->bindParam(':id', $id, PDO::PARAM_STR);
         $stmt ->execute();
         $rec = $stmt ->fetch(PDO::FETCH_ASSOC);
+        $rec['allergy_item_array'] = json_decode($rec['allergy_item'], true);
         return $rec;
-        
+    }
+
+    /**
+     * カテゴリ別商品詳細取得メソッド
+     * @var int $id
+     * @return array $rec 
+     */
+    public function getCategoryDetail($id)
+    {
+        $sql = '';
+        $sql .='SELECT id, ';
+        $sql .='item_category_id, ';
+        $sql .='item_name, ';
+        $sql .='item_model_number, ';
+        $sql .='item_description, ';
+        $sql .='allergy_item, ';
+        $sql .='item_detail, ';
+        $sql .='unit_price, ';
+        $sql .='item_image, ';
+        $sql .='is_recommend, ';
+        $sql .='is_deleted ';
+        $sql .='FROM items ';//SQL文の結合をするとき、文末にスペースを入れる！！！
+        $sql .='WHERE is_deleted=0 ';
+        $sql .='AND item_category_id=:item_category_id';
+        $stmt = $this ->dbh ->prepare($sql);
+        $stmt ->bindParam(':item_category_id', $id, PDO::PARAM_INT);
+        $stmt ->execute();
+        $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);
+        return $rec;
+    }
+
+
+    /**
+     * おすすめ商品全取得メソッド
+     * @return array $rec 
+     */
+    public function getRecommendDetail()
+    {
+        $sql = '';
+        $sql .='SELECT id, ';
+        $sql .='item_category_id, ';
+        $sql .='item_name, ';
+        $sql .='item_model_number, ';
+        $sql .='item_description, ';
+        $sql .='allergy_item, ';
+        $sql .='item_detail, ';
+        $sql .='unit_price, ';
+        $sql .='item_image, ';
+        $sql .='is_recommend, ';
+        $sql .='is_deleted ';
+        $sql .='FROM items ';//SQL文の結合をするとき、文末にスペースを入れる！！！
+        $sql .='WHERE is_deleted=0 ';
+        $sql .='AND is_recommend=1';
+        $stmt = $this ->dbh ->prepare($sql);
+        $stmt ->execute();
+        $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);
+        return $rec;
+    }
+
+    /**
+     * おすすめ商品数カウントメソッド
+     *
+     * @param [type] $id
+     * @return int
+     */
+    public function countRecommend()
+    {
+        $sql = '';
+        $sql .= 'SELECT COUNT(*) FROM items WHERE is_deleted = 0 AND is_recommend = 1 ';
+        $stmt = $this ->dbh ->prepare($sql);
+        $stmt ->execute();
+        $rec = $stmt ->fetch(PDO::FETCH_ASSOC);
+        return $rec;
     }
 
     /**
@@ -278,7 +370,7 @@ class ItemManage extends Base
         $sql .='SELECT id,item_category_name,item_category_image FROM item_categories ';//SQL文の結合をするとき、文末にスペースを入れる！！！
         $sql .='WHERE id=:id';
         $stmt = $this ->dbh ->prepare($sql);
-        $stmt ->bindParam(':id', $id, PDO::PARAM_STR);
+        $stmt ->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt ->execute();
         $rec = $stmt ->fetch(PDO::FETCH_ASSOC);
         return $rec;
@@ -315,6 +407,47 @@ class ItemManage extends Base
         $stmt ->execute();
         $rec = $stmt ->fetch(PDO::FETCH_ASSOC);
         return $rec;
+    }
+
+    /**
+     * 商品検索メソッド
+     * 商品名、型番で検索
+     * @param 
+     */
+    public function searchItem($search)
+    {
+        $sql = '';
+        $sql .= 'SELECT id, ';
+        $sql .= 'item_category_id, ';
+        $sql .= 'item_name, ';
+        $sql .= 'item_model_number, ';
+        $sql .= 'item_description, ';
+        $sql .= 'allergy_item, ';
+        $sql .= 'item_detail, ';
+        $sql .= 'unit_price, ';
+        $sql .= 'item_image, ';
+        $sql .= 'is_recommend ';
+        $sql .= 'FROM items ';
+        $sql .= 'WHERE is_deleted=0 ';
+        $sql .= 'AND (';
+        $sql .= 'item_name LIKE :item_name ';
+        $sql .= 'OR item_model_number LIKE :item_model_number ';
+        $sql .= 'OR item_detail LIKE :item_detail ';
+        $sql .= 'OR item_description LIKE :item_description ';
+        $sql .= ')';
+        $sql .= 'ORDER BY is_recommend DESC ';
+
+
+        $stmt = $this ->dbh ->prepare($sql);
+        $wild_search = "%$search%";
+        $stmt ->bindParam(':item_name', $wild_search, PDO::PARAM_STR);
+        $stmt ->bindParam(':item_model_number', $wild_search, PDO::PARAM_STR);
+        $stmt ->bindParam(':item_detail', $wild_search, PDO::PARAM_STR);
+        $stmt ->bindParam(':item_description', $wild_search, PDO::PARAM_STR);
+        $stmt ->execute();
+        $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);
+        return $rec;
+
     }
 
 }
