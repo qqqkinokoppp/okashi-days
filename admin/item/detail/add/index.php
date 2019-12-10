@@ -72,7 +72,7 @@ if(isset($_SESSION['post']['add_detail']))
     }
 }
 
-var_dump($allergy_items);
+// var_dump($allergy_items);
 
 
 //カテゴリ取得、アレルギー項目取得のためにDB接続

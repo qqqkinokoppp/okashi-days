@@ -13,12 +13,13 @@
         $db = new ContactManage();
         $db ->addContact($_SESSION['post']['contact']);
 
-        
         header('Location: complete.php');
         exit;
     }
     catch(Exception $e)
     {
-        var_dump($e);
+        // var_dump($e);
+        header('Location: ./error/');
+        exit;
     }
 ?>

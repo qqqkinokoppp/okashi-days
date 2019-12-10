@@ -23,8 +23,8 @@ $contact = new ContactManage();
 $contact_categories = $contact ->getContactCategoryAll();
 $contact_triggeres = $contact ->getTriggerAll();
 
-var_dump($contact_categories);
-var_dump($contact_triggeres);
+// var_dump($contact_categories);
+// var_dump($contact_triggeres);
 
 ?>
 <!doctype html>
@@ -247,7 +247,7 @@ var_dump($contact_triggeres);
 		</form>
 	</main>
 	<footer class="footer">
-		<p>&copy;Copyright KUJIRA Cafe. All rights reserved.</p>
+		<p>&copy;Copyright Okashi days. All rights reserved.</p>
 	</footer>
 	<!-- フッター ここまで -->
 </div>

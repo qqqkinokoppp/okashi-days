@@ -254,9 +254,10 @@ $_SESSION['post']['edit_member']['postal_code'] = $post['postal_code1'] . $post[
         </main>
 
         <footer>
-
+        <p>&copy;Copyright Okashi days. All rights reserved.</p>
         </footer>
     </div>
+    
 </body>
 
 </html>

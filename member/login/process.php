@@ -44,17 +44,17 @@ try
         unset($_SESSION['error']['member_login']);
         if(!empty($_SESSION['url']))
         {
-            print '通った1';
+            // print '通った1';
             header("Location:".$_SESSION['url']);
             exit;
         }
         else
         {
-            print '通った2';
+            // print '通った2';
             header("Location:../../");
             exit;
         }
-        print '通った3';
+        // print '通った3';
         // exit;
         // header('Location: ../');
         // exit;
@@ -62,8 +62,9 @@ try
 }   
 catch(Exception $e)
 {
-    //header('Location: ../error/');
-    print '<pre>';
-    var_dump($e);
-    print '</pre>';
+    // print '<pre>';
+    // var_dump($e);
+    // print '</pre>';
+    header('Location: ../../error/');
+    exit;
 }

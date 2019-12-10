@@ -120,7 +120,7 @@ $edit_member = $_SESSION['post']['edit_member'];
     </main>
 
     <footer>
-
+    <p>&copy;Copyright Okashi days. All rights reserved.</p>
     </footer>
 </div>
 </body>

@@ -179,7 +179,7 @@ if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false)
     </main>
 
     <footer>
-
+    <p>&copy;Copyright Okashi days. All rights reserved.</p>
     </footer>
 </div>
 </body>

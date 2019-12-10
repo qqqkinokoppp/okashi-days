@@ -45,7 +45,7 @@ else
 
     <p>ダウンロードしたい注文日を選んでください。</p>
     <form action="./process.php" method="post">
-        <input type="date" name="download">
+        <input type="date" name="download" value="<?php echo date('Y-m-j');?>">
         <input type="submit" value="CSVダウンロード">
         <!-- ワンタイムトークン -->
         <input type="hidden" name="token" value="<?= Safety::getToken();?>">

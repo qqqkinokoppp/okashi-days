@@ -36,6 +36,8 @@ $_SESSION['post']['add_detail'] = $post;
 // var_dump($post);
 // exit;
 
+var_dump($_FILES);
+
 //エラーメッセージの初期化
 $_SESSION['error']['add_detail'] = '';
 
@@ -157,7 +159,7 @@ if(preg_match("/[0-9]+$/", $post['unit_price']) === 0)
 //画像サイズが大きすぎたら
 if($_FILES['item_image']['size']>0)
 {
-    if($_FILES['item_image']['size']>1000000)
+    if($_FILES['item_image']['size']>4000000)
     {
         $_SESSION['error']['add_detail'] = '画像サイズが大きすぎます。';
         header('Location:./index.php');
@@ -165,6 +167,7 @@ if($_FILES['item_image']['size']>0)
     }
     else
     {
+        print '通った';
         //ファイルサイズがOKなら、画像ファイルを移動させる
         move_uploaded_file($_FILES['item_image']['tmp_name'], '../img/'.$_FILES['item_image']['name']);
     }

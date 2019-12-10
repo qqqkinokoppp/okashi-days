@@ -124,9 +124,9 @@ $prefecture_lists = $db ->getPrefAll();
                     <th>ユーザー名</th>
                     <td class="align-left">
                         <?php if(isset($user_name)):?>
-                        <input type="text" name="user_name" id="user_name" class="user_name" value="<?= $user_name?>">
+                        <input type="text" name="user_name" id="user_name" class="user_name" value="<?= $user_name?>" required>
                         <?php else:?>
-                        <input type="text" name="user_name" id="user_name" class="user_name" value="">
+                        <input type="text" name="user_name" id="user_name" class="user_name" value="" required>
                         <?php endif;?>
                     </td>
                 </tr>
@@ -257,53 +257,6 @@ $prefecture_lists = $db ->getPrefAll();
                 <input type="hidden" name="prefecture" id="prefecture" class="prefecture" value="">
                 <?php endif;?>
 
-                <!-- 住所検索システム -->
-                <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
-                <script>
-                $(function(){
-                    $('#search').click(function(){
-                        // console.log('a');//chromeディベロッパーツールのコンソールに出る
-                        $.ajax('postal_search.php', 
-                            {
-                            type: 'post',
-                            data: {
-                                postal_code: $('#postal_code1').val() + $('#postal_code2').val(),
-                            },
-                            scriptCharset: 'utf-8',
-                            dataType: 'json'//jsonで受け取り
-                            }
-                        )
-                        .done(function(data){
-                            // console.log('ok');
-                            // console.log(data);
-                            try{
-                                $("#error").text('');
-                                // var array = JSON.parse(data);
-                                // document.write(data.prefecture);
-                                $("#prefecture_id").val(data.prefecture_id);
-                                $("#prefecture").val(data.prefecture);
-                                $("#address1").val(data.address1);
-                                $("#address2").val(data.address2);
-                            }
-                            catch(e)
-                            {
-                                console.error(e);
-                            }
-                        })
-                        //失敗時はエラーメッセージ表示とフォームの初期化
-                        .fail(function(jqXHR, textStatus, errorThrown){
-                            $("#XMLHttpRequest").html("XMLHttpRequest : " + jqXHR.status);
-                            $("#textStatus").html("textStatus : " + textStatus);
-                            $("#errorThrown").html("errorThrown : " + errorThrown);
-                            $("#error").text('見つかりません。');
-                            $("#pref").val('');
-                            $("#address1").val('');
-                            $("#address2").val('');
-                        })
-                    });
-                });
-                </script>
-
                 <tr>
                     <th>電話番号</th>
                     <td class="align-left">
@@ -351,8 +304,53 @@ $prefecture_lists = $db ->getPrefAll();
     </main>
 
     <footer>
-
+    <p>&copy;Copyright Okashi days. All rights reserved.</p>
     </footer>
 </div>
+    <!-- 住所検索システム -->
+    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+    $(function() {
+        $('#search').click(function() {
+            // console.log('a');//chromeディベロッパーツールのコンソールに出る
+            $.ajax('postal_search.php', 
+                {
+                type: 'post',
+                data: {
+                    postal_code: $('#postal_code1').val() + $('#postal_code2').val(),
+                },
+                scriptCharset: 'utf-8',
+                dataType: 'json'//jsonで受け取り
+                }
+            )
+            .done(function(data) {
+                // console.log('ok');
+                // console.log(data);
+                try {
+                    $("#error").text('');
+                    // var array = JSON.parse(data);
+                    // document.write(data.prefecture);
+                    $("#prefecture_id").val(data.prefecture_id);
+                    $("#prefecture").val(data.prefecture);
+                    $("#address1").val(data.address1);
+                    $("#address2").val(data.address2);
+                } catch(e) {
+                    console.error(e);
+                }
+            })
+            //失敗時はエラーメッセージ表示とフォームの初期化
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                $("#XMLHttpRequest").html("XMLHttpRequest : " + jqXHR.status);
+                $("#textStatus").html("textStatus : " + textStatus);
+                $("#errorThrown").html("errorThrown : " + errorThrown);
+                $("#error").text('見つかりません。');
+                $("#pref").val('');
+                $("#address1").val('');
+                $("#address2").val('');
+            })
+        });
+    });
+    </script>
+
 </body>
 </html>

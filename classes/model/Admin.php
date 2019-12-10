@@ -96,7 +96,8 @@ class Admin extends Base
         }
         $sql = '';
         $sql .='SELECT id,user_name,password,name,is_login_allowed,is_deleted FROM administrators ';//SQL文の結合をするとき、文末にスペースを入れる！！！
-        $sql .='WHERE user_name=:user_name';
+        $sql .='WHERE user_name=:user_name ';
+        $sql .='AND is_deleted = 0 ';
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->bindParam(':user_name', $user_name, PDO::PARAM_STR);
         $stmt ->execute();

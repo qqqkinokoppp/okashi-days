@@ -20,8 +20,9 @@ try
 }
 catch(Exception $e)
 {
-    var_dump($e);
-    //header('Location:../../error/');
+    // var_dump($e);
+    header('Location:../../error/');
+    exit;
 }
 
 ?>

@@ -32,7 +32,7 @@ $postal_code = $post['postal_code1'].'-'.$post['postal_code2'];
 // ユーザー名の被りがないか確認するため、既存の登録ユーザー名をとってくる
 $user = new Member();
 $user_names = $user ->getMemberNameAll();
-var_dump($post);
+// var_dump($post);
 // exit;
 
 
@@ -59,29 +59,6 @@ if($post['user_name'] === '')
     exit;
 }
 
-//パスワードが入力されていなかったら
-if(empty($post['password']))
-{
-    $_SESSION['error']['add_member'] = 'パスワードを入力してください。';
-    header('Location:./index.php');
-    exit;
-}
-
-//確認用パスワードが入力されていなかったら
-if(empty($post['password2']))
-{
-    $_SESSION['error']['add_member'] = '確認用パスワードを入力してください。';
-    header('Location:./index.php');
-    exit;
-}
-
-// パスワードが半角英数17文字以上なら
-if(mb_strlen($post['password2'])>16 || mb_strlen($post['password2']) > 16)
-{
-    $_SESSION['error']['add_member'] = 'パスワードは半角英数16文字以内で入力してください。';
-    header('Location:./index.php');
-    exit;
-}
 
 //姓が入力されていなかったら
 if(empty($post['last_name']))
@@ -172,6 +149,31 @@ if(empty($post['email']))
     exit;
 }
 
+//パスワードが入力されていなかったら
+if(empty($post['password']))
+{
+    $_SESSION['error']['add_member'] = 'パスワードを入力してください。';
+    header('Location:./index.php');
+    exit;
+}
+
+//確認用パスワードが入力されていなかったら
+if(empty($post['password2']))
+{
+    $_SESSION['error']['add_member'] = '確認用パスワードを入力してください。';
+    header('Location:./index.php');
+    exit;
+}
+
+// パスワードが半角英数17文字以上なら
+if(mb_strlen($post['password2'])>16 || mb_strlen($post['password2']) > 16)
+{
+    $_SESSION['error']['add_member'] = 'パスワードは半角英数16文字以内で入力してください。';
+    header('Location:./index.php');
+    exit;
+}
+
+
 //ログインユーザー名のバリデーション
 if(preg_match('/^[a-zA-Z0-9]+$/', $post['user_name']) === 0)
 {
@@ -184,6 +186,15 @@ if(preg_match('/^[a-zA-Z0-9]+$/', $post['user_name']) === 0)
 if(!preg_match( '/^[ァ-ヾ]+$/u', $post['last_name_kana'])||!preg_match( '/^[ァ-ヾ]+$/u', $post['first_name_kana']) === 0)
 {
     $_SESSION['error']['add_member'] = 'カナは全角カタカナで入力してください。';
+    header('Location:./index.php');
+    exit;
+}
+
+// 生年月日のバリデーション
+if(Common::validateDate($post['birthday'], $format = 'Y-m-d') === false)
+{
+    print '通った';
+    $_SESSION['error']['add_member'] = '生年月日を正しく入力してください。';
     header('Location:./index.php');
     exit;
 }
@@ -204,13 +215,13 @@ if(preg_match('/^[0-9]{2,4}-[0-9]{2,4}-[0-9]{3,4}$/', $post['phone_number']) ===
     exit;
 }
 
-// 生年月日のバリデーション
-if(strtotime($post['birthday']) === false)
-{
-    $_SESSION['error']['add_member'] = '生年月日を正しく入力してください。';
-    header('Location:./index.php');
-    exit;
-}
+// // 生年月日のバリデーション
+// if(strtotime($post['birthday']) === false)
+// {
+//     $_SESSION['error']['add_member'] = '生年月日を正しく入力してください。';
+//     header('Location:./index.php');
+//     exit;
+// }
 
 //メールアドレスのバリデーション
 if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false)
@@ -374,7 +385,7 @@ $_SESSION['post']['add_member']['postal_code'] =$post['postal_code1'].$post['pos
     </main>
 
     <footer>
-
+    <p>&copy;Copyright Okashi days. All rights reserved.</p>
     </footer>
 </div>
 </body>

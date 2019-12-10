@@ -60,148 +60,37 @@ table.admin {
     margin: 20px auto 20px auto;
 }
 
-table.admin th {
+table.admin th,table.customer th,table.contact th {
     background-color: #4b0082;
     color: white;
     padding: 10px;
 }
 
-table.admin td {
-    padding: 5px 10px;
-}
-
-table.admin td form {
-    display: block;
-    float: left;
-}
-
-table.admin td input[type="submit"] {
-    margin: 0px 2px;
-}
-
-table.item {
-    clear: both;
-    width: 100%;
-    margin: 20px auto 20px auto;
-}
-
-table.item th {
+table.item th, table.news th, table.order th {
     background-color: #5f9ea0;
     color: white;
     padding: 10px;
 }
 
-table.item td {
+table.admin td, table.item td, table.customer td, table.contact td {
     padding: 5px 10px;
 }
 
-table.item td form {
+table.admin td form, table.item td form, table.customer td form, table.news td form,
+table.order td form, table.contact td form  {
     display: block;
     float: left;
 }
 
-table.item td input[type="submit"] {
+table.admin td input[type="submit"], table.item td input[type="submit"], table.customer td input[type="submit"], 
+table.news td input[type="submit"],table.order td input[type="submit"], table.contact td input[type="submit"] {
     margin: 0px 2px;
 }
 
-table.customer {
+table.item, table.customer, table.news, table.contact, table.order {
     clear: both;
     width: 100%;
     margin: 20px auto 20px auto;
-}
-
-table.customer th {
-    background-color: #4b0082;
-    color: white;
-    padding: 10px;
-}
-
-table.customer td {
-    padding: 5px 10px;
-}
-
-table.customer td form {
-    display: block;
-    float: left;
-}
-
-table.customer td input[type="submit"] {
-    margin: 0px 2px;
-}
-
-table.news {
-    clear: both;
-    width: 100%;
-    margin: 20px auto 20px auto;
-}
-
-table.news th {
-    background-color:  #5f9ea0;
-    color: white;
-    padding: 10px;
-}
-
-table.news td {
-    padding: 5px 10px;
-}
-
-table.news td form {
-    display: block;
-    float: left;
-}
-
-table.news td input[type="submit"] {
-    margin: 0px 2px;
-}
-
-table.order {
-    clear: both;
-    width: 100%;
-    margin: 20px auto 20px auto;
-}
-
-table.order th {
-    background-color:  #5f9ea0;
-    color: white;
-    padding: 10px;
-}
-
-table.order td {
-    padding: 5px 10px;
-}
-
-table.order td form {
-    display: block;
-    float: left;
-}
-
-table.order td input[type="submit"] {
-    margin: 0px 2px;
-}
-
-table.contact {
-    clear: both;
-    width: 100%;
-    margin: 20px auto 20px auto;
-}
-
-table.contact th {
-    background-color:  #4b0082;
-    color: white;
-    padding: 10px;
-}
-
-table.contact td {
-    padding: 5px 10px;
-}
-
-table.contact td form {
-    display: block;
-    float: left;
-}
-
-table.contact td input[type="submit"] {
-    margin: 0px 2px;
 }
 
 .odd {

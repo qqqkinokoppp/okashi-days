@@ -74,7 +74,7 @@ $token = Safety::getToken();
     </main>
 
     <footer>
-
+    <p>&copy;Copyright Okashi days. All rights reserved.</p>
     </footer>
 </div>
 </body>

@@ -20,10 +20,11 @@ try
 }
 catch(Exception $e)
 {
-    print '<pre>';
-    var_dump($e);
-    print '</pre>';
-    //header('Location:../../error/');
+    // print '<pre>';
+    // var_dump($e);
+    // print '</pre>';
+    header('Location:../../error/');
+    exit;
 }
 
 ?>

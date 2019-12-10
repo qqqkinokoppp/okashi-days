@@ -45,7 +45,7 @@ $i = 0;
                 <li>ようこそ<?php print $user['name'];?>さん</li>
                 <li>
                     <form>
-                        <input type="button" value="ログアウト" onclick="location.href='../login/index.html';">
+                        <input type="button" value="ログアウト" onclick="location.href='../../login/';">
                     </form>
                 </li>
             </ul>
@@ -82,6 +82,8 @@ $i = 0;
             <?php $i++;?>
             <?php endforeach;?>
         </table>
+
+        <input type="button" value="戻る" onclick="history.back()">
 
     </main>
 

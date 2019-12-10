@@ -94,6 +94,8 @@ $i = 0;
 
     </main>
 
+    <input type="button" value="戻る" onclick="history.back()">
+
     <footer>
 
     </footer>

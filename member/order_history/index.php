@@ -92,7 +92,7 @@ $order_histories = $db ->getMemberOrder($user['id']);
 	<!-- メイン ここまで -->
 	<!-- フッター -->
 	<footer class="footer">
-		<p>&copy;Copyright okashi days. All rights reserved.</p>
+	<p>&copy;Copyright Okashi days. All rights reserved.</p>
 	</footer>
 	<!-- フッター ここまで -->
 </div>

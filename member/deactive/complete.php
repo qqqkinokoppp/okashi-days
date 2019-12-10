@@ -45,7 +45,7 @@ Session::sessionDestroy();
     </main>
 
     <footer>
-
+	<p>&copy;Copyright Okashi days. All rights reserved.</p>
     </footer>
 </div>
 </body>

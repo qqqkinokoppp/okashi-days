@@ -57,8 +57,8 @@ $i = 0;
     <?php foreach($details as $detail):?>
     <table class="item" width="300">
         <tr>
-            <th>商品名</th>
-            <th>商品説明</th>
+            <th width="300">商品名</th>
+            <th width="400">商品説明</th>
             <td rowspan="2">
                 <form action="index.php" method="post">
                 <!--選択した商品のIDを渡す-->
@@ -73,7 +73,7 @@ $i = 0;
         </tr>
         <tr>
         <td>
-        <img src="../img/<?php print $detail['item_image'];?>">
+        <img src="../img/<?php print $detail['item_image'];?>" width="25%" height="auto">
         </td>
         </tr>
     </table>

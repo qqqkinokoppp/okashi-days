@@ -48,9 +48,10 @@ $i = 0;
 				<li><a href="../../order/cart/">カート</a></li>
 				<li><a href="./">商品カテゴリ一覧</a></li>
 				<li><a href="../../item/list.php">商品一覧</a></li>
+				<li><a href="../../contact/">お問い合わせ</a></li>
 				<!-- <li><a href="contact.html">お問い合わせ</a></li> -->
 				<?php if(!isset($user)):?>
-				<li><a href="contact.html">新規会員登録</a></li>
+				<li><a href="../../contact/">新規会員登録</a></li>
 				<li><a href="../../member/login/">ログイン</a></li>
 				<?php else:?>
 				<li><a href="../../member/">会員ページ</a></li>
@@ -76,7 +77,7 @@ $i = 0;
     </main>
 
     <footer>
-
+	<p>&copy;Copyright Okashi days. All rights reserved.</p>
     </footer>
 </div>
 </body>

@@ -80,7 +80,7 @@ $i = 0;
 				<li><a href="../item/list.php">商品一覧</a></li>
 				<!-- <li><a href="contact.html">お問い合わせ</a></li> -->
 				<?php if(!isset($user)):?>
-				<li><a href="contact.html">新規会員登録</a></li>
+				<li><a href="../member/registration/">新規会員登録</a></li>
 				<li><a href="../member/login/">ログイン</a></li>
 				<?php else:?>
 				<li><a href="../member/">会員ページ</a></li>
@@ -120,7 +120,7 @@ $i = 0;
 	<!-- メイン ここまで -->
 	<!-- フッター -->
 	<footer class="footer">
-		<p>&copy;Copyright KUJIRA Cafe. All rights reserved.</p>
+	<p>&copy;Copyright Okashi days. All rights reserved.</p>
 	</footer>
 	<!-- フッター ここまで -->
 </div>

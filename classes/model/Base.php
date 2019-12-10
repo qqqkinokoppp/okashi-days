@@ -1,16 +1,18 @@
 <?php 
+require_once('C:\xampp\htdocs\Config.php');
 
 class Base//DB接続の基底クラス
-{   /** @var string ユーザー名*/
-    protected const USER = 'root';
+{   
+    /** @var string ユーザー名*/
+    protected const USER = Config::CONFIG_USER;
     
     /** @var string データベース名、ホスト名、文字コード
      */
-    protected const DSN = 'mysql:dbname=okashi_days;host=localhost;charset=utf8';
+    protected const DSN = Config::CONFIG_DSN;
     
     /**　@var string パスワード 設定なし*/
-    protected const PASSWORD = '';
-    
+    protected const PASSWORD = Config::CONFIG_PASSWORD;
+
     /** @var object データベースハンドル　PDOインスタンス */
     protected $dbh;
     
@@ -18,7 +20,8 @@ class Base//DB接続の基底クラス
     public function __construct()
     {   
         $this ->dbh = new PDO(self::DSN, self::USER, self::PASSWORD);
-        $this ->dbh ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);//DB接続において例外発生時、PDOExceptionが投げられる
+        //DB接続において例外発生時、PDOExceptionが投げられる
+        $this ->dbh ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //print '接続成功';
     }
     
@@ -29,6 +32,7 @@ class Base//DB接続の基底クラス
     {
         $this ->dbh ->beginTransaction();
     }
+
     /**ロールバックメソッド */
     public function rollBack()
     {

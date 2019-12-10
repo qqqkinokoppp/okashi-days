@@ -76,7 +76,7 @@ $_SESSION['id']['deactive_member'] = $_SESSION['user']['id'];
     </main>
 
     <footer>
-
+    <p>&copy;Copyright Okashi days. All rights reserved.</p>
     </footer>
 </div>
 </body>

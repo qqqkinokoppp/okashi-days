@@ -234,7 +234,8 @@ class ItemManage extends Base
         $sql .='is_recommend, ';
         $sql .='is_deleted ';
         $sql .='FROM items ';//SQL文の結合をするとき、文末にスペースを入れる！！！
-        $sql .='WHERE is_deleted=0';
+        $sql .='WHERE is_deleted=0 ';
+        $sql .='ORDER BY create_date_time DESC';
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->execute();
         $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);

@@ -46,7 +46,7 @@ if(empty($_SESSION['cart']) === true)
 }
 
 Cart::addCart($item_id, $post['quantity']);
-var_dump($_SESSION['cart']);
+// var_dump($_SESSION['cart']);
 $_SESSION['quantity']['cartin'] = $post['quantity'];
 
 header("Location: cartin.php?id=$item_id");
