@@ -16,7 +16,7 @@
    */
 
   body {
-    margin: 0;
+    margin: 15;
   }
 
   /* HTML5 display definitions
@@ -259,7 +259,7 @@
   select,
   textarea {
     font: inherit; /* 1 */
-    margin: 0; /* 2 */
+    margin: 10; /* 2 */
   }
 
   /**

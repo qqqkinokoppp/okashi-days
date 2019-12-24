@@ -107,6 +107,8 @@ $i = 0;
             <?php endforeach;?>
         </table>
 
+        <input type="button" value="戻る" onclick="history.back()">
+
     </main>
 
     <footer>

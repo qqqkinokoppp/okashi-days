@@ -149,7 +149,7 @@ var mySwiper = new Swiper('.swiper-container', {
 	<!-- メイン ここまで -->
 	<!-- フッター -->
 	<footer class="footer">
-		<p>&copy;Copyright KUJIRA Cafe. All rights reserved.</p>
+		<p>&copy;Copyright Okashi days. All rights reserved.</p>
 	</footer>
 	<!-- フッター ここまで -->
 </div>

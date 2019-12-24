@@ -121,7 +121,7 @@ unset($_SESSION['token']);
                         <form action="./member/edit/acount/disp.php" method="post">
                             <input type="submit" value="会員情報修正">
                         </form>
-                        <form action="#" method="post">
+                        <form action="./member/order_history/disp.php" method="post">
                             <input type="submit" value="購入履歴確認">
                         </form>
                         <form action="./member/deactive/disp.php" method="post">

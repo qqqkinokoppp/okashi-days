@@ -30,8 +30,8 @@ $db = new ItemManage();
 $details = $db ->getCategoryDetail($category_id);
 $category = $db ->getCategory($category_id);
 
-var_dump($details);
-var_dump($category);
+// var_dump($details);
+// var_dump($category);
 
 //foreach用カウンターの初期化
 $i = 0;

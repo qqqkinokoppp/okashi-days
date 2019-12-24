@@ -105,9 +105,9 @@ if(mb_strlen($post['contact_content']) >= 1000)
 $db = new ContactManage();
 $contact_category = $db ->getContactCategory($post['contact_category_id']);
 $contact_trigger = $db ->getTrigger($post['contact_trigger_id']);
-var_dump($contact_category);
-var_dump($contact_trigger);
-var_dump($_SESSION['post']['contact']);
+// var_dump($contact_category);
+// var_dump($contact_trigger);
+// var_dump($_SESSION['post']['contact']);
 
 // $_SESSION['post']['contact'] = $post;
 // $_SESSION['post']['contact']['postal_code'] = $post['postal_code1'] . $post['postal_code2'];

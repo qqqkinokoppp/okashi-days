@@ -188,6 +188,8 @@ class Order extends Base
     {
         $sql = 'SELECT ';
         $sql .= 'orders.id AS order_id, ';
+        $sql .= 'orders.member_last_name AS last_name, ';
+        $sql .= 'orders.member_first_name AS first_name, ';
         $sql .= 'order_date_time, ';
         $sql .= 'total, ';
         $sql .= 'unit_price, ';

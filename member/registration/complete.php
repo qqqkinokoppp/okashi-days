@@ -136,11 +136,13 @@ $add_member = $_SESSION['post']['add_member'];
         <input type="button" value="ログイン画面へ" onclick="location.href='../login/'">
     </main>
 
-    <footer>
+    <!-- <footer>
     <p>&copy;Copyright Okashi days. All rights reserved.</p>
-    </footer>
+    </footer> -->
 </div>
+
 </body>
+
 <br>
 <br>
 </html>

@@ -1,5 +1,5 @@
 <?php
-require_once("../../../../../Config.php");
+require_once("../../../../Config.php");
 // 必要なクラスのファイルを読み込む
 require_once(Config::APP_ROOT_DIR.'/classes/util/Session.php');
 require_once(Config::APP_ROOT_DIR.'/classes/model/Base.php');
@@ -25,20 +25,19 @@ $edit_members = $db ->getMemberAll();
 $i = 0;
 
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>会員情報修正</title>
-<link rel="stylesheet" href="../../../css/normalize.css">
-<link rel="stylesheet" href="../../../css/main.css">
+<title>会員購入履歴確認</title>
+<link rel="stylesheet" href="../../css/normalize.css">
+<link rel="stylesheet" href="../../css/main.css">
 </head>
 <body>
 <div class="container">
     <header>
         <div class="title">
-            <h1>会員情報修正</h1>
+            <h1>会員購入履歴確認</h1>
         </div>
         <div class="login_info">
             <ul>
@@ -58,7 +57,7 @@ $i = 0;
             <tr>
                 <th colspan="6">会員一覧</th>
             </tr>
-            <th>ユーザー名</th><th>会員氏名</th><th>会員氏名（カナ）</th><th>都道府県</th><th>電話番号</th><th>修正</th>
+            <th>ユーザー名</th><th>会員氏名</th><th>会員氏名（カナ）</th><th>都道府県</th><th>電話番号</th><th>購入履歴確認</th>
             <?php foreach($edit_members as $edit_member):?>
             <?php if($i%2 === 0):?>
             <tr class="even">
@@ -98,7 +97,7 @@ $i = 0;
                     <form action="index.php" method="post">
                     <!--選択したユーザーのIDを渡す-->
                         <input type="hidden" name="user_id" value="<?php print $edit_member['id'];?>">
-                        <input type="submit" value="修正">
+                        <input type="submit" value="購入履歴確認">
                     </form>
                 </td>
                 <?php ?>
@@ -106,8 +105,9 @@ $i = 0;
             <?php $i++;?>
             <?php endforeach;?>
         </table>
+        <form>
         <input type="button" value="戻る" onclick="history.back()">
-
+        </form>
     </main>
 
     <footer>
