@@ -64,14 +64,14 @@ $i = 0;
     <main>
         <h2>商品カテゴリ一覧</h2>
             <?php foreach($categories as $category):?>
+				<div class="menu-item">
                     <a href="./list.php?id=<?= $category['id']?>">
+					<h4><?= $category['item_category_name'];?></h4>
                     <img src="../../admin/item/category/img/<?= $category['item_category_image']?>" width="25%" height="auto">
-                    <?= $category['item_category_name'];?>
                     </a>
-                    <br>
+				</div>
             <?php $i++;?>
             <?php endforeach;?>
-        </table>
         <input type="button" value="戻る" onclick="location.href='../../';">
 
     </main>

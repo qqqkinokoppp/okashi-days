@@ -205,6 +205,7 @@ class Order extends Base
         $sql .= 'JOIN items ';
         $sql .= 'ON items.id = order_detail.item_id ';
         $sql .= 'WHERE orders.member_id = :id ';
+        $sql .= 'ORDER BY order_date_time ASC ';        
         
         $stmt = $this ->dbh -> prepare($sql);
         $stmt ->bindValue(':id', $id, PDO::PARAM_INT);

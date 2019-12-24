@@ -78,7 +78,8 @@ class ContactManage extends Base
         $sql .='FROM contact ';
         $sql .='JOIN  ';
         $sql .='WHERE is_deleted=0 ';
-        $sql .='AND id=:id';
+        $sql .='AND id=:id ';
+        $sql .='ORDER BY id';
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt ->execute();
@@ -118,6 +119,7 @@ class ContactManage extends Base
         $sql .= 'contact_category ';
         $sql .= 'FROM contact_category ';
         $sql .= 'WHERE is_deleted=0 ';
+        $sql .= 'ORDER BY id ';
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->execute();
         $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);
@@ -137,6 +139,7 @@ class ContactManage extends Base
         $sql .='FROM contact_category ';
         $sql .='WHERE is_deleted=0 ';
         $sql .='AND id=:id ';
+        $sql .= 'ORDER BY id';
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt ->execute();
@@ -208,6 +211,7 @@ class ContactManage extends Base
         $sql .='contact_trigger ';
         $sql .='FROM contact_trigger ';
         $sql .='WHERE is_deleted=0 ';
+        $sql .= 'ORDER BY id ';
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->execute();
         $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);
@@ -314,7 +318,7 @@ class ContactManage extends Base
     public function getContactAll()
     {
         $sql = '';
-        $sql .='SELECT id,';//SQL文の結合をするとき、文末にスペースを入れる！！！
+        $sql .= 'SELECT id,';//SQL文の結合をするとき、文末にスペースを入れる！！！
         $sql .= 'name, ';
         $sql .= 'postal_code, ';
         $sql .= 'address1,';
@@ -326,12 +330,13 @@ class ContactManage extends Base
         $sql .= 'contact_content, ';
         $sql .= 'contact_category, ';
         $sql .= 'contact_trigger ';
-        $sql .='FROM contact ';
-        $sql .='JOIN contact_trigger ';
-        $sql .='ON contact.trigger_id = contact_trigger.id ';
-        $sql .='JOIN contact_category ';
-        $sql .='ON contact.contact_category_id = contact_category.id ';
-        $sql .='WHERE is_deleted=0';
+        $sql .= 'FROM contact ';
+        $sql .= 'JOIN contact_trigger ';
+        $sql .= 'ON contact.trigger_id = contact_trigger.id ';
+        $sql .= 'JOIN contact_category ';
+        $sql .= 'ON contact.contact_category_id = contact_category.id ';
+        $sql .= 'WHERE is_deleted=0';
+        $sql .= 'ORDER BY id ';
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->execute();
         $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);

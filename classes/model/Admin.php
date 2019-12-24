@@ -128,7 +128,8 @@ class Admin extends Base
     {
         $sql = '';
         $sql .='SELECT id,user_name,password,name,email,is_login_allowed,is_deleted FROM administrators ';//SQL文の結合をするとき、文末にスペースを入れる！！！
-        $sql .='WHERE is_deleted=0';
+        $sql .='WHERE is_deleted=0 ';
+        $sql .='ORDER BY id';
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->execute();
         $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);
@@ -144,7 +145,9 @@ class Admin extends Base
     {
         $sql = '';
         $sql .='SELECT id,user_name FROM administrators ';//SQL文の結合をするとき、文末にスペースを入れる！！！
-        $sql .='WHERE is_deleted=0';
+        $sql .='WHERE is_deleted=0 ';
+        $sql .='ORDER BY id ';
+
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->execute();
         $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);
