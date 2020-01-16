@@ -107,9 +107,9 @@ if(!($post['password'] === $post['password2']))
 }
 
 //パスワードのバリデーション
-if(((preg_match('/^[a-zA-Z0-9]+$/',$post['password'])) === 0)||(preg_match('/^[a-zA-Z0-9]+$/',$post['password2'])) === 0)
+if(((preg_match('/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z\-]{12,}$/u',$post['password'])) === 0)||(preg_match('/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z\-]{12,}$/u',$post['password2'])) === 0)
 {
-    $_SESSION['error']['add_admin'] = 'パスワードは半角英数で入力してください。';
+    $_SESSION['error']['add_admin'] = 'パスワードは半角英数の大文字、小文字、数字を含んた12桁以上で入力してください。';
     // print '通った';
     // exit;
     header('Location:./index.php');

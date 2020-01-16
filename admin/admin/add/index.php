@@ -115,7 +115,7 @@ if(isset($_SESSION['post']['add_admin']))
             </table>
             <!-- ワンタイムトークン -->
             <input type="hidden" name="token" value="<?=Safety::getToken()?>">
-            <input type="submit" value="確認画面へ">
+            <input type="submit" value="確認画面へ" onclick="validate()">
             <input type="button" value="キャンセル" onclick="location.href='../../';">
         </form>
 
@@ -126,5 +126,18 @@ if(isset($_SESSION['post']['add_admin']))
 
     </footer>
 </div>
+
+<script>
+    function validate() {
+        const pass = document.getElementById('password').value;
+        const pass2 = document.getElementById('password2').value;
+        var result1 = pass.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z\-]{12,}$/u);
+        var result2 = pass.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z\-]{12,}$/u);
+        // console.log('通った');
+        if (result1 == null || result2 == null) {
+            alert('パスワードは半角英数の大文字、小文字、数字を含んた12桁以上で入力してください。');
+        }
+    }
+</script>
 </body>
 </html>
