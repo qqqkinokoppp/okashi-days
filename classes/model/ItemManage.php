@@ -310,20 +310,21 @@ class ItemManage extends Base
     public function getRecommendDetail()
     {
         $sql = '';
-        $sql .='SELECT id, ';
-        $sql .='item_category_id, ';
-        $sql .='item_name, ';
-        $sql .='item_model_number, ';
-        $sql .='item_description, ';
-        $sql .='allergy_item, ';
-        $sql .='item_detail, ';
-        $sql .='unit_price, ';
-        $sql .='item_image, ';
-        $sql .='is_recommend, ';
-        $sql .='is_deleted ';
-        $sql .='FROM items ';//SQL文の結合をするとき、文末にスペースを入れる！！！
-        $sql .='WHERE is_deleted=0 ';
-        $sql .='AND is_recommend=1';
+        $sql .= 'SELECT id, ';
+        $sql .= 'item_category_id, ';
+        $sql .= 'item_name, ';
+        $sql .= 'item_model_number, ';
+        $sql .= 'item_description, ';
+        $sql .= 'allergy_item, ';
+        $sql .= 'item_detail, ';
+        $sql .= 'unit_price, ';
+        $sql .= 'item_image, ';
+        $sql .= 'is_recommend, ';
+        $sql .= 'is_deleted ';
+        $sql .= 'FROM items ';//SQL文の結合をするとき、文末にスペースを入れる！！！
+        $sql .= 'WHERE is_deleted=0 ';
+        $sql .= 'AND is_recommend=1 ';
+        $sql .= 'ORDER BY id ';
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->execute();
         $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);
@@ -353,8 +354,9 @@ class ItemManage extends Base
     public function getCategoryAll()
     {
         $sql = '';
-        $sql .='SELECT id,item_category_name,item_category_image,is_deleted FROM item_categories ';//SQL文の結合をするとき、文末にスペースを入れる！！！
-        $sql .='WHERE is_deleted=0';
+        $sql .= 'SELECT id,item_category_name,item_category_image,is_deleted FROM item_categories ';//SQL文の結合をするとき、文末にスペースを入れる！！！
+        $sql .= 'WHERE is_deleted=0 ';
+        $sql .= 'ORDER BY id ';
         $stmt = $this ->dbh ->prepare($sql);
         $stmt ->execute();
         $rec = $stmt ->fetchAll(PDO::FETCH_ASSOC);
