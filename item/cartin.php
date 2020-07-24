@@ -67,7 +67,7 @@ $i = 0;
 <div class="wrapper">
 	<!-- ヘッダー -->
 	<header class="header">
-		<h1 class="logo"><a href="index.html"><img src="../images/okashi_days_logo.png" alt="okashi days."></a></h1>
+		<h1 class="logo"><a href="../"><img src="../images/okashi_days_logo.png" alt="okashi days."></a></h1>
 		<?php if(isset($user) === true):?>
 		<p>ようこそ、<?= $user['last_name'].' '.$user['last_name'].'さん';?></p>
 		<?php endif;?>
