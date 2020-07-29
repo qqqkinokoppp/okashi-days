@@ -1,18 +1,18 @@
 <?php 
-require_once('../../../../../Config.php');
+require_once('../../../../classes/Config.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Session.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
 
 //セッション開始
 Session::sessionStart();
-if(!isset($_SESSION['user']))
+if(!isset($_SESSION['admin_user']))
 {
     header('Location: ../../../login/');
     exit;
 }
 else
 {
-    $user = $_SESSION['user'];
+    $user = $_SESSION['admin_user'];
 }
 
 $post = Common::sanitize($_POST);
@@ -28,8 +28,8 @@ $categoryName = $_SESSION['post']['add_contact_category']['contact_category'];
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>お問い合わせカテゴリ登録完了</title>
-<link rel="stylesheet" href="/okashi_days/admin/css/normalize.css">
-<link rel="stylesheet" href="/okashi_days/admin/css/main.css">
+<link rel="stylesheet" href="../../../css/normalize.css">
+<link rel="stylesheet" href="../../../css/main.css">
 </head>
 <body>
 <div class="container">

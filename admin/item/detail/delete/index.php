@@ -1,6 +1,6 @@
 <?php 
 //設定ファイルの読み込み
-require_once('../../../../../Config.php');
+require_once('../../../../classes/Config.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Session.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
@@ -11,14 +11,14 @@ require_once(Config::APP_ROOT_DIR.'classes/model/ItemManage.php');
 Session::sessionStart();
 
 //ログインしているユーザーの情報を変数に格納
-if(!isset($_SESSION['user']))
+if(!isset($_SESSION['admin_user']))
 {
     header('Location: ../../../login/login.php');
     exit;
 }
 else
 {
-    $user = $_SESSION['user'];
+    $user = $_SESSION['admin_user'];
 }
 
 //サニタイズ
@@ -54,8 +54,8 @@ $category = $db ->getCategory($detail['item_category_id']);
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>商品詳細削除</title>
-<link rel="stylesheet" href="/okashi_days/admin/css/normalize.css">
-<link rel="stylesheet" href="/okashi_days/admin/css/main.css">
+<link rel="stylesheet" href="../../../css/normalize.css">
+<link rel="stylesheet" href="../../../css/main.css">
 </head>
 <body>
 <div class="container">

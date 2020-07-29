@@ -1,21 +1,21 @@
 <?php 
-require_once('../../../../../Config.php');
+require_once('../../../../classes/Config.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Session.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
 
 //セッション開始
 Session::sessionStart();
-if(!isset($_SESSION['user']))
+if(!isset($_SESSION['admin_user']))
 {
     header('Location: ../../login/');
     exit;
 }
 else
 {
-    $user = $_SESSION['user'];
+    $user = $_SESSION['admin_user'];
 }
 
-var_dump($_SESSION['post']['edit_contact_trigger']);
+// var_dump($_SESSION['post']['edit_contact_trigger']);
 $category_name = $_SESSION['post']['edit_contact_trigger']['contact_trigger'];
 
 //使い終わったセッションの破棄
@@ -27,8 +27,8 @@ $category_name = $_SESSION['post']['edit_contact_trigger']['contact_trigger'];
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>サイトを知ったきっかけ修正完了</title>
-<link rel="stylesheet" href="/okashi_days/admin/css/normalize.css">
-<link rel="stylesheet" href="/okashi_days/admin/css/main.css">
+<link rel="stylesheet" href="../../../css/normalize.css">
+<link rel="stylesheet" href="../../../css/main.css">
 </head>
 <body>
 <div class="container">
@@ -41,7 +41,7 @@ $category_name = $_SESSION['post']['edit_contact_trigger']['contact_trigger'];
                 <li>ようこそ<?php print $user['name'];?>さん</li>
                 <li>
                     <form>
-                        <input type="button" value="ログアウト" onclick="location.href='../../../../login/logout.php';">
+                        <input type="button" value="ログアウト" onclick="location.href='../../../login/logout.php';">
                     </form>
                 </li>
             </ul>

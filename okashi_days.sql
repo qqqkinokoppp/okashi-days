@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: 
--- サーバのバージョン： 10.1.40-MariaDB
--- PHP Version: 7.3.5
+-- ホスト: 127.0.0.1
+-- 生成日時: 2020-07-27 08:28:40
+-- サーバのバージョン： 10.4.13-MariaDB
+-- PHP のバージョン: 7.4.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `okashi_days`
+-- データベース: `katachi0501_0017`
 --
 
 -- --------------------------------------------------------
@@ -34,10 +33,10 @@ CREATE TABLE `administrators` (
   `password` varchar(255) NOT NULL COMMENT 'パスワード',
   `name` varchar(50) NOT NULL COMMENT '管理者氏名',
   `email` varchar(255) NOT NULL COMMENT 'メールアドレス',
-  `is_login_allowed` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'ログイン許可',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ',
-  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+  `is_login_allowed` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'ログイン許可',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '削除フラグ',
+  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -45,7 +44,9 @@ CREATE TABLE `administrators` (
 --
 
 INSERT INTO `administrators` (`id`, `user_name`, `password`, `name`, `email`, `is_login_allowed`, `is_deleted`, `create_date_time`, `update_date_time`) VALUES
-(1, 'test1', '$2y$10$IDvdvXHnX/.e5wPq2Xwb4eDIO5g2AFAlk95Mrb3IdUIsSOCq8Wzui', 'テスト花子', 'test@co.jp', 1, 1, '2019-08-16 15:41:32', '2019-08-23 11:19:48');
+(10, 'test8', '$2y$10$4Cyd4o0kWcXG1BMXPmjmXePOQoAtFbXXEXLd0L6XYqBlubTlieFvK', '新米花子', 't@co.jp', 1, 0, '2019-10-28 13:05:55', '2019-10-28 13:05:55'),
+(11, 'test9', '$2y$10$BrFZvxEYnbHS4hfQsxVVDuRHgXMHtAeQz285nafwwkGPCTMvm7be6', 'admin', 't@co.jp', 1, 0, '2020-01-16 10:11:53', '2020-01-16 10:11:53');
+
 -- --------------------------------------------------------
 
 --
@@ -55,9 +56,9 @@ INSERT INTO `administrators` (`id`, `user_name`, `password`, `name`, `email`, `i
 CREATE TABLE `allergy_items` (
   `id` int(11) NOT NULL COMMENT 'ID',
   `allergy_item` varchar(20) NOT NULL COMMENT 'アレルギー品目名',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ',
-  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '削除フラグ',
+  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -84,8 +85,8 @@ CREATE TABLE `area_delivery_charge` (
   `id` int(11) NOT NULL COMMENT 'ID',
   `delivery_charge` int(11) NOT NULL COMMENT '地域別送料',
   `area_name` varchar(20) NOT NULL COMMENT '地域名',
-  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -121,10 +122,20 @@ CREATE TABLE `contact` (
   `trigger_id` int(11) NOT NULL COMMENT 'サイトを知ったきっかけID',
   `contact_category_id` int(11) NOT NULL COMMENT '問い合わせカテゴリID',
   `contact_content` varchar(1000) DEFAULT NULL COMMENT '問い合わせ内容',
-  `create_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
-  `update_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日時',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ'
+  `create_datetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
+  `update_datetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '更新日時',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '削除フラグ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- テーブルのデータのダンプ `contact`
+--
+
+INSERT INTO `contact` (`id`, `name`, `postal_code`, `prefecture`, `address1`, `address2`, `email`, `phone_number`, `trigger_id`, `contact_category_id`, `contact_content`, `create_datetime`, `update_datetime`, `is_deleted`) VALUES
+(1, 'テスト太郎', '5440000', '', '大阪市生野区', '', 'hoge@example.com', '000-0000-0000', 1, 1, '0', '2019-10-12 15:42:02', '2019-10-12 15:42:02', 0),
+(2, 'きのこ', '5320002', '大阪府', '大阪市淀川区', '東三国', 'test@co.jp', '000-0000-0002', 3, 3, '0', '2019-10-15 15:39:02', '2019-10-15 15:39:02', 0),
+(3, 'テスト太郎', '5440000', '大阪府', '大阪市生野区', '', 'hoge@example.com', '000-0000-0000', 1, 1, 'とてもまずい', '2019-10-16 11:14:10', '2019-10-16 11:14:10', 0),
+(4, 'てすと', '5500011', '大阪府', '大阪市西区', '阿波座', 't@co.jp', '000-0000-0007', 3, 1, '愛情が感じられておいしいです', '2019-12-12 10:28:32', '2019-12-12 10:28:32', 0);
 
 -- --------------------------------------------------------
 
@@ -135,20 +146,20 @@ CREATE TABLE `contact` (
 CREATE TABLE `contact_category` (
   `id` int(11) NOT NULL COMMENT 'ID',
   `contact_category` varchar(50) NOT NULL COMMENT 'お問い合わせカテゴリ',
-  `create_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ',
-  `update_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日時'
+  `create_datetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '削除フラグ',
+  `update_datetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --
--- -- テーブルのデータのダンプ `contact_category`
--- --
+--
+-- テーブルのデータのダンプ `contact_category`
+--
 
--- INSERT INTO `contact_category` (`id`, `contact_category`, `create_datetime`, `is_deleted`, `update_datetime`) VALUES
--- (1, '商品について', '2019-10-12 13:10:50', 0, '2019-10-12 13:22:06'),
--- (2, 'サイトについて', '2019-10-12 13:10:50', 0, '2019-10-12 13:22:06'),
--- (3, 'そのた', '2019-10-12 13:10:50', 0, '2019-10-12 13:22:06'),
--- (4, '苦情', '2019-10-15 09:39:05', 1, '2019-10-15 09:39:05');
+INSERT INTO `contact_category` (`id`, `contact_category`, `create_datetime`, `is_deleted`, `update_datetime`) VALUES
+(1, '商品について', '2019-10-12 13:10:50', 0, '2019-10-12 13:22:06'),
+(2, 'サイトについて', '2019-10-12 13:10:50', 0, '2019-10-12 13:22:06'),
+(3, 'そのた', '2019-10-12 13:10:50', 0, '2019-10-12 13:22:06'),
+(4, '苦情', '2019-10-15 09:39:05', 0, '2019-10-15 09:39:05');
 
 -- --------------------------------------------------------
 
@@ -160,21 +171,21 @@ CREATE TABLE `contact_trigger` (
   `id` int(11) NOT NULL COMMENT 'ID',
   `contact_trigger` varchar(50) NOT NULL COMMENT 'サイトを知ったきっかけ',
   `is_deleted` tinyint(4) NOT NULL COMMENT '削除フラグ',
-  `create_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
-  `update_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `create_datetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
+  `update_datetime` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- テーブルのデータのダンプ `contact_trigger`
 --
 
--- INSERT INTO `contact_trigger` (`id`, `contact_trigger`, `is_deleted`, `create_datetime`, `update_datetime`) VALUES
--- (1, '友人・知り合いからの紹介', 0, '2019-10-12 13:16:22', '2019-10-12 13:20:35'),
--- (2, '雑誌・web', 0, '2019-10-12 13:16:22', '2019-10-12 13:20:35'),
--- (3, 'そのた', 0, '2019-10-12 13:16:22', '2019-10-12 13:20:35'),
--- (4, 'なんとなく', 1, '2019-10-15 11:39:42', '2019-10-15 11:39:42');
+INSERT INTO `contact_trigger` (`id`, `contact_trigger`, `is_deleted`, `create_datetime`, `update_datetime`) VALUES
+(1, '友人・知り合いからの紹介', 0, '2019-10-12 13:16:22', '2019-10-12 13:20:35'),
+(2, '雑誌・web', 0, '2019-10-12 13:16:22', '2019-10-12 13:20:35'),
+(3, 'そのた', 0, '2019-10-12 13:16:22', '2019-10-12 13:20:35'),
+(4, 'なんとなく', 1, '2019-10-15 11:39:42', '2019-10-15 11:39:42');
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- テーブルの構造 `items`
@@ -190,31 +201,32 @@ CREATE TABLE `items` (
   `item_detail` varchar(500) NOT NULL COMMENT '商品詳細',
   `unit_price` int(11) NOT NULL COMMENT '単価',
   `item_image` varchar(100) NOT NULL COMMENT '商品画像',
-  `is_recommend` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'おすすめフラグ',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ',
-  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+  `is_recommend` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'おすすめフラグ',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '削除フラグ',
+  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- テーブルのデータのダンプ `items`
 --
 
--- INSERT INTO `items` (`id`, `item_category_id`, `item_name`, `item_model_number`, `item_description`, `allergy_item`, `item_detail`, `unit_price`, `item_image`, `is_recommend`, `is_deleted`, `create_date_time`, `update_date_time`) VALUES
--- (3, 17, 'カスタードシュークリーム', 'AAAA22222', 'カスタードシュークリーム', '[\"3\",\"4\",\"6\"]', '濃厚カスタードクリームのシュークリーム     ', 200, 'choucream.png', 1, 1, '2019-08-31 13:48:30', '2019-09-06 14:38:36'),
--- (5, 19, '抹茶わらび餅', 'BBBB1111', '抹茶味のわらび餅', '[\"8\"]', '濃い抹茶の風味がします', 300, 'warabi_mochi.jpg', 1, 1, '2019-08-31 14:52:25', '2019-09-23 10:35:34'),
--- (6, 23, 'プチフィナンシェ', 'ABAB1111', '小さくてかわいいフィナンシェ', '[\"3\",\"4\",\"6\"]', 'プレーン、抹茶、チョコ風味があります。', 600, 'finanshe.png', 1, 1, '2019-09-06 14:57:22', '2019-10-11 11:10:33'),
--- (7, 17, 'クッキーシュークリーム', 'BABA3333', '表面がカリカリのクッキーシュー', '[\"3\",\"4\"]', '中にはカスタードクリームがたっぷり入っています。', 150, 'cookie_chou.png', 1, 1, '2019-09-06 15:01:03', '2019-09-23 10:35:52'),
--- (8, 23, '春菊のパウンドケーキ', 'AAAA1234', '春菊の香りがすごい！！！', '[\"3\",\"4\",\"6\"]', 'クセが強いですが、それがまたクセになる！！！ ', 700, 'syungiku_cake.jpg', 1, 0, '2019-09-23 10:31:21', '2019-09-27 15:27:34'),
--- (9, 19, 'カラフル金平糖', 'ABAB00001', 'カラフルでかわいい金平糖です', '[\"8\"]', 'ついつい手が伸びてしまう＞＜', 300, 'konpeitou.jpg', 0, 0, '2019-09-23 10:34:29', '2019-09-23 10:34:29'),
--- (10, 23, '絞りだしクッキー', 'AAABBB1421', '星のかたちに絞り出したかわいいクッキーです。', '[\"3\",\"4\",\"6\"]', '星のかたちに絞り出したかわいいクッキーです。小さいのでパクパク食べちゃいます！', 200, 'shiboridashi_cookie.jpg', 0, 0, '2019-09-23 10:38:24', '2019-10-11 11:10:33'),
--- (11, 23, 'にんじんケーキ', 'ABCA2365', 'すりおろしたにんじんがたっぷり入ったケーキです。', '[\"3\",\"4\",\"6\"]', 'にんじんのほんのりとした甘みがおいしいケーキです。にんじん嫌いなお子さんでも食べられます！', 560, 'ninzin_cake.jpg', 1, 0, '2019-09-23 10:40:34', '2019-10-11 11:10:33'),
--- (12, 23, 'カラフルマカロン', 'MAAA5698', 'カラフルでかわいいマカロンです。', '[\"4\"]', 'カラフルでかわいいマカロンです。贈り物などにもどうぞ！  ', 600, 'macaron.jpg', 1, 0, '2019-09-23 10:53:57', '2019-09-27 15:20:54'),
--- (13, 24, 'ブロークンハートチョコ', 'BRHT1010', '真っ二つに割れたハート型のチョコレート', '[\"6\"]', '真っ二つに割れたハート型のチョコレート。いろいろなシーンで使えます！  ', 350, 'mapputatu_heart_choko.jpg', 1, 0, '2019-09-26 09:29:11', '2019-09-28 14:16:46'),
--- (14, 25, 'いちごのプチショートケーキ', 'ICH10000', 'ミニサイズのショートケーキです♡', '[\"3\",\"4\",\"6\"]', '甘酸っぱいイチゴと生クリームの組み合わせがとてもおいしいです！', 250, 'short_cake.jpg', 1, 0, '2019-09-26 09:36:25', '2019-09-26 09:36:25'),
--- (15, 19, 'こしあんおはぎ', 'CSAN1369', 'なめらかなこしんのおはぎです。', '[\"8\"]', '素朴な味のおはぎ。緑茶との相性ピッタリです！ ', 180, 'ohagi.jpeg', 0, 0, '2019-10-25 11:21:23', '2019-10-25 11:25:39');
+INSERT INTO `items` (`id`, `item_category_id`, `item_name`, `item_model_number`, `item_description`, `allergy_item`, `item_detail`, `unit_price`, `item_image`, `is_recommend`, `is_deleted`, `create_date_time`, `update_date_time`) VALUES
+(3, 17, 'カスタードシュークリーム', 'AAAA22222', 'カスタードシュークリーム', '[\"3\",\"4\",\"6\"]', '濃厚カスタードクリームのシュークリーム     ', 200, 'choucream.png', 1, 1, '2019-08-31 13:48:30', '2019-09-06 14:38:36'),
+(5, 19, '抹茶わらび餅', 'BBBB1111', '抹茶味のわらび餅', '[\"8\"]', '濃い抹茶の風味がします', 300, 'warabi_mochi.jpg', 1, 1, '2019-08-31 14:52:25', '2019-09-23 10:35:34'),
+(6, 23, 'プチフィナンシェ', 'ABAB1111', '小さくてかわいいフィナンシェ', '[\"3\",\"4\",\"6\"]', 'プレーン、抹茶、チョコ風味があります。', 600, 'finanshe.png', 1, 1, '2019-09-06 14:57:22', '2019-10-11 11:10:33'),
+(7, 17, 'クッキーシュークリーム', 'BABA3333', '表面がカリカリのクッキーシュー', '[\"3\",\"4\"]', '中にはカスタードクリームがたっぷり入っています。', 150, 'cookie_chou.png', 1, 1, '2019-09-06 15:01:03', '2019-09-23 10:35:52'),
+(8, 23, '春菊のパウンドケーキ', 'AAAA1234', '春菊の香りがすごい！！！', '[\"3\",\"4\",\"6\"]', 'クセが強いですが、それがまたクセになる！！！ ', 700, 'syungiku_cake.jpg', 1, 0, '2019-09-23 10:31:21', '2019-09-27 15:27:34'),
+(9, 19, 'カラフル金平糖', 'ABAB00001', 'カラフルでかわいい金平糖です', '[\"8\"]', 'ついつい手が伸びてしまう＞＜', 300, 'konpeitou.jpg', 0, 0, '2019-09-23 10:34:29', '2019-09-23 10:34:29'),
+(10, 23, '絞りだしクッキー', 'AAABBB1421', '星のかたちに絞り出したかわいいクッキーです。', '[\"3\",\"4\",\"6\"]', '星のかたちに絞り出したかわいいクッキーです。小さいのでパクパク食べちゃいます！', 200, 'shiboridashi_cookie.jpg', 0, 0, '2019-09-23 10:38:24', '2019-10-11 11:10:33'),
+(11, 23, 'にんじんケーキ', 'ABCA2365', 'すりおろしたにんじんがたっぷり入ったケーキです。', '[\"3\",\"4\",\"6\"]', 'にんじんのほんのりとした甘みがおいしいケーキです。にんじん嫌いなお子さんでも食べられます！', 560, 'ninzin_cake.jpg', 1, 0, '2019-09-23 10:40:34', '2019-10-11 11:10:33'),
+(12, 23, 'カラフルマカロン', 'MAAA5698', 'カラフルでかわいいマカロンです。', '[\"4\"]', 'カラフルでかわいいマカロンです。贈り物などにもどうぞ！  ', 600, 'macaron.jpg', 1, 0, '2019-09-23 10:53:57', '2019-09-27 15:20:54'),
+(13, 24, 'ブロークンハートチョコ', 'BRHT1010', '真っ二つに割れたハート型のチョコレート', '[\"6\"]', '真っ二つに割れたハート型のチョコレート。いろいろなシーンで使えます！  ', 350, 'mapputatu_heart_choko.jpg', 1, 0, '2019-09-26 09:29:11', '2019-09-28 14:16:46'),
+(14, 25, 'いちごのプチショートケーキ', 'ICH10000', 'ミニサイズのショートケーキです♡', '[\"3\",\"4\",\"6\"]', '甘酸っぱいイチゴと生クリームの組み合わせがとてもおいしいです！', 250, 'short_cake.jpg', 1, 0, '2019-09-26 09:36:25', '2019-09-26 09:36:25'),
+(15, 19, 'こしあんおはぎ', 'CSAN1369', 'なめらかなこしんのおはぎです。', '[\"8\"]', '素朴な味のおはぎ。緑茶との相性ピッタリです！ ', 180, 'ohagi.jpeg', 0, 1, '2019-10-25 11:21:23', '2019-12-12 11:27:39'),
+(18, 25, 'クリスマスケーキ2019', 'XMAS2019', 'okashi days初めてのクリスマス！', '[\"3\",\"4\",\"6\"]', '大切な人と・・・', 5600, 'christmas_cake.png', 1, 0, '2019-10-28 13:09:16', '2019-10-28 13:09:16');
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- テーブルの構造 `item_categories`
@@ -224,25 +236,25 @@ CREATE TABLE `item_categories` (
   `id` int(11) NOT NULL COMMENT 'ID',
   `item_category_name` varchar(100) NOT NULL COMMENT '商品カテゴリ名',
   `item_category_image` varchar(100) NOT NULL COMMENT '商品カテゴリ画像',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ',
-  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '削除フラグ',
+  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- テーブルのデータのダンプ `item_categories`
 --
 
--- INSERT INTO `item_categories` (`id`, `item_category_name`, `item_category_image`, `is_deleted`, `create_date_time`, `update_date_time`) VALUES
--- (16, 'ロールケーキ', 'roll_cake.jpg', 1, '2019-08-29 10:24:21', '2019-09-06 11:40:04'),
--- (18, 'シュークリーム', 'choucream.jpg', 0, '2019-08-30 11:22:48', '2019-10-11 10:36:39'),
--- (19, '和菓子', 'wagashi.jpg', 0, '2019-10-11 10:35:33', '2019-10-11 10:35:33'),
--- (22, 'マシュマロ', 'mashumaro.jpg', 0, '2019-09-25 14:11:37', '2019-09-25 14:11:37'),
--- (23, '焼き菓子', 'ninzin_cake.jpg', 0, '2019-09-25 14:38:15', '2019-09-25 14:38:15'),
--- (24, 'チョコレート', 'choko.jpg', 0, '2019-09-26 09:27:55', '2019-09-27 15:10:33'),
--- (25, '生洋菓子', 'short_cake.jpg', 0, '2019-09-26 09:34:02', '2019-09-26 09:34:02');
+INSERT INTO `item_categories` (`id`, `item_category_name`, `item_category_image`, `is_deleted`, `create_date_time`, `update_date_time`) VALUES
+(16, 'ロールケーキ', 'roll_cake.jpg', 1, '2019-08-29 10:24:21', '2019-09-06 11:40:04'),
+(18, 'シュークリーム', 'choucream.jpg', 0, '2019-08-30 11:22:48', '2019-10-11 10:36:39'),
+(19, '和菓子', 'wagashi.jpg', 0, '2019-10-11 10:35:33', '2019-10-11 10:35:33'),
+(22, 'マシュマロ', 'mashumaro.jpg', 1, '2019-09-25 14:11:37', '2019-10-28 13:10:10'),
+(23, '焼き菓子', 'ninzin_cake.jpg', 0, '2019-09-25 14:38:15', '2019-09-25 14:38:15'),
+(24, 'チョコレート', 'choko.jpg', 0, '2019-09-26 09:27:55', '2019-09-27 15:10:33'),
+(25, '生洋菓子', 'short_cake.jpg', 0, '2019-09-26 09:34:02', '2019-09-26 09:34:02');
 
--- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- テーブルの構造 `members`
@@ -265,27 +277,29 @@ CREATE TABLE `members` (
   `address2` varchar(100) NOT NULL COMMENT '住所2（番地・建物名）',
   `phone_number` varchar(20) NOT NULL COMMENT '電話番号',
   `email` varchar(255) NOT NULL COMMENT 'メールアドレス',
-  `is_deactive` tinyint(4) NOT NULL DEFAULT '0' COMMENT '退会フラグ',
-  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+  `is_deactive` tinyint(4) NOT NULL DEFAULT 0 COMMENT '退会フラグ',
+  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --
--- -- テーブルのデータのダンプ `members`
--- --
+--
+-- テーブルのデータのダンプ `members`
+--
 
--- INSERT INTO `members` (`id`, `user_name`, `password`, `last_name`, `first_name`, `last_name_kana`, `first_name_kana`, `birthday`, `gender`, `postal_code`, `prefecture`, `prefecture_id`, `address1`, `address2`, `phone_number`, `email`, `is_deactive`, `create_date_time`, `update_date_time`) VALUES
--- (1, 'test1', '$2y$10$ys23Qtfm59Sx6iXoBM9gEOSzcelyvmkxyi0oAtZGqgfABcvR4BzTe', 'テスト', '花子', 'テスト', 'はなこ', '1989-01-01', 1, '5500001', '大阪府', 27, '大阪市西区阿波座', '１丁目１３−１６ 松本フォレストビル501', '00000000000', 'hoge@co.jp', 0, '2019-08-28 14:56:46', '2019-10-07 15:36:50'),
--- (2, 'test2', '$2y$10$BEdVGlkEXvtLRwynK93iwujIrkYBdh2l2LPJtkpBnpsvTzKeRGAgS', 'テスト', '太郎', 'テスト', 'タロウ', '2019-09-02', 0, '5450003', '大阪府', 27, '大阪市阿倍野区', '美章園', '000-0000-0000', 'hoge@example.com', 1, '2019-09-18 10:52:03', '2019-09-21 15:34:00'),
--- (3, 'test5', '$2y$10$n07uJMOOGto0qJdJmDD6t./IHur9tIZHpoMTZz.n/HrBrJqEDq4/W', '山田', '花子', 'ヤマダ', 'ハナコ', '2019-09-01', 1, '5550001', '大阪府', 27, '大阪市中央区', 'テスト', '000-0000-0000', 'hoge@email.com', 0, '2019-09-18 11:20:45', '2019-09-19 14:36:35'),
--- (5, 'test4', '$2y$10$C4YeEid5WrHnAuINzoeN0OLTxB/dc3XATpyCCIiJiO94K0pRQZJWy', '佐伯', '伽椰子', 'サエキ', 'カヤコ', '1971-09-01', 1, '5450002', '大阪府', 27, '大阪市阿倍野区', '天王寺町南', '000-0000-0002', 'hogeeeeee@example.com', 0, '2019-09-18 14:10:26', '2019-09-19 14:57:09'),
--- (6, 'test5', '$2y$10$n1ymJg/LRMu4dAANNu4i.Ovk1WawUAtPAwpeACWDNtEe4TQHDe3p6', '青い', '太陽', 'アオイ', 'タイヨウ', '1989-01-01', 2, '5440000', '大阪府', 27, '大阪市生野区', '', '000-0000-0002', 'test@co.jp', 0, '2019-09-30 12:46:11', '2019-09-30 12:46:11'),
--- (7, 'test6', '$2y$10$ErKp/nfEMtSWz4NgFjdyQ.9QRXWtGQLFmcI7uOhYyyIErfjmx4u.q', 'テスト', 'ハナコ', 'テスト', 'ハナコ', '2019-09-01', 1, '5440000', '大阪府', 27, '大阪市生野区', '', '000-0000-0000', 'test@co.jp', 0, '2019-10-01 10:11:56', '2019-10-09 10:28:40'),
--- (8, 'test7', '$2y$10$M/Kud9jm/iJ2HUaSLjayquLJq9ybq9FBX2ndsb9TWOXEjj9TZH7VO', '冴羽', '遼', 'サエバ', 'リョウ', '1959-03-26', 0, '5340001', '大阪府', 27, '大阪市都島区', '毛馬町', '000-0000-0007', 'ikemen_ryouchan@co.jp', 0, '2019-10-09 11:20:02', '2019-10-09 11:20:02'),
--- (9, 'test8', '$2y$10$b3c/Q/US1TYVCB9ROvZp6Oeh0DkhrVlEpKJp2jDT./JlC3of0/.ty', '良い', '天気', 'イイ', 'テンキ', '1983-01-01', 0, '5320001', '大阪府', 27, '大阪市淀川区', '十八条', '000-0000-0000', 'test@co.jp', 0, '2019-10-14 10:48:07', '2019-10-14 10:48:07'),
--- (10, 'test8', '$2y$10$3h5pEkKx/fOvFFik9wKSJu8DCESpr8ebj2EULwXQYcKxpM8eI8P6G', '良い', '秋の日', 'ヨイ', 'アキノヒ', '2019-09-10', 1, '5320003', '大阪府', 27, '大阪市淀川区', '宮原', '000-0000-000', 'hoge@example.com', 0, '2019-10-22 10:35:45', '2019-10-22 11:24:30'),
--- (11, 'test9', '$2y$10$OABbszLPQ0Zmz2uEtPazPu5vYP7VpYOjfkqmFbWZMvU5YnH1YgR3q', '良い', '太郎', 'ヨイ', 'タロウ', '2019-10-16', 0, '5470000', '大阪府', 27, '大阪市平野区', '', '000-0000-0007', 'test@co.jp', 0, '2019-10-22 10:53:57', '2019-10-22 10:53:57'),
--- (12, 'test10', '$2y$10$PDX572x85jqhBA2bhmujDe/ZPV1QgNNwP0WZsC/FdpwoDd4vhAq3C', '山田', 'かやこ', 'ヤマダ', 'カヤコ', '2014-06-17', 1, '5320000', '大阪府', 27, '大阪市淀川区', '', '000-0000-0001', 't@co.jp', 0, '2019-10-25 14:29:34', '2019-10-25 14:29:34');
+INSERT INTO `members` (`id`, `user_name`, `password`, `last_name`, `first_name`, `last_name_kana`, `first_name_kana`, `birthday`, `gender`, `postal_code`, `prefecture`, `prefecture_id`, `address1`, `address2`, `phone_number`, `email`, `is_deactive`, `create_date_time`, `update_date_time`) VALUES
+(1, 'test1', '$2y$10$ys23Qtfm59Sx6iXoBM9gEOSzcelyvmkxyi0oAtZGqgfABcvR4BzTe', 'テスト', '花子', 'テスト', 'はなこ', '1989-01-01', 1, '5500001', '大阪府', 27, '大阪市西区阿波座', '１丁目１３−１６ 松本フォレストビル501', '00000000000', 'hoge@co.jp', 0, '2019-08-28 14:56:46', '2019-10-07 15:36:50'),
+(2, 'test2', '$2y$10$BEdVGlkEXvtLRwynK93iwujIrkYBdh2l2LPJtkpBnpsvTzKeRGAgS', 'テスト', '太郎', 'テスト', 'タロウ', '2019-09-02', 0, '5450003', '大阪府', 27, '大阪市阿倍野区', '美章園', '000-0000-0000', 'hoge@example.com', 1, '2019-09-18 10:52:03', '2019-09-21 15:34:00'),
+(3, 'test5', '$2y$10$n07uJMOOGto0qJdJmDD6t./IHur9tIZHpoMTZz.n/HrBrJqEDq4/W', '山田', '花子', 'ヤマダ', 'ハナコ', '2019-09-01', 1, '5550001', '大阪府', 27, '大阪市中央区', 'テスト', '000-0000-0000', 'hoge@email.com', 0, '2019-09-18 11:20:45', '2019-09-19 14:36:35'),
+(5, 'test4', '$2y$10$C4YeEid5WrHnAuINzoeN0OLTxB/dc3XATpyCCIiJiO94K0pRQZJWy', '佐伯', '伽椰子', 'サエキ', 'カヤコ', '1971-09-01', 1, '5450002', '大阪府', 27, '大阪市阿倍野区', '天王寺町南', '000-0000-0002', 'hogeeeeee@example.com', 0, '2019-09-18 14:10:26', '2019-09-19 14:57:09'),
+(6, 'test5', '$2y$10$n1ymJg/LRMu4dAANNu4i.Ovk1WawUAtPAwpeACWDNtEe4TQHDe3p6', '青い', '太陽', 'アオイ', 'タイヨウ', '1989-01-01', 2, '5440000', '大阪府', 27, '大阪市生野区', '', '000-0000-0002', 'test@co.jp', 0, '2019-09-30 12:46:11', '2019-09-30 12:46:11'),
+(7, 'test6', '$2y$10$ErKp/nfEMtSWz4NgFjdyQ.9QRXWtGQLFmcI7uOhYyyIErfjmx4u.q', 'テスト', 'ハナコ', 'テスト', 'ハナコ', '2019-09-01', 1, '5440000', '大阪府', 27, '大阪市生野区', '', '000-0000-0000', 'test@co.jp', 0, '2019-10-01 10:11:56', '2019-10-09 10:28:40'),
+(8, 'test7', '$2y$10$M/Kud9jm/iJ2HUaSLjayquLJq9ybq9FBX2ndsb9TWOXEjj9TZH7VO', '冴羽', '遼', 'サエバ', 'リョウ', '1959-03-26', 0, '5340001', '大阪府', 27, '大阪市都島区', '毛馬町', '000-0000-0007', 'ikemen_ryouchan@co.jp', 0, '2019-10-09 11:20:02', '2019-10-09 11:20:02'),
+(9, 'test8', '$2y$10$b3c/Q/US1TYVCB9ROvZp6Oeh0DkhrVlEpKJp2jDT./JlC3of0/.ty', '良い', '天気', 'イイ', 'テンキ', '1983-01-01', 0, '5320001', '大阪府', 27, '大阪市淀川区', '十八条', '000-0000-0000', 'test@co.jp', 0, '2019-10-14 10:48:07', '2019-10-14 10:48:07'),
+(10, 'test8', '$2y$10$3h5pEkKx/fOvFFik9wKSJu8DCESpr8ebj2EULwXQYcKxpM8eI8P6G', '良い', '秋の日', 'ヨイ', 'アキノヒ', '2019-09-10', 1, '5320003', '大阪府', 27, '大阪市淀川区', '宮原', '000-0000-000', 'hoge@example.com', 0, '2019-10-22 10:35:45', '2019-10-22 11:24:30'),
+(11, 'test9', '$2y$10$OABbszLPQ0Zmz2uEtPazPu5vYP7VpYOjfkqmFbWZMvU5YnH1YgR3q', '良い', '太郎', 'ヨイ', 'タロウ', '2019-10-16', 0, '5470000', '大阪府', 27, '大阪市平野区', '', '000-0000-0007', 'test@co.jp', 0, '2019-10-22 10:53:57', '2019-10-22 10:53:57'),
+(12, 'test10', '$2y$10$PDX572x85jqhBA2bhmujDe/ZPV1QgNNwP0WZsC/FdpwoDd4vhAq3C', '山田', 'かやこ', 'ヤマダ', 'カヤコ', '2014-06-17', 1, '5320000', '大阪府', 27, '大阪市淀川区', '', '000-0000-0001', 't@co.jp', 0, '2019-10-25 14:29:34', '2019-10-25 14:29:34'),
+(14, 'katachi', '$2y$10$RdOl95CXsk89BBNKVFtfAeSSWD8CY2763.Z1n0Ga/YhthXJqUOZIS', '未来', 'かたち', 'ミライ', 'カタチ', '2018-11-01', 2, '5500011', '大阪府', 27, '大阪市西区', '阿波座１丁目１３−１６ 松本フォレストビル', '000-0000-0000', 't@co.jp', 0, '2019-10-28 13:17:55', '2019-10-28 13:17:55'),
+(15, 'test20', '$2y$10$7q5apIeHT0kxD8iKH.RQbeF/UuDtM5HvDVX/MXHpWPqSzoejzJLjq', '未来', 'かたち', 'ミライ', 'カタチ', '2019-12-01', 1, '5470002', '大阪府', 27, '大阪市平野区', '加美東', '000-0000-0007', 'test@co.jp', 0, '2019-12-12 10:29:37', '2019-12-12 10:29:37');
 
 -- --------------------------------------------------------
 
@@ -297,22 +311,24 @@ CREATE TABLE `news` (
   `id` int(11) NOT NULL COMMENT 'ID',
   `news_index` varchar(100) NOT NULL COMMENT 'お知らせ見出し',
   `news_content` varchar(255) NOT NULL COMMENT 'お知らせ内容',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '削除フラグ',
   `expiration_date` date NOT NULL COMMENT '掲載期限日',
-  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --
--- -- テーブルのデータのダンプ `news`
--- --
+--
+-- テーブルのデータのダンプ `news`
+--
 
--- INSERT INTO `news` (`id`, `news_index`, `news_content`, `is_deleted`, `expiration_date`, `create_date_time`, `update_date_time`) VALUES
--- (1, 'テスト', 'テスト', 1, '2019-10-09', '2019-09-09 10:31:57', '2019-09-09 14:22:32'),
--- (2, 'テスト2', 'テスト2　テスト', 0, '2019-09-27', '2019-09-09 11:12:40', '2019-09-09 12:07:08'),
--- (3, 'テスト3', 'テスト3', 1, '2019-10-22', '2019-09-09 11:13:04', '2019-10-05 11:01:33'),
--- (4, 'okashi days.がオープンします！', '11月1日（未定）、まさかのokashi days.がオープンします。よろしくお願いいたします！', 0, '2019-11-05', '2019-10-05 10:25:48', '2019-10-05 10:25:48'),
--- (5, 'クリスマスケーキの販売について', '当店ではクリスマスケーキの販売を検討しています。気分次第では販売予定ですので、よろしくお願いいたします！', 0, '2019-12-24', '2019-10-05 10:37:59', '2019-10-05 10:37:59');
+INSERT INTO `news` (`id`, `news_index`, `news_content`, `is_deleted`, `expiration_date`, `create_date_time`, `update_date_time`) VALUES
+(1, 'テスト', 'テスト', 1, '2019-10-09', '2019-09-09 10:31:57', '2019-09-09 14:22:32'),
+(2, 'テスト2', 'テスト2　テスト', 0, '2019-09-27', '2019-09-09 11:12:40', '2019-09-09 12:07:08'),
+(3, 'テスト3', 'テスト3', 1, '2019-10-22', '2019-09-09 11:13:04', '2019-10-05 11:01:33'),
+(4, 'okashi days.がオープンします！', '11月1日（未定）、まさかのokashi days.がオープンします。よろしくお願いいたします！', 0, '2019-11-05', '2019-10-05 10:25:48', '2019-10-05 10:25:48'),
+(5, 'クリスマスケーキの販売について', '当店ではクリスマスケーキの販売を検討しています。気分次第では販売予定ですので、よろしくお願いいたします！', 0, '2019-12-24', '2019-10-05 10:37:59', '2019-10-05 10:37:59'),
+(6, '年末年始のご挨拶', '2019年も残すところあとわずかとなりました！okashi days.も開業から2か月ほどたちました。皆様の日頃のご愛顧に感謝いたしております。\r\n良い年末、そして良いお年をお迎えください。', 0, '2019-12-31', '2019-12-24 13:25:13', '2019-12-24 13:25:13'),
+(7, '夏本番！', '夏のギフト特集　開催中！', 0, '2020-08-31', '2020-07-21 14:59:32', '2020-07-21 14:59:32');
 
 -- --------------------------------------------------------
 
@@ -337,32 +353,37 @@ CREATE TABLE `orders` (
   `address2` varchar(100) NOT NULL COMMENT '住所2（番地・建物名）',
   `phone_number` varchar(20) NOT NULL COMMENT '電話番号',
   `email` varchar(255) NOT NULL COMMENT 'メールアドレス',
-  `order_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '受注日時',
+  `order_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '受注日時',
   `total` int(11) NOT NULL COMMENT '合計金額',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ',
-  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '削除フラグ',
+  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --
--- -- テーブルのデータのダンプ `orders`
--- --
+--
+-- テーブルのデータのダンプ `orders`
+--
 
--- INSERT INTO `orders` (`id`, `member_id`, `member_last_name`, `member_first_name`, `member_last_name_kana`, `member_first_name_kana`, `postal_code`, `prefecture`, `prefecture_id`, `tax_rate_id`, `delivery_charge`, `delivery_charge_id`, `address1`, `address2`, `phone_number`, `email`, `order_date_time`, `total`, `is_deleted`, `create_date_time`, `update_date_time`) VALUES
--- (1, 7, 'テスト', 'ハナコ', 'テスト', 'ハナコ', '5440000', '大阪府', 27, 1, 600, 5, '大阪市生野区', '', '000-0000-0000', 'test@co.jp', '2019-10-05 10:02:20', 2328, 0, '2019-10-05 10:02:20', '2019-10-05 10:02:20'),
--- (2, 7, 'テスト', 'ハナコ', 'テスト', 'ハナコ', '5440000', '大阪府', 27, 1, 600, 5, '大阪市生野区', '', '000-0000-0000', 'test@co.jp', '2019-10-05 10:16:38', 2328, 0, '2019-10-05 10:16:38', '2019-10-05 10:16:38'),
--- (3, 7, 'テスト', 'ハナコ', 'テスト', 'ハナコ', '5440000', '大阪府', 27, 1, 600, 5, '大阪市生野区', '', '000-0000-0000', 'test@co.jp', '2019-10-05 10:17:11', 2328, 0, '2019-10-05 10:17:11', '2019-10-05 10:17:11'),
--- (4, 7, 'テスト', 'ハナコ', 'テスト', 'ハナコ', '5440000', '大阪府', 27, 1, 600, 5, '大阪市生野区', '', '000-0000-0000', 'test@co.jp', '2019-10-05 10:17:27', 2328, 0, '2019-10-05 10:17:27', '2019-10-05 10:17:27'),
--- (5, 7, 'テスト', 'ハナコ', 'テスト', 'ハナコ', '5440000', '大阪府', 27, 1, 600, 5, '大阪市生野区', '', '000-0000-0000', 'test@co.jp', '2019-10-05 13:42:42', 3030, 0, '2019-10-05 13:42:42', '2019-10-05 13:42:42'),
--- (6, 7, 'テスト', 'ハナコ', 'テスト', 'ハナコ', '5440000', '大阪府', 27, 1, 600, 5, '大阪市生野区', '', '000-0000-0000', 'test@co.jp', '2019-10-07 09:38:41', 1572, 0, '2019-10-07 09:38:41', '2019-10-07 09:38:41'),
--- (7, 8, '冴羽', '遼', 'サエバ', 'リョウ', '5340001', '大阪府', 27, 1, 600, 5, '大阪市都島区', '毛馬町', '000-0000-0007', 'ikemen_ryouchan@co.jp', '2019-10-09 11:41:37', 2868, 0, '2019-10-09 11:41:37', '2019-10-09 11:41:37'),
--- (8, 8, '冴羽', '遼', 'サエバ', 'リョウ', '5340001', '大阪府', 27, 1, 600, 5, '大阪市都島区', '毛馬町', '000-0000-0007', 'ikemen_ryouchan@co.jp', '2019-10-09 15:21:06', 816, 0, '2019-10-09 15:21:06', '2019-10-09 15:21:06'),
--- (9, 8, '冴羽', '遼', 'サエバ', 'リョウ', '5340001', '大阪府', 27, 1, 600, 5, '大阪市都島区', '毛馬町', '000-0000-0007', 'ikemen_ryouchan@co.jp', '2019-10-09 15:45:12', 1356, 0, '2019-10-09 15:45:12', '2019-10-09 15:45:12'),
--- (10, 8, '冴羽', '遼', 'サエバ', 'リョウ', '5340001', '大阪府', 27, 1, 600, 5, '大阪市都島区', '毛馬町', '000-0000-0007', 'ikemen_ryouchan@co.jp', '2019-10-09 15:46:29', 1356, 0, '2019-10-09 15:46:29', '2019-10-09 15:46:29'),
--- (11, 8, '冴羽', '遼', 'サエバ', 'リョウ', '5340001', '大阪府', 27, 1, 600, 5, '大阪市都島区', '毛馬町', '000-0000-0007', 'ikemen_ryouchan@co.jp', '2019-10-09 15:47:38', 924, 0, '2019-10-09 15:47:38', '2019-10-09 15:47:38'),
--- (12, 8, '冴羽', '遼', 'サエバ', 'リョウ', '5340001', '大阪府', 27, 1, 600, 5, '大阪市都島区', '毛馬町', '000-0000-0007', 'ikemen_ryouchan@co.jp', '2019-10-11 09:37:08', 1248, 0, '2019-10-11 09:37:08', '2019-10-11 09:37:08'),
--- (13, 9, '良い', '天気', 'イイ', 'テンキ', '5320001', '大阪府', 27, 1, 600, 5, '大阪市淀川区', '十八条', '000-0000-0000', 'test@co.jp', '2019-10-14 10:51:52', 1896, 0, '2019-10-14 10:51:52', '2019-10-14 10:51:52'),
--- (14, 12, '山田', 'かやこ', 'ヤマダ', 'カヤコ', '5320000', '大阪府', 27, 1, 600, 5, '大阪市淀川区', '', '000-0000-0001', 't@co.jp', '2019-10-25 14:31:52', 1842, 0, '2019-10-25 14:31:52', '2019-10-25 14:31:52');
+INSERT INTO `orders` (`id`, `member_id`, `member_last_name`, `member_first_name`, `member_last_name_kana`, `member_first_name_kana`, `postal_code`, `prefecture`, `prefecture_id`, `tax_rate_id`, `delivery_charge`, `delivery_charge_id`, `address1`, `address2`, `phone_number`, `email`, `order_date_time`, `total`, `is_deleted`, `create_date_time`, `update_date_time`) VALUES
+(1, 7, 'テスト', 'ハナコ', 'テスト', 'ハナコ', '5440000', '大阪府', 27, 1, 600, 5, '大阪市生野区', '', '000-0000-0000', 'test@co.jp', '2019-10-05 10:02:20', 2328, 0, '2019-10-05 10:02:20', '2019-10-05 10:02:20'),
+(2, 7, 'テスト', 'ハナコ', 'テスト', 'ハナコ', '5440000', '大阪府', 27, 1, 600, 5, '大阪市生野区', '', '000-0000-0000', 'test@co.jp', '2019-10-05 10:16:38', 2328, 0, '2019-10-05 10:16:38', '2019-10-05 10:16:38'),
+(3, 7, 'テスト', 'ハナコ', 'テスト', 'ハナコ', '5440000', '大阪府', 27, 1, 600, 5, '大阪市生野区', '', '000-0000-0000', 'test@co.jp', '2019-10-05 10:17:11', 2328, 0, '2019-10-05 10:17:11', '2019-10-05 10:17:11'),
+(4, 7, 'テスト', 'ハナコ', 'テスト', 'ハナコ', '5440000', '大阪府', 27, 1, 600, 5, '大阪市生野区', '', '000-0000-0000', 'test@co.jp', '2019-10-05 10:17:27', 2328, 0, '2019-10-05 10:17:27', '2019-10-05 10:17:27'),
+(5, 7, 'テスト', 'ハナコ', 'テスト', 'ハナコ', '5440000', '大阪府', 27, 1, 600, 5, '大阪市生野区', '', '000-0000-0000', 'test@co.jp', '2019-10-05 13:42:42', 3030, 0, '2019-10-05 13:42:42', '2019-10-05 13:42:42'),
+(6, 7, 'テスト', 'ハナコ', 'テスト', 'ハナコ', '5440000', '大阪府', 27, 1, 600, 5, '大阪市生野区', '', '000-0000-0000', 'test@co.jp', '2019-10-07 09:38:41', 1572, 0, '2019-10-07 09:38:41', '2019-10-07 09:38:41'),
+(7, 8, '冴羽', '遼', 'サエバ', 'リョウ', '5340001', '大阪府', 27, 1, 600, 5, '大阪市都島区', '毛馬町', '000-0000-0007', 'ikemen_ryouchan@co.jp', '2019-10-09 11:41:37', 2868, 0, '2019-10-09 11:41:37', '2019-10-09 11:41:37'),
+(8, 8, '冴羽', '遼', 'サエバ', 'リョウ', '5340001', '大阪府', 27, 1, 600, 5, '大阪市都島区', '毛馬町', '000-0000-0007', 'ikemen_ryouchan@co.jp', '2019-10-09 15:21:06', 816, 0, '2019-10-09 15:21:06', '2019-10-09 15:21:06'),
+(9, 8, '冴羽', '遼', 'サエバ', 'リョウ', '5340001', '大阪府', 27, 1, 600, 5, '大阪市都島区', '毛馬町', '000-0000-0007', 'ikemen_ryouchan@co.jp', '2019-10-09 15:45:12', 1356, 0, '2019-10-09 15:45:12', '2019-10-09 15:45:12'),
+(10, 8, '冴羽', '遼', 'サエバ', 'リョウ', '5340001', '大阪府', 27, 1, 600, 5, '大阪市都島区', '毛馬町', '000-0000-0007', 'ikemen_ryouchan@co.jp', '2019-10-09 15:46:29', 1356, 0, '2019-10-09 15:46:29', '2019-10-09 15:46:29'),
+(11, 8, '冴羽', '遼', 'サエバ', 'リョウ', '5340001', '大阪府', 27, 1, 600, 5, '大阪市都島区', '毛馬町', '000-0000-0007', 'ikemen_ryouchan@co.jp', '2019-10-09 15:47:38', 924, 0, '2019-10-09 15:47:38', '2019-10-09 15:47:38'),
+(12, 8, '冴羽', '遼', 'サエバ', 'リョウ', '5340001', '大阪府', 27, 1, 600, 5, '大阪市都島区', '毛馬町', '000-0000-0007', 'ikemen_ryouchan@co.jp', '2019-10-11 09:37:08', 1248, 0, '2019-10-11 09:37:08', '2019-10-11 09:37:08'),
+(13, 9, '良い', '天気', 'イイ', 'テンキ', '5320001', '大阪府', 27, 1, 600, 5, '大阪市淀川区', '十八条', '000-0000-0000', 'test@co.jp', '2019-10-14 10:51:52', 1896, 0, '2019-10-14 10:51:52', '2019-10-14 10:51:52'),
+(14, 12, '山田', 'かやこ', 'ヤマダ', 'カヤコ', '5320000', '大阪府', 27, 1, 600, 5, '大阪市淀川区', '', '000-0000-0001', 't@co.jp', '2019-10-25 14:31:52', 1842, 0, '2019-10-25 14:31:52', '2019-10-25 14:31:52'),
+(15, 9, '良い', '天気', 'イイ', 'テンキ', '5320001', '大阪府', 27, 1, 600, 5, '大阪市淀川区', '十八条', '000-0000-0000', 'test@co.jp', '2019-10-28 11:33:47', 816, 0, '2019-10-28 11:33:47', '2019-10-28 11:33:47'),
+(16, 14, '未来', 'かたち', 'ミライ', 'カタチ', '5500011', '大阪府', 27, 1, 600, 5, '大阪市西区', '阿波座１丁目１３−１６ 松本フォレストビル', '000-0000-0000', 't@co.jp', '2019-10-28 13:22:05', 61664, 0, '2019-10-28 13:22:05', '2019-10-28 13:22:05'),
+(17, 9, '良い', '天気', 'イイ', 'テンキ', '5320001', '大阪府', 27, 1, 600, 5, '大阪市淀川区', '十八条', '000-0000-0000', 'test@co.jp', '2019-11-02 09:43:27', 2490, 0, '2019-11-02 09:43:27', '2019-11-02 09:43:27'),
+(18, 9, '良い', '天気', 'イイ', 'テンキ', '5320001', '大阪府', 27, 1, 600, 5, '大阪市淀川区', '十八条', '000-0000-0000', 'test@co.jp', '2019-11-04 11:07:00', 6648, 0, '2019-11-04 11:07:00', '2019-11-04 11:07:00'),
+(19, 9, '良い', '天気', 'イイ', 'テンキ', '5320001', '大阪府', 27, 1, 600, 5, '大阪市淀川区', '十八条', '000-0000-0000', 'test@co.jp', '2020-01-13 11:29:19', 6648, 0, '2020-01-13 11:29:19', '2020-01-13 11:29:19');
 
 -- --------------------------------------------------------
 
@@ -379,38 +400,44 @@ CREATE TABLE `order_detail` (
   `quantity` int(11) NOT NULL COMMENT '数量',
   `subtotal` int(11) NOT NULL COMMENT '小計金額',
   `is_deleted` tinyint(4) NOT NULL COMMENT '削除フラグ',
-  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --
--- -- テーブルのデータのダンプ `order_detail`
--- --
+--
+-- テーブルのデータのダンプ `order_detail`
+--
 
--- INSERT INTO `order_detail` (`id`, `order_id`, `item_id`, `item_name`, `item_model_number`, `quantity`, `subtotal`, `is_deleted`, `create_date_time`, `update_date_time`) VALUES
--- (1, 1, 8, '春菊のパウンドケーキ', 'AAAA1234', 1, 700, 0, '2019-10-05 10:02:20', '2019-10-05 10:02:20'),
--- (2, 1, 9, 'カラフル金平糖', 'ABAB00001', 3, 900, 0, '2019-10-05 10:02:20', '2019-10-05 10:02:20'),
--- (3, 2, 8, '春菊のパウンドケーキ', 'AAAA1234', 1, 700, 0, '2019-10-05 10:16:38', '2019-10-05 10:16:38'),
--- (4, 2, 9, 'カラフル金平糖', 'ABAB00001', 3, 900, 0, '2019-10-05 10:16:38', '2019-10-05 10:16:38'),
--- (5, 3, 8, '春菊のパウンドケーキ', 'AAAA1234', 1, 700, 0, '2019-10-05 10:17:11', '2019-10-05 10:17:11'),
--- (6, 3, 9, 'カラフル金平糖', 'ABAB00001', 3, 900, 0, '2019-10-05 10:17:11', '2019-10-05 10:17:11'),
--- (7, 4, 8, '春菊のパウンドケーキ', 'AAAA1234', 1, 700, 0, '2019-10-05 10:17:27', '2019-10-05 10:17:27'),
--- (8, 4, 9, 'カラフル金平糖', 'ABAB00001', 3, 900, 0, '2019-10-05 10:17:27', '2019-10-05 10:17:27'),
--- (9, 5, 14, 'いちごのプチショートケーキ', 'ICH10000', 3, 750, 0, '2019-10-05 13:42:42', '2019-10-05 13:42:42'),
--- (10, 5, 9, 'カラフル金平糖', 'ABAB00001', 5, 1500, 0, '2019-10-05 13:42:42', '2019-10-05 13:42:42'),
--- (11, 6, 9, 'カラフル金平糖', 'ABAB00001', 1, 300, 0, '2019-10-07 09:38:41', '2019-10-07 09:38:41'),
--- (12, 6, 10, '絞りだしクッキー', 'AAABBB1421', 3, 600, 0, '2019-10-07 09:38:41', '2019-10-07 09:38:41'),
--- (13, 7, 13, 'ブロークンハートチョコ', 'BRHT1010', 1, 350, 0, '2019-10-09 11:41:37', '2019-10-09 11:41:37'),
--- (14, 7, 14, 'いちごのプチショートケーキ', 'ICH10000', 7, 1750, 0, '2019-10-09 11:41:37', '2019-10-09 11:41:37'),
--- (15, 8, 10, '絞りだしクッキー', 'AAABBB1421', 1, 200, 0, '2019-10-09 15:21:06', '2019-10-09 15:21:06'),
--- (16, 9, 8, '春菊のパウンドケーキ', 'AAAA1234', 1, 700, 0, '2019-10-09 15:45:12', '2019-10-09 15:45:12'),
--- (17, 10, 8, '春菊のパウンドケーキ', 'AAAA1234', 1, 700, 0, '2019-10-09 15:46:29', '2019-10-09 15:46:29'),
--- (18, 11, 9, 'カラフル金平糖', 'ABAB00001', 1, 300, 0, '2019-10-09 15:47:38', '2019-10-09 15:47:38'),
--- (19, 12, 12, 'カラフルマカロン', 'MAAA5698', 1, 600, 0, '2019-10-11 09:37:08', '2019-10-11 09:37:08'),
--- (20, 13, 9, 'カラフル金平糖', 'ABAB00001', 2, 600, 0, '2019-10-14 10:51:53', '2019-10-14 10:51:53'),
--- (21, 13, 12, 'カラフルマカロン', 'MAAA5698', 1, 600, 0, '2019-10-14 10:51:53', '2019-10-14 10:51:53'),
--- (22, 14, 15, 'こしあんおはぎ', 'CSAN1369', 5, 900, 0, '2019-10-25 14:31:52', '2019-10-25 14:31:52'),
--- (23, 14, 14, 'いちごのプチショートケーキ', 'ICH10000', 1, 250, 0, '2019-10-25 14:31:52', '2019-10-25 14:31:52');
+INSERT INTO `order_detail` (`id`, `order_id`, `item_id`, `item_name`, `item_model_number`, `quantity`, `subtotal`, `is_deleted`, `create_date_time`, `update_date_time`) VALUES
+(1, 1, 8, '春菊のパウンドケーキ', 'AAAA1234', 1, 700, 0, '2019-10-05 10:02:20', '2019-10-05 10:02:20'),
+(2, 1, 9, 'カラフル金平糖', 'ABAB00001', 3, 900, 0, '2019-10-05 10:02:20', '2019-10-05 10:02:20'),
+(3, 2, 8, '春菊のパウンドケーキ', 'AAAA1234', 1, 700, 0, '2019-10-05 10:16:38', '2019-10-05 10:16:38'),
+(4, 2, 9, 'カラフル金平糖', 'ABAB00001', 3, 900, 0, '2019-10-05 10:16:38', '2019-10-05 10:16:38'),
+(5, 3, 8, '春菊のパウンドケーキ', 'AAAA1234', 1, 700, 0, '2019-10-05 10:17:11', '2019-10-05 10:17:11'),
+(6, 3, 9, 'カラフル金平糖', 'ABAB00001', 3, 900, 0, '2019-10-05 10:17:11', '2019-10-05 10:17:11'),
+(7, 4, 8, '春菊のパウンドケーキ', 'AAAA1234', 1, 700, 0, '2019-10-05 10:17:27', '2019-10-05 10:17:27'),
+(8, 4, 9, 'カラフル金平糖', 'ABAB00001', 3, 900, 0, '2019-10-05 10:17:27', '2019-10-05 10:17:27'),
+(9, 5, 14, 'いちごのプチショートケーキ', 'ICH10000', 3, 750, 0, '2019-10-05 13:42:42', '2019-10-05 13:42:42'),
+(10, 5, 9, 'カラフル金平糖', 'ABAB00001', 5, 1500, 0, '2019-10-05 13:42:42', '2019-10-05 13:42:42'),
+(11, 6, 9, 'カラフル金平糖', 'ABAB00001', 1, 300, 0, '2019-10-07 09:38:41', '2019-10-07 09:38:41'),
+(12, 6, 10, '絞りだしクッキー', 'AAABBB1421', 3, 600, 0, '2019-10-07 09:38:41', '2019-10-07 09:38:41'),
+(13, 7, 13, 'ブロークンハートチョコ', 'BRHT1010', 1, 350, 0, '2019-10-09 11:41:37', '2019-10-09 11:41:37'),
+(14, 7, 14, 'いちごのプチショートケーキ', 'ICH10000', 7, 1750, 0, '2019-10-09 11:41:37', '2019-10-09 11:41:37'),
+(15, 8, 10, '絞りだしクッキー', 'AAABBB1421', 1, 200, 0, '2019-10-09 15:21:06', '2019-10-09 15:21:06'),
+(16, 9, 8, '春菊のパウンドケーキ', 'AAAA1234', 1, 700, 0, '2019-10-09 15:45:12', '2019-10-09 15:45:12'),
+(17, 10, 8, '春菊のパウンドケーキ', 'AAAA1234', 1, 700, 0, '2019-10-09 15:46:29', '2019-10-09 15:46:29'),
+(18, 11, 9, 'カラフル金平糖', 'ABAB00001', 1, 300, 0, '2019-10-09 15:47:38', '2019-10-09 15:47:38'),
+(19, 12, 12, 'カラフルマカロン', 'MAAA5698', 1, 600, 0, '2019-10-11 09:37:08', '2019-10-11 09:37:08'),
+(20, 13, 9, 'カラフル金平糖', 'ABAB00001', 2, 600, 0, '2019-10-14 10:51:53', '2019-10-14 10:51:53'),
+(21, 13, 12, 'カラフルマカロン', 'MAAA5698', 1, 600, 0, '2019-10-14 10:51:53', '2019-10-14 10:51:53'),
+(22, 14, 15, 'こしあんおはぎ', 'CSAN1369', 5, 900, 0, '2019-10-25 14:31:52', '2019-10-25 14:31:52'),
+(23, 14, 14, 'いちごのプチショートケーキ', 'ICH10000', 1, 250, 0, '2019-10-25 14:31:52', '2019-10-25 14:31:52'),
+(24, 15, 10, '絞りだしクッキー', 'AAABBB1421', 1, 200, 0, '2019-10-28 11:33:47', '2019-10-28 11:33:47'),
+(25, 16, 15, 'こしあんおはぎ', 'CSAN1369', 3, 540, 0, '2019-10-28 13:22:05', '2019-10-28 13:22:05'),
+(26, 16, 18, 'クリスマスケーキ2019', 'XMAS2019', 10, 56000, 0, '2019-10-28 13:22:05', '2019-10-28 13:22:05'),
+(27, 17, 14, 'いちごのプチショートケーキ', 'ICH10000', 7, 1750, 0, '2019-11-02 09:43:27', '2019-11-02 09:43:27'),
+(28, 18, 18, 'クリスマスケーキ2019', 'XMAS2019', 1, 5600, 0, '2019-11-04 11:07:00', '2019-11-04 11:07:00'),
+(29, 19, 18, 'クリスマスケーキ2019', 'XMAS2019', 1, 5600, 0, '2020-01-13 11:29:19', '2020-01-13 11:29:19');
 
 -- --------------------------------------------------------
 
@@ -424,7 +451,7 @@ CREATE TABLE `postal_code` (
   `prefecture` varchar(10) NOT NULL COMMENT '都道府県名',
   `address1` varchar(100) NOT NULL COMMENT '住所1（市区町村・町名）',
   `address2` varchar(100) NOT NULL COMMENT '住所2（番地・建物名）',
-  `prefecture_id` int(11) NOT NULL DEFAULT '27'
+  `prefecture_id` int(11) NOT NULL DEFAULT 27
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -4368,81 +4395,81 @@ INSERT INTO `tax_rates` (`id`, `tax_rate`, `start_date`) VALUES
 (1, 0.08, '2019-10-01');
 
 --
--- Indexes for dumped tables
+-- ダンプしたテーブルのインデックス
 --
 
 --
--- Indexes for table `administrators`
+-- テーブルのインデックス `administrators`
 --
 ALTER TABLE `administrators`
   ADD PRIMARY KEY (`id`),
   ADD KEY `IX_administrators_user_name` (`user_name`);
 
 --
--- Indexes for table `allergy_items`
+-- テーブルのインデックス `allergy_items`
 --
 ALTER TABLE `allergy_items`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `area_delivery_charge`
+-- テーブルのインデックス `area_delivery_charge`
 --
 ALTER TABLE `area_delivery_charge`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `contact`
+-- テーブルのインデックス `contact`
 --
 ALTER TABLE `contact`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `contact_category`
+-- テーブルのインデックス `contact_category`
 --
 ALTER TABLE `contact_category`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `contact_trigger`
+-- テーブルのインデックス `contact_trigger`
 --
 ALTER TABLE `contact_trigger`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `items`
+-- テーブルのインデックス `items`
 --
 ALTER TABLE `items`
   ADD PRIMARY KEY (`id`),
   ADD KEY `IX_items_item_category_id` (`item_category_id`);
 
 --
--- Indexes for table `item_categories`
+-- テーブルのインデックス `item_categories`
 --
 ALTER TABLE `item_categories`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `members`
+-- テーブルのインデックス `members`
 --
 ALTER TABLE `members`
   ADD PRIMARY KEY (`id`),
   ADD KEY `IX_customers_user_name` (`user_name`);
 
 --
--- Indexes for table `news`
+-- テーブルのインデックス `news`
 --
 ALTER TABLE `news`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `orders`
+-- テーブルのインデックス `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `orders_customer_id` (`member_id`);
 
 --
--- Indexes for table `order_detail`
+-- テーブルのインデックス `order_detail`
 --
 ALTER TABLE `order_detail`
   ADD PRIMARY KEY (`id`),
@@ -4450,114 +4477,114 @@ ALTER TABLE `order_detail`
   ADD KEY `IX_order_detail_item_id` (`item_id`);
 
 --
--- Indexes for table `postal_code`
+-- テーブルのインデックス `postal_code`
 --
 ALTER TABLE `postal_code`
   ADD PRIMARY KEY (`id`),
   ADD KEY `IX_postal_code_prefecture_id` (`prefecture_id`);
 
 --
--- Indexes for table `prefectures`
+-- テーブルのインデックス `prefectures`
 --
 ALTER TABLE `prefectures`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tax_rates`
+-- テーブルのインデックス `tax_rates`
 --
 ALTER TABLE `tax_rates`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- ダンプしたテーブルのAUTO_INCREMENT
 --
 
 --
--- AUTO_INCREMENT for table `administrators`
+-- テーブルのAUTO_INCREMENT `administrators`
 --
 ALTER TABLE `administrators`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `allergy_items`
+-- テーブルのAUTO_INCREMENT `allergy_items`
 --
 ALTER TABLE `allergy_items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `area_delivery_charge`
+-- テーブルのAUTO_INCREMENT `area_delivery_charge`
 --
 ALTER TABLE `area_delivery_charge`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `contact`
+-- テーブルのAUTO_INCREMENT `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `contact_category`
+-- テーブルのAUTO_INCREMENT `contact_category`
 --
 ALTER TABLE `contact_category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `contact_trigger`
+-- テーブルのAUTO_INCREMENT `contact_trigger`
 --
 ALTER TABLE `contact_trigger`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `items`
+-- テーブルのAUTO_INCREMENT `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT for table `item_categories`
+-- テーブルのAUTO_INCREMENT `item_categories`
 --
 ALTER TABLE `item_categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=26;
 
 --
--- AUTO_INCREMENT for table `members`
+-- テーブルのAUTO_INCREMENT `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT for table `news`
+-- テーブルのAUTO_INCREMENT `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `orders`
+-- テーブルのAUTO_INCREMENT `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT for table `order_detail`
+-- テーブルのAUTO_INCREMENT `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=30;
 
 --
--- AUTO_INCREMENT for table `postal_code`
+-- テーブルのAUTO_INCREMENT `postal_code`
 --
 ALTER TABLE `postal_code`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=3848;
 
 --
--- AUTO_INCREMENT for table `prefectures`
+-- テーブルのAUTO_INCREMENT `prefectures`
 --
 ALTER TABLE `prefectures`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=48;
 
 --
--- AUTO_INCREMENT for table `tax_rates`
+-- テーブルのAUTO_INCREMENT `tax_rates`
 --
 ALTER TABLE `tax_rates`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=2;

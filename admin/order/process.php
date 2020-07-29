@@ -1,6 +1,6 @@
 <?php
 //設定ファイルの読み込み
-require_once('../../../Config.php');
+require_once('../../classes/Config.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Session.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
@@ -12,14 +12,14 @@ Session::sessionStart();
 // var_dump($_SESSION['token']);
 // var_dump($_POST['token']);
 // exit;
-if(!isset($_SESSION['user']))
+if(!isset($_SESSION['admin_user']))
 {
     header('Location: ../login/');
     exit;
 }
 else
 {
-    $user = $_SESSION['user'];
+    $user = $_SESSION['admin_user'];
 }
 
 // ワンタイムトークンの確認

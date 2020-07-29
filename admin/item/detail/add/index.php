@@ -1,5 +1,5 @@
 <?php 
-require_once('../../../../../Config.php');
+require_once('../../../../classes/Config.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Session.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
 require_once(Config::APP_ROOT_DIR.'classes/model/Base.php');
@@ -7,14 +7,14 @@ require_once(Config::APP_ROOT_DIR.'classes/model/ItemManage.php');
 
 //セッションの開始
 Session::sessionStart();
-if(!isset($_SESSION['user']))
+if(!isset($_SESSION['admin_user']))
 {
     header('Location: ../../../login/login.php');
     exit;
 }
 else
 {
-    $user = $_SESSION['user'];
+    $user = $_SESSION['admin_user'];
 }
 
 //前回入力データがあればフォーム初期値用の変数に格納
@@ -87,8 +87,8 @@ $allergies = $db ->getAllergyAll();
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>商品詳細登録</title>
-<link rel="stylesheet" href="/okashi_days/admin/css/normalize.css">
-<link rel="stylesheet" href="/okashi_days/admin/css/main.css">
+<link rel="stylesheet" href="../../../css/normalize.css">
+<link rel="stylesheet" href="../../../css/main.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <body>

@@ -1,5 +1,6 @@
 <?php 
-require_once('C:\xampp\htdocs\Config.php');
+// require_once('C:\xampp\htdocs\okashi_days\classes\Config.php');
+require_once('/home/katachi0501/miraino-katachi.com/public_html/k-shinohara/classes/Config.php');
 
 class Base//DB接続の基底クラス
 {   

@@ -1,5 +1,5 @@
 <?php
-require_once("../../../../Config.php");
+require_once("../../../classes/Config.php");
 
 // 必要なクラスのファイルを読み込む
 require_once(Config::APP_ROOT_DIR.'/classes/util/Session.php');
@@ -9,14 +9,14 @@ require_once(Config::APP_ROOT_DIR.'/classes/util/Common.php');
 // セッションスタート
 Session::sessionStart();
 
-if(!isset($_SESSION['user']))
+if(!isset($_SESSION['admin_user']))
 {
     header('Location: ../../../login/');
     exit;
 }
 else
 {
-    $user = $_SESSION['user'];
+    $user = $_SESSION['admin_user'];
 }
 
 $db = new NewsManage();

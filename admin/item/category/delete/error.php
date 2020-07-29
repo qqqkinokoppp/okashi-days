@@ -1,17 +1,17 @@
 <?php 
-require_once('../../../../../Config.php');
+require_once('../../../../classes/Config.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Session.php');
 
 //セッション開始
 Session::sessionStart();
-if(!isset($_SESSION['user']))
+if(!isset($_SESSION['admin_user']))
 {
     header('Location: ../../../login/');
     exit;
 }
 else
 {
-    $user = $_SESSION['user'];
+    $user = $_SESSION['admin_user'];
 }
 
 // $category_name = $_SESSION['edit_category_after']['item_category_name'];

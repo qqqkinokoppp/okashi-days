@@ -1,6 +1,6 @@
 <?php 
 //設定ファイルの読み込み
-require_once('../../../../../Config.php');
+require_once('../../../../classes/Config.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Session.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
@@ -9,14 +9,14 @@ require_once(Config::APP_ROOT_DIR.'classes/model/ContactManage.php');
 
 //セッションの開始
 Session::sessionStart();
-if(!isset($_SESSION['user']))
+if(!isset($_SESSION['admin_user']))
 {
     header('Location: ../../login/');
     exit;
 }
 else
 {
-    $user = $_SESSION['user'];
+    $user = $_SESSION['admin_user'];
 }
 
 //ワンタイムトークンの取得
@@ -50,8 +50,8 @@ $_SESSION['before']['edit_contact_trigger'] = $contact_trigger;
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>サイトを知ったきっかけ修正</title>
-<link rel="stylesheet" href="/okashi_days/admin/css/normalize.css">
-<link rel="stylesheet" href="/okashi_days/admin/css/main.css">
+<link rel="stylesheet" href="../../../css/normalize.css">
+<link rel="stylesheet" href="../../../css/main.css">
 </head>
 <body>
 <div class="container">
@@ -81,8 +81,8 @@ $_SESSION['before']['edit_contact_trigger'] = $contact_trigger;
 
         <form action="confirm.php" method="post">
             <table class="list">
-                <tr>
-                    <th>サイトを知ったきっかけ</th>
+                <tr class="align-left">
+                    <th class="align-left">サイトを知ったきっかけ</th>
                     <td class="align-left">
                         <?php if(isset($_SESSION['post']['edit_contact_trigger']['contact_trigger'])):?>
                         <input type="text" name="edit_contact_trigger" id="edit_contact_trigger" class="edit_contact_trigger" value="<?= $_SESSION['post']['edit_contact_trigger']['contact_trigger'];?>">

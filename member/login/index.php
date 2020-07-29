@@ -1,5 +1,5 @@
 <?php
-require_once('../../../Config.php');
+require_once('../../classes/Config.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Session.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
 
@@ -20,7 +20,7 @@ $token = Safety::getToken();
 <div class="wrapper">
 	<!-- ヘッダー -->
 	<header class="header">
-		<h1 class="logo"><a href="../index.php"><img src="../../images/okashi_days_logo.png" alt="okashi days."></a></h1>
+		<h1 class="logo"><a href="../../index.php"><img src="../../images/okashi_days_logo.png" alt="okashi days."></a></h1>
 		<nav class="nav">
 			<ul>
 				<li><a href="../../">ホーム</a></li>

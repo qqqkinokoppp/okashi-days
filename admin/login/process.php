@@ -1,5 +1,5 @@
 <?php
-require_once('../../../Config.php');
+require_once('../../classes/Config.php');
 require_once(Config::APP_ROOT_DIR.'classes/model/Base.php');
 require_once(Config::APP_ROOT_DIR.'classes/model/Admin.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Common.php');
@@ -34,7 +34,7 @@ try
     {
         // ユーザーの情報が取得できたとき
         // ユーザーの情報をセッション変数に保存
-        $_SESSION['user'] = $user;
+        $_SESSION['admin_user'] = $user;
         // セッション変数に保存されているエラーメッセージをクリア
         // $_SESSION['error']['login_admin'] = "";
         // unset($_SESSION['error']['login_admin']);

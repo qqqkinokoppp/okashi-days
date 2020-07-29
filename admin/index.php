@@ -1,12 +1,12 @@
 <?php
-require_once('../../Config.php');
+require_once('../classes/Config.php');
 require_once(Config::APP_ROOT_DIR . 'classes/util/Session.php');
 
 Session::sessionStart();
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION['admin_user'])) {
     header('Location: ./login/index.php');
 } else {
-    $user = $_SESSION['user'];
+    $user = $_SESSION['admin_user'];
 }
 
 //トップページでセッションを破棄

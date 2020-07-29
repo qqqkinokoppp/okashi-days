@@ -1,20 +1,20 @@
 <?php 
 //設定ファイルの読み込み
-require_once('../../../Config.php');
+require_once('../../classes/Config.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Session.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
 
 //セッションの開始
 Session::sessionStart();
 
-if(!isset($_SESSION['user']))
+if(!isset($_SESSION['admin_user']))
 {
     header('Location: ../login/');
     exit;
 }
 else
 {
-    $user = $_SESSION['user'];
+    $user = $_SESSION['admin_user'];
 }
 
 ?>
@@ -23,8 +23,8 @@ else
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>受注CSVダウンロード</title>
-<link rel="stylesheet" href="/okashi_days/admin/css/normalize.css">
-<link rel="stylesheet" href="/okashi_days/admin/css/main.css">
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
 <div class="container">

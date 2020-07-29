@@ -1,5 +1,5 @@
 <?php 
-require_once('../../../Config.php');
+require_once('../../classes/Config.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Session.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Safety.php');
 require_once(Config::APP_ROOT_DIR.'classes/model/Base.php');
@@ -121,7 +121,7 @@ $prefecture_lists = $db ->getPrefAll();
         <form action="confirm.php" method="post">
             <table class="list">
                 <tr>
-                    <th>ユーザー名</th>
+                    <th class="user_name_th">ユーザー名</th>
                     <td class="align-left">
                         <?php if(isset($user_name)):?>
                         <input type="text" name="user_name" id="user_name" class="user_name" value="<?= $user_name?>" required>
@@ -132,7 +132,7 @@ $prefecture_lists = $db ->getPrefAll();
                 </tr>
 
                 <tr>
-                    <th>会員氏名（姓）</th>
+                    <th class="last_name_th">会員氏名（姓）</th>
                     <td class="align-left">
                     <?php if(isset($last_name)):?>
                     <input type="text" name="last_name" id="last_name" class="last_name" value="<?= $last_name?>">
@@ -143,7 +143,7 @@ $prefecture_lists = $db ->getPrefAll();
                 </tr>
 
                 <tr>
-                    <th>会員氏名（名）</th>
+                    <th class="first_name_th">会員氏名（名）</th>
                     <td class="align-left">
                     <?php if(isset($first_name)):?>
                     <input type="text" name="first_name" id="first_name" class="first_name" value="<?= $first_name?>">
@@ -155,7 +155,7 @@ $prefecture_lists = $db ->getPrefAll();
                 
 
                 <tr>
-                    <th>会員氏名（姓フリガナ）</th>
+                    <th class="last_name_kana_th">会員氏名（姓フリガナ）</th>
                     <td class="align-left">
                     <?php if(isset($last_name_kana)):?>
                     <input type="text" name="last_name_kana" id="last_name_kana" class="last_name_kana" value="<?= $last_name_kana?>">
@@ -167,7 +167,7 @@ $prefecture_lists = $db ->getPrefAll();
 
                 
                 <tr>
-                    <th>会員氏名（名フリガナ）</th>
+                    <th class="first_name_kana_th">会員氏名（名フリガナ）</th>
                     <td class="align-left">
                     <?php if(isset($first_name_kana)):?>
                     <input type="text" name="first_name_kana" id="first_name_kana" class="first_name_kana" value="<?= $first_name_kana?>">
@@ -179,7 +179,7 @@ $prefecture_lists = $db ->getPrefAll();
 
                 
                 <tr>
-                    <th>生年月日</th>
+                    <th class="birthday_th">生年月日</th>
                     <td class="align-left">
                     <?php if(isset($birthday)):?>
                     <input type="date" name="birthday" id="birthday" class="birthday" value="<?= $birthday?>">
@@ -190,7 +190,7 @@ $prefecture_lists = $db ->getPrefAll();
                 </tr>
 
                 <tr>
-                    <th>性別</th>
+                    <th class="gender_th">性別</th>
                     <td class="align-left">
                     <input type="radio" name="gender"  class="gender" value="0" <?php if(isset($gender)){if($gender === '0'){ print 'checked';}}?>>男性
                     <input type="radio" name="gender"  class="gender" value="1" <?php if(isset($gender)){if($gender === '1'){ print 'checked';}}?>>女性
@@ -199,7 +199,7 @@ $prefecture_lists = $db ->getPrefAll();
                 </tr>
 
                 <tr>
-                    <th>郵便番号</th>
+                    <th class="address_th">郵便番号</th>
                     <td class="align-left">
                     <?php if(isset($postal_code1)&&isset($postal_code2)):?>
                     <input type="text" name="postal_code1" id="postal_code1" class="postal_code1" value="<?= $postal_code1?>" style="width:50px;">-
@@ -213,7 +213,7 @@ $prefecture_lists = $db ->getPrefAll();
                 </tr>
 
                 <tr>
-                    <th>都道府県</th>
+                    <th class="address_th">都道府県</th>
                     <td class="align-left">
                     <select name="prefecture_id" id="prefecture_id">
                     <option value=""></option>
@@ -230,7 +230,7 @@ $prefecture_lists = $db ->getPrefAll();
                 </tr>
 
                 <tr>
-                    <th>住所1（市区町村）</th>
+                    <th class="address_th">住所1（市区町村）</th>
                     <td class="align-left">
                     <?php if(isset($birthday)):?>
                     <input type="text" name="address1" id="address1" class="address1" value="<?= $address1?>">
@@ -241,7 +241,7 @@ $prefecture_lists = $db ->getPrefAll();
                 </tr>
 
                 <tr>
-                    <th>住所2（番地、建物名、以降の住所）</th>
+                    <th class="address_th">住所2（番地、建物名、以降の住所）</th>
                     <td class="align-left">
                     <?php if(isset($birthday)):?>
                     <input type="text" name="address2" id="address2" class="address2" value="<?= $address2?>">
@@ -258,7 +258,7 @@ $prefecture_lists = $db ->getPrefAll();
                 <?php endif;?>
 
                 <tr>
-                    <th>電話番号</th>
+                    <th class="phone_number_th">電話番号</th>
                     <td class="align-left">
                     <?php if(isset($phone_number)):?>
                     <input type="text" name="phone_number" id="pohne_number" class="phone_number" value="<?= $phone_number?>">
@@ -269,7 +269,7 @@ $prefecture_lists = $db ->getPrefAll();
                 </tr>
 
                 <tr>
-                    <th>メールアドレス</th>
+                    <th class="email_th">メールアドレス</th>
                     <td class="align-left">
                     <?php if(isset($email)):?>
                     <input type="text" name="email" id="email" class="email" value="<?= $email?>">
@@ -280,14 +280,14 @@ $prefecture_lists = $db ->getPrefAll();
                 </tr>
 
                 <tr>
-                    <th>パスワード</th>
+                    <th class="password_th">パスワード</th>
                     <td class="align-left">
                     <input type="password" name="password" id="password" class="password" value="">
                     </td>
                 </tr>
                 
                 <tr>
-                    <th>確認用パスワード</th>
+                    <th class="password2_th">確認用パスワード</th>
                     <td class="align-left">
                     <input type="password" name="password2" id="password2" class="password2" value="">
                     </td>
@@ -296,7 +296,7 @@ $prefecture_lists = $db ->getPrefAll();
             </table>
             <!-- ワンタイムトークン -->
             <input type="hidden" name="token" value="<?=Safety::getToken()?>">
-            <input type="submit" value="確認画面へ" onclick="validate()">
+            <input type="submit" value="確認画面へ" onclick="return validate()">
             <input type="button" value="キャンセル" onclick="location.href='../../';">
         </form>
 
@@ -353,13 +353,18 @@ $prefecture_lists = $db ->getPrefAll();
     </script>
     <script>
     function validate() {
+
+        // パスワードのバリデーション
         const pass = document.getElementById('password').value;
         const pass2 = document.getElementById('password2').value;
         var result1 = pass.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z\-]{12,}$/u);
         var result2 = pass.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z\-]{12,}$/u);
         // console.log('通った');
         if (result1 == null || result2 == null) {
+            $("#password_th").css('color','red');
+            $("#password2_th").css('color','red');
             alert('パスワードは半角英数の大文字、小文字、数字を含んた12桁以上で入力してください。');
+            return false;
         }
     }
     </script>

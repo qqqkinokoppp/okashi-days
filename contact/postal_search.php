@@ -1,6 +1,6 @@
 <?php
 // 郵便番号をGETして、それに該当する住所をDBから取得、JSONに変換
-require_once('../../Config.php');
+require_once('../classes/Config.php');
 require_once(Config::APP_ROOT_DIR.'classes/model/Base.php');
 require_once(Config::APP_ROOT_DIR.'classes/model/Address.php');
 

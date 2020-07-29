@@ -1,5 +1,5 @@
 <?php
-require_once("../../../Config.php");
+require_once("../../classes/Config.php");
 // 必要なクラスのファイルを読み込む
 require_once(Config::APP_ROOT_DIR.'/classes/util/Session.php');
 require_once(Config::APP_ROOT_DIR.'/classes/util/Common.php');
@@ -49,7 +49,7 @@ $i = 0;
 <div class="wrapper">
 	<!-- ヘッダー -->
 	<header class="header">
-		<h1 class="logo"><a href="../index.php"><img src="../../images/okashi_days_logo.png" alt="okashi days."></a></h1>
+		<h1 class="logo"><a href="../../index.php"><img src="../../images/okashi_days_logo.png" alt="okashi days."></a></h1>
 		<?php if(isset($user) === true):?>
 		<p>ようこそ、<?= $user['last_name'].' '.$user['first_name'].'さん';?></p>
 		<?php endif;?>
