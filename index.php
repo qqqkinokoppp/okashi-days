@@ -1,5 +1,5 @@
 <?php
-require_once("./classes/Config.php");
+require_once("../Config.php");
 // 必要なクラスのファイルを読み込む
 require_once(Config::APP_ROOT_DIR.'/classes/util/Session.php');
 require_once(Config::APP_ROOT_DIR.'/classes/util/Common.php');
@@ -40,7 +40,7 @@ foreach($images as $i)
         $img[] = $i;
     }
 }
-// var_dump($img);
+var_dump($img);
 
 // お知らせの取得
 $news_db = new NewsManage();
@@ -137,7 +137,7 @@ $_SESSION['error'] = array();
 					<li><a href="./item/category/">商品カテゴリ一覧</a></li>
 					<li><a href="./item/list.php">商品一覧</a></li>
 					<li><a href="./contact/">お問い合わせ</a></li>
-					<!-- <li><a href="./tenpo/index.php">アクセス</a></li> -->
+					<li><a href="./tenpo/index.php">アクセス</a></li>
 					<?php if(!isset($user)):?>
 					<li><a href="./member/registration/">新規会員登録</a></li>
 					<li><a href="./member/login/">ログイン</a></li>
@@ -171,7 +171,28 @@ $_SESSION['error'] = array();
 				<div class="swiper-button-next"></div>
 		</div>
 	</div>
-	
+	<script>
+	var mySwiper = new Swiper('.swiper-container', {
+		loop: true,
+		speed: 3000,
+		observer: true,
+observeParents: true,
+		autoplay: {
+		delay: 3000,
+		disableOnInteraction: false
+		},
+		pagination: {
+			el: '.swiper-pagination',
+			type: 'bullets',
+			clickable: true
+		},
+		navigation: {
+			nextEl: '.swiper-button-next',
+			prevEl: '.swiper-button-prev'
+		},
+
+	});
+	</script>
 		<!-- <div class="keyvisual">
 			<img src="images/keyvisual.jpg" alt="">
 		</div> -->
@@ -194,7 +215,7 @@ $_SESSION['error'] = array();
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <!-- ロゴアニメーションからトップページの切り替え -->
-<script>
+<!-- <script>
 $(function(){
 	setTimeout(function() {
 		$('.logo_anime').fadeOut();
@@ -204,7 +225,7 @@ $(function(){
 		// $('.top_page').fadeIn();
 	},2000);
 })
-</script>
+</script> -->
 
 <!-- 画像のスライダー -->
 <script>
@@ -224,8 +245,8 @@ $(function(){
 			nextEl: '.swiper-button-next',
 			prevEl: '.swiper-button-prev'
 		},
-		observer: true,
-		observeParents: true,
+		// observer: true,
+		// observeParents: true,
 
 	});
 	</script>

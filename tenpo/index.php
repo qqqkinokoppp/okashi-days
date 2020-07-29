@@ -1,5 +1,5 @@
 <?php
-require_once('../classes/Config.php');
+require_once('../../Config.php');
 require_once(Config::APP_ROOT_DIR.'classes/util/Session.php');
 
 Session::sessionStart();
@@ -59,7 +59,7 @@ unset($_SESSION['token']);
             <!-- jqueryの読み込み -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
             <!-- js -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=Mykey"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAofu9qs3_u1qwWEi76xgTdjp_0dje5iIA&callback=initMap"></script>
         <script type="text/javascript">
             var map = new google.maps.Map(
             document.getElementById("map"),{

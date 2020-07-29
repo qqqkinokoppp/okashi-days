@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- ホスト: 127.0.0.1
--- 生成日時: 2020-07-27 08:28:40
--- サーバのバージョン： 10.4.13-MariaDB
--- PHP のバージョン: 7.4.7
+-- Host: 127.0.0.1
+-- Generation Time: 
+-- サーバのバージョン： 10.1.40-MariaDB
+-- PHP Version: 7.3.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- データベース: `katachi0501_0017`
+-- Database: `okashi_days`
 --
 
 -- --------------------------------------------------------
@@ -33,10 +34,10 @@ CREATE TABLE `administrators` (
   `password` varchar(255) NOT NULL COMMENT 'パスワード',
   `name` varchar(50) NOT NULL COMMENT '管理者氏名',
   `email` varchar(255) NOT NULL COMMENT 'メールアドレス',
-  `is_login_allowed` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'ログイン許可',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '削除フラグ',
-  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
+  `is_login_allowed` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'ログイン許可',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ',
+  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -56,9 +57,9 @@ INSERT INTO `administrators` (`id`, `user_name`, `password`, `name`, `email`, `i
 CREATE TABLE `allergy_items` (
   `id` int(11) NOT NULL COMMENT 'ID',
   `allergy_item` varchar(20) NOT NULL COMMENT 'アレルギー品目名',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '削除フラグ',
-  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
+  `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ',
+  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -85,8 +86,8 @@ CREATE TABLE `area_delivery_charge` (
   `id` int(11) NOT NULL COMMENT 'ID',
   `delivery_charge` int(11) NOT NULL COMMENT '地域別送料',
   `area_name` varchar(20) NOT NULL COMMENT '地域名',
-  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
+  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -122,9 +123,9 @@ CREATE TABLE `contact` (
   `trigger_id` int(11) NOT NULL COMMENT 'サイトを知ったきっかけID',
   `contact_category_id` int(11) NOT NULL COMMENT '問い合わせカテゴリID',
   `contact_content` varchar(1000) DEFAULT NULL COMMENT '問い合わせ内容',
-  `create_datetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
-  `update_datetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '更新日時',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '削除フラグ'
+  `create_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日時',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -146,9 +147,9 @@ INSERT INTO `contact` (`id`, `name`, `postal_code`, `prefecture`, `address1`, `a
 CREATE TABLE `contact_category` (
   `id` int(11) NOT NULL COMMENT 'ID',
   `contact_category` varchar(50) NOT NULL COMMENT 'お問い合わせカテゴリ',
-  `create_datetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '削除フラグ',
-  `update_datetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '更新日時'
+  `create_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ',
+  `update_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -171,8 +172,8 @@ CREATE TABLE `contact_trigger` (
   `id` int(11) NOT NULL COMMENT 'ID',
   `contact_trigger` varchar(50) NOT NULL COMMENT 'サイトを知ったきっかけ',
   `is_deleted` tinyint(4) NOT NULL COMMENT '削除フラグ',
-  `create_datetime` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
-  `update_datetime` datetime NOT NULL DEFAULT current_timestamp()
+  `create_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -201,10 +202,10 @@ CREATE TABLE `items` (
   `item_detail` varchar(500) NOT NULL COMMENT '商品詳細',
   `unit_price` int(11) NOT NULL COMMENT '単価',
   `item_image` varchar(100) NOT NULL COMMENT '商品画像',
-  `is_recommend` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'おすすめフラグ',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '削除フラグ',
-  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
+  `is_recommend` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'おすすめフラグ',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ',
+  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -236,9 +237,9 @@ CREATE TABLE `item_categories` (
   `id` int(11) NOT NULL COMMENT 'ID',
   `item_category_name` varchar(100) NOT NULL COMMENT '商品カテゴリ名',
   `item_category_image` varchar(100) NOT NULL COMMENT '商品カテゴリ画像',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '削除フラグ',
-  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
+  `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ',
+  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -277,9 +278,9 @@ CREATE TABLE `members` (
   `address2` varchar(100) NOT NULL COMMENT '住所2（番地・建物名）',
   `phone_number` varchar(20) NOT NULL COMMENT '電話番号',
   `email` varchar(255) NOT NULL COMMENT 'メールアドレス',
-  `is_deactive` tinyint(4) NOT NULL DEFAULT 0 COMMENT '退会フラグ',
-  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
+  `is_deactive` tinyint(4) NOT NULL DEFAULT '0' COMMENT '退会フラグ',
+  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -311,10 +312,10 @@ CREATE TABLE `news` (
   `id` int(11) NOT NULL COMMENT 'ID',
   `news_index` varchar(100) NOT NULL COMMENT 'お知らせ見出し',
   `news_content` varchar(255) NOT NULL COMMENT 'お知らせ内容',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '削除フラグ',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ',
   `expiration_date` date NOT NULL COMMENT '掲載期限日',
-  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
+  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -327,8 +328,7 @@ INSERT INTO `news` (`id`, `news_index`, `news_content`, `is_deleted`, `expiratio
 (3, 'テスト3', 'テスト3', 1, '2019-10-22', '2019-09-09 11:13:04', '2019-10-05 11:01:33'),
 (4, 'okashi days.がオープンします！', '11月1日（未定）、まさかのokashi days.がオープンします。よろしくお願いいたします！', 0, '2019-11-05', '2019-10-05 10:25:48', '2019-10-05 10:25:48'),
 (5, 'クリスマスケーキの販売について', '当店ではクリスマスケーキの販売を検討しています。気分次第では販売予定ですので、よろしくお願いいたします！', 0, '2019-12-24', '2019-10-05 10:37:59', '2019-10-05 10:37:59'),
-(6, '年末年始のご挨拶', '2019年も残すところあとわずかとなりました！okashi days.も開業から2か月ほどたちました。皆様の日頃のご愛顧に感謝いたしております。\r\n良い年末、そして良いお年をお迎えください。', 0, '2019-12-31', '2019-12-24 13:25:13', '2019-12-24 13:25:13'),
-(7, '夏本番！', '夏のギフト特集　開催中！', 0, '2020-08-31', '2020-07-21 14:59:32', '2020-07-21 14:59:32');
+(6, '年末年始のご挨拶', '2019年も残すところあとわずかとなりました！okashi days.も開業から2か月ほどたちました。皆様の日頃のご愛顧に感謝いたしております。\r\n良い年末、そして良いお年をお迎えください。', 0, '2019-12-31', '2019-12-24 13:25:13', '2019-12-24 13:25:13');
 
 -- --------------------------------------------------------
 
@@ -353,11 +353,11 @@ CREATE TABLE `orders` (
   `address2` varchar(100) NOT NULL COMMENT '住所2（番地・建物名）',
   `phone_number` varchar(20) NOT NULL COMMENT '電話番号',
   `email` varchar(255) NOT NULL COMMENT 'メールアドレス',
-  `order_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '受注日時',
+  `order_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '受注日時',
   `total` int(11) NOT NULL COMMENT '合計金額',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '削除フラグ',
-  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
+  `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '削除フラグ',
+  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -400,8 +400,8 @@ CREATE TABLE `order_detail` (
   `quantity` int(11) NOT NULL COMMENT '数量',
   `subtotal` int(11) NOT NULL COMMENT '小計金額',
   `is_deleted` tinyint(4) NOT NULL COMMENT '削除フラグ',
-  `create_date_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '登録日時',
-  `update_date_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新日時'
+  `create_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+  `update_date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -451,7 +451,7 @@ CREATE TABLE `postal_code` (
   `prefecture` varchar(10) NOT NULL COMMENT '都道府県名',
   `address1` varchar(100) NOT NULL COMMENT '住所1（市区町村・町名）',
   `address2` varchar(100) NOT NULL COMMENT '住所2（番地・建物名）',
-  `prefecture_id` int(11) NOT NULL DEFAULT 27
+  `prefecture_id` int(11) NOT NULL DEFAULT '27'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -4395,81 +4395,81 @@ INSERT INTO `tax_rates` (`id`, `tax_rate`, `start_date`) VALUES
 (1, 0.08, '2019-10-01');
 
 --
--- ダンプしたテーブルのインデックス
+-- Indexes for dumped tables
 --
 
 --
--- テーブルのインデックス `administrators`
+-- Indexes for table `administrators`
 --
 ALTER TABLE `administrators`
   ADD PRIMARY KEY (`id`),
   ADD KEY `IX_administrators_user_name` (`user_name`);
 
 --
--- テーブルのインデックス `allergy_items`
+-- Indexes for table `allergy_items`
 --
 ALTER TABLE `allergy_items`
   ADD PRIMARY KEY (`id`);
 
 --
--- テーブルのインデックス `area_delivery_charge`
+-- Indexes for table `area_delivery_charge`
 --
 ALTER TABLE `area_delivery_charge`
   ADD PRIMARY KEY (`id`);
 
 --
--- テーブルのインデックス `contact`
+-- Indexes for table `contact`
 --
 ALTER TABLE `contact`
   ADD PRIMARY KEY (`id`);
 
 --
--- テーブルのインデックス `contact_category`
+-- Indexes for table `contact_category`
 --
 ALTER TABLE `contact_category`
   ADD PRIMARY KEY (`id`);
 
 --
--- テーブルのインデックス `contact_trigger`
+-- Indexes for table `contact_trigger`
 --
 ALTER TABLE `contact_trigger`
   ADD PRIMARY KEY (`id`);
 
 --
--- テーブルのインデックス `items`
+-- Indexes for table `items`
 --
 ALTER TABLE `items`
   ADD PRIMARY KEY (`id`),
   ADD KEY `IX_items_item_category_id` (`item_category_id`);
 
 --
--- テーブルのインデックス `item_categories`
+-- Indexes for table `item_categories`
 --
 ALTER TABLE `item_categories`
   ADD PRIMARY KEY (`id`);
 
 --
--- テーブルのインデックス `members`
+-- Indexes for table `members`
 --
 ALTER TABLE `members`
   ADD PRIMARY KEY (`id`),
   ADD KEY `IX_customers_user_name` (`user_name`);
 
 --
--- テーブルのインデックス `news`
+-- Indexes for table `news`
 --
 ALTER TABLE `news`
   ADD PRIMARY KEY (`id`);
 
 --
--- テーブルのインデックス `orders`
+-- Indexes for table `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `orders_customer_id` (`member_id`);
 
 --
--- テーブルのインデックス `order_detail`
+-- Indexes for table `order_detail`
 --
 ALTER TABLE `order_detail`
   ADD PRIMARY KEY (`id`),
@@ -4477,114 +4477,114 @@ ALTER TABLE `order_detail`
   ADD KEY `IX_order_detail_item_id` (`item_id`);
 
 --
--- テーブルのインデックス `postal_code`
+-- Indexes for table `postal_code`
 --
 ALTER TABLE `postal_code`
   ADD PRIMARY KEY (`id`),
   ADD KEY `IX_postal_code_prefecture_id` (`prefecture_id`);
 
 --
--- テーブルのインデックス `prefectures`
+-- Indexes for table `prefectures`
 --
 ALTER TABLE `prefectures`
   ADD PRIMARY KEY (`id`);
 
 --
--- テーブルのインデックス `tax_rates`
+-- Indexes for table `tax_rates`
 --
 ALTER TABLE `tax_rates`
   ADD PRIMARY KEY (`id`);
 
 --
--- ダンプしたテーブルのAUTO_INCREMENT
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- テーブルのAUTO_INCREMENT `administrators`
+-- AUTO_INCREMENT for table `administrators`
 --
 ALTER TABLE `administrators`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=12;
 
 --
--- テーブルのAUTO_INCREMENT `allergy_items`
+-- AUTO_INCREMENT for table `allergy_items`
 --
 ALTER TABLE `allergy_items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=9;
 
 --
--- テーブルのAUTO_INCREMENT `area_delivery_charge`
+-- AUTO_INCREMENT for table `area_delivery_charge`
 --
 ALTER TABLE `area_delivery_charge`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=10;
 
 --
--- テーブルのAUTO_INCREMENT `contact`
+-- AUTO_INCREMENT for table `contact`
 --
 ALTER TABLE `contact`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=5;
 
 --
--- テーブルのAUTO_INCREMENT `contact_category`
+-- AUTO_INCREMENT for table `contact_category`
 --
 ALTER TABLE `contact_category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=5;
 
 --
--- テーブルのAUTO_INCREMENT `contact_trigger`
+-- AUTO_INCREMENT for table `contact_trigger`
 --
 ALTER TABLE `contact_trigger`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=5;
 
 --
--- テーブルのAUTO_INCREMENT `items`
+-- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=19;
 
 --
--- テーブルのAUTO_INCREMENT `item_categories`
+-- AUTO_INCREMENT for table `item_categories`
 --
 ALTER TABLE `item_categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=26;
 
 --
--- テーブルのAUTO_INCREMENT `members`
+-- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=16;
 
 --
--- テーブルのAUTO_INCREMENT `news`
+-- AUTO_INCREMENT for table `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=7;
 
 --
--- テーブルのAUTO_INCREMENT `orders`
+-- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=20;
 
 --
--- テーブルのAUTO_INCREMENT `order_detail`
+-- AUTO_INCREMENT for table `order_detail`
 --
 ALTER TABLE `order_detail`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=30;
 
 --
--- テーブルのAUTO_INCREMENT `postal_code`
+-- AUTO_INCREMENT for table `postal_code`
 --
 ALTER TABLE `postal_code`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=3848;
 
 --
--- テーブルのAUTO_INCREMENT `prefectures`
+-- AUTO_INCREMENT for table `prefectures`
 --
 ALTER TABLE `prefectures`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=48;
 
 --
--- テーブルのAUTO_INCREMENT `tax_rates`
+-- AUTO_INCREMENT for table `tax_rates`
 --
 ALTER TABLE `tax_rates`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=2;
