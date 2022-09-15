@@ -1,6 +1,7 @@
 <?php 
 // require_once('C:\xampp\htdocs\okashi_days\classes\Config.php');
-require_once('/home/katachi0501/miraino-katachi.com/public_html/k-shinohara/classes/Config.php');
+// require_once('/home/katachi0501/miraino-katachi.com/public_html/k-shinohara/classes/Config.php');
+require_once("/Applications/MAMP/htdocs/okashi-days/classes/Config.php");
 
 class Base//DB接続の基底クラス
 {   
@@ -20,10 +21,11 @@ class Base//DB接続の基底クラス
     /**　コンストラクタ */
     public function __construct()
     {   
+        // print '接続';
         $this ->dbh = new PDO(self::DSN, self::USER, self::PASSWORD);
         //DB接続において例外発生時、PDOExceptionが投げられる
         $this ->dbh ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        //print '接続成功';
+        // print '接続成功';
     }
     
     /** 
